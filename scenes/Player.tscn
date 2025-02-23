@@ -1,0 +1,47 @@
+[gd_scene load_steps=9 format=3 uid="uid://nv60fvjx3ndt"]
+
+[ext_resource type="Script" path="res://scripts/Player.cs" id="1_jdy7p"]
+[ext_resource type="Texture2D" uid="uid://pgj2fejxka1i" path="res://icon.svg" id="1_wl63q"]
+[ext_resource type="Script" path="res://scripts/StateMachine.cs" id="2_37448"]
+[ext_resource type="Script" path="res://scripts/OnGround.cs" id="2_fbubv"]
+[ext_resource type="Script" path="res://scripts/InAir.cs" id="3_jd2e6"]
+[ext_resource type="Script" path="res://scripts/FastFall.cs" id="5_axian"]
+
+[sub_resource type="Curve" id="Curve_e50qj"]
+_data = [Vector2(0, 0), 0.0, 2.0, 0, 1, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.0, 0.0, 1, 0]
+point_count = 3
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3ymge"]
+size = Vector2(128, 127)
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_jdy7p")
+JumpArc = SubResource("Curve_e50qj")
+JumpHeight = 200.0
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("CurrentState")]
+script = ExtResource("2_37448")
+CurrentState = NodePath("OnGround")
+
+[node name="OnGround" type="Node" parent="StateMachine"]
+script = ExtResource("2_fbubv")
+
+[node name="InAir" type="Node" parent="StateMachine" node_paths=PackedStringArray("_onGroundRayCast")]
+script = ExtResource("3_jd2e6")
+_onGroundRayCast = NodePath("../../OnGroundRayCast")
+
+[node name="FastFall" type="Node" parent="StateMachine" node_paths=PackedStringArray("_onGroundRayCast")]
+script = ExtResource("5_axian")
+_terminalVelocity = 150.0
+_gravity = 8.0
+_onGroundRayCast = NodePath("../../OnGroundRayCast")
+
+[node name="OnGroundRayCast" type="RayCast2D" parent="."]
+target_position = Vector2(0, 64)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_3ymge")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_wl63q")
