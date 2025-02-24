@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class InAir : State {
+public partial class InAir : PlayerState {
     [Export] RayCast2D _onGroundRayCast;
 
     public override void Enter() {

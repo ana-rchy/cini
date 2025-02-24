@@ -2,7 +2,7 @@ using Godot;
 using System.Diagnostics;
 
 public partial class StateMachine : Node {
-    [Export] public State CurrentState { get; private set; }
+    [Export] public PlayerState CurrentState { get; private set; }
 
     public override void _Ready() {
         CurrentState.Enter();
@@ -15,7 +15,7 @@ public partial class StateMachine : Node {
     public void ChangeState(string state) {
         Debug.Assert(HasNode(state), $"StateMachine in {GetParent().Name} doesn't contain state \"{state}\"");
 
-        CurrentState = GetNode<State>(state);
+        CurrentState = GetNode<PlayerState>(state);
         CurrentState.Enter();
     }
 

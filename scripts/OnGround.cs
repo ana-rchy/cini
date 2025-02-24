@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class OnGround : State {
+public partial class OnGround : PlayerState {
     public override void Enter() {
 
     }
