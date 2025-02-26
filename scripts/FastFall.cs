@@ -10,14 +10,14 @@ public partial class FastFall : PlayerState {
 
     }
 
-    public override void Update() {
+    public override void Update(double delta) {
         if (_onGroundRayCast.IsColliding()) {
             _stateMachine.ChangeState("OnGround");
             return;
         }
 
         if (!Input.IsActionPressed("FastFall")) {
-            _stateMachine.ChangeState("InAir");
+            _stateMachine.ChangeState("Falling");
             return;
         }
     }

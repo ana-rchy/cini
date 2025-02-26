@@ -1,9 +1,10 @@
 using Godot;
 using System;
 
-public partial class Player : Node {
+public partial class Player : CharacterBody2D {
     [Export] public Curve JumpArc;
     [Export] public float JumpHeight;
+    [Export] public float JumpTime;
 
-    public Vector2 Velocity;
+    public Vector2 VelocityPerSec;
 }

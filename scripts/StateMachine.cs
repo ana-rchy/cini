@@ -8,8 +8,8 @@ public partial class StateMachine : Node {
         CurrentState.Enter();
     }
 
-    public override void _Process(double _) {
-        CurrentState.Update();
+    public override void _PhysicsProcess(double delta) {
+        CurrentState.Update(delta);
     }
 
     public void ChangeState(string state) {
@@ -17,6 +17,8 @@ public partial class StateMachine : Node {
 
         CurrentState = GetNode<PlayerState>(state);
         CurrentState.Enter();
+
+        GD.Print($"{state}");
     }
 
 }

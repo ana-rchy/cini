@@ -6,9 +6,9 @@ public partial class OnGround : PlayerState {
 
     }
 
-    public override void Update() {
+    public override void Update(double delta) {
         if (Input.IsActionJustPressed("Jump")) {
-            _stateMachine.ChangeState("InAir");
+            _stateMachine.ChangeState("Jump");
             return;
         }
     }

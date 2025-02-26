@@ -1,15 +1,18 @@
-[gd_scene load_steps=9 format=3 uid="uid://nv60fvjx3ndt"]
+[gd_scene load_steps=10 format=3 uid="uid://nv60fvjx3ndt"]
 
 [ext_resource type="Script" path="res://scripts/Player.cs" id="1_jdy7p"]
-[ext_resource type="Texture2D" uid="uid://pgj2fejxka1i" path="res://icon.svg" id="1_wl63q"]
+[ext_resource type="Texture2D" uid="uid://pgj2fejxka1i" path="res://sprites/icon.svg" id="1_wl63q"]
 [ext_resource type="Script" path="res://scripts/StateMachine.cs" id="2_37448"]
 [ext_resource type="Script" path="res://scripts/OnGround.cs" id="2_fbubv"]
-[ext_resource type="Script" path="res://scripts/InAir.cs" id="3_jd2e6"]
+[ext_resource type="Script" path="res://scripts/Jump.cs" id="4_qjwwn"]
+[ext_resource type="Script" path="res://scripts/Falling.cs" id="5_6k5t4"]
 [ext_resource type="Script" path="res://scripts/FastFall.cs" id="5_axian"]
 
 [sub_resource type="Curve" id="Curve_e50qj"]
-_data = [Vector2(0, 0), 0.0, 2.0, 0, 1, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.0, 0.0, 1, 0]
-point_count = 3
+_data = [Vector2(0, 0), 0.0, 2.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+metadata/_snap_enabled = true
+metadata/_snap_count = 20
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3ymge"]
 size = Vector2(128, 127)
@@ -18,6 +21,7 @@ size = Vector2(128, 127)
 script = ExtResource("1_jdy7p")
 JumpArc = SubResource("Curve_e50qj")
 JumpHeight = 200.0
+JumpTime = 0.5
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("CurrentState")]
 script = ExtResource("2_37448")
@@ -26,13 +30,23 @@ CurrentState = NodePath("OnGround")
 [node name="OnGround" type="Node" parent="StateMachine"]
 script = ExtResource("2_fbubv")
 
-[node name="InAir" type="Node" parent="StateMachine" node_paths=PackedStringArray("_onGroundRayCast")]
-script = ExtResource("3_jd2e6")
+[node name="Jump" type="Node" parent="StateMachine" node_paths=PackedStringArray("_onGroundRayCast", "_jumpArcTimer")]
+script = ExtResource("4_qjwwn")
+_onGroundRayCast = NodePath("../../OnGroundRayCast")
+_jumpArcTimer = NodePath("Timer")
+
+[node name="Timer" type="Timer" parent="StateMachine/Jump"]
+one_shot = true
+
+[node name="Falling" type="Node" parent="StateMachine" node_paths=PackedStringArray("_onGroundRayCast")]
+script = ExtResource("5_6k5t4")
+_terminalVelocity = 500.0
+_gravity = 8.0
 _onGroundRayCast = NodePath("../../OnGroundRayCast")
 
 [node name="FastFall" type="Node" parent="StateMachine" node_paths=PackedStringArray("_onGroundRayCast")]
 script = ExtResource("5_axian")
-_terminalVelocity = 150.0
+_terminalVelocity = 700.0
 _gravity = 8.0
 _onGroundRayCast = NodePath("../../OnGroundRayCast")
 

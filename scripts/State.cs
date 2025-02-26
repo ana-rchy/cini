@@ -11,5 +11,5 @@ public partial class State : Node {
     }
 
     public virtual void Enter() {}
-    public virtual void Update() {}
+    public virtual void Update(double delta) {}
 }
