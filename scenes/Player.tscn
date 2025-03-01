@@ -19,6 +19,7 @@ FramesToMaxSpeedInAir = 8.0
 JumpMaxHeight = 200.0
 JumpRiseDistance = 220.0
 JumpFallDistance = 150.0
+FastFallMultiplier = 2.5
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("CurrentState")]
 script = ExtResource("2_37448")
@@ -38,8 +39,6 @@ _onGroundRayCast = NodePath("../../OnGroundRayCast")
 
 [node name="FastFall" type="Node" parent="StateMachine" node_paths=PackedStringArray("_onGroundRayCast")]
 script = ExtResource("5_axian")
-_terminalVelocity = 700.0
-_gravity = 8.0
 _onGroundRayCast = NodePath("../../OnGroundRayCast")
 
 [node name="OnGroundRayCast" type="RayCast2D" parent="."]

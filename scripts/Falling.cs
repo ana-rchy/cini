@@ -10,10 +10,12 @@ public partial class Falling : PlayerState {
         base._Ready();
 
         _gravity = (-2 * _player.JumpMaxHeight * MathF.Pow(_player.MovementSpeed, 2)) / MathF.Pow(_player.JumpFallDistance, 2);
+
+        _terminalVelocity = -(2 * _player.JumpMaxHeight * _player.MovementSpeed) / _player.JumpFallDistance;
     }
 
     public override void Enter() {
-        _terminalVelocity = -(2 * _player.JumpMaxHeight * _player.MovementSpeed) / _player.JumpFallDistance;
+
     }
 
     public override void Update(float delta) {

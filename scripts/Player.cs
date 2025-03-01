@@ -11,8 +11,7 @@ public partial class Player : CharacterBody2D {
     [Export] public float JumpRiseDistance;
     [Export] public float JumpFallDistance;
 
-    [Export] public float FastFallGravityMultiplier;
-    [Export] public float FastFallTerminalVelocity;
+    [Export] public float FastFallMultiplier;
 
     public Vector2 Velocity = Vector2.Zero;
 }
