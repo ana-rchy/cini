@@ -4,7 +4,7 @@ using System;
 public partial class Jump : PlayerState {
     [Export] RayCast2D _onGroundRayCast;
 
-    float _gravity;
+    float _gravity, _initialYPos;
 
     public override void _Ready() {
         base._Ready();
@@ -13,18 +13,27 @@ public partial class Jump : PlayerState {
     }
 
     public override void Enter() {
-
-        GD.Print(_player.Velocity.X);
         _player.Velocity.Y = (2 * _player.JumpMaxHeight * _player.MovementSpeed) / _player.JumpRiseDistance;
+
+        _initialYPos = _player.Position.Y;
     }
 
     public override void Update(float delta) {
-        if (Input.IsActionPressed("FastFall")) {
+        float heightJumped = Mathf.Abs(_player.Position.Y - _initialYPos);
+        GD.Print(heightJumped);
+
+        if (Input.IsActionPressed("FastFall") && heightJumped > _player.JumpMinHeight) {
             _stateMachine.ChangeState("FastFall");
             return;
         }
 
         if (_player.Velocity.Y <= 0) {
+            _stateMachine.ChangeState("Falling");
+            return;
+        }
+
+        if (!Input.IsActionPressed("Jump") && heightJumped > _player.JumpMinHeight) {
+            _player.Velocity.Y /= 2;
             _stateMachine.ChangeState("Falling");
             return;
         }

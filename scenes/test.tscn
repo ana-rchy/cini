@@ -15,4 +15,4 @@ shape = SubResource("RectangleShape2D_vnthv")
 
 [node name="Player" parent="." instance=ExtResource("1_tstei")]
 position = Vector2(548, 421)
-FastFallMultiplier = 2.0
+JumpMinHeight = 40.0

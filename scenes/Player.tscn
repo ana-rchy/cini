@@ -16,10 +16,11 @@ script = ExtResource("1_jdy7p")
 MovementSpeed = 500.0
 FramesToMaxSpeed = 4.0
 FramesToMaxSpeedInAir = 8.0
+JumpMinHeight = 25.0
 JumpMaxHeight = 200.0
 JumpRiseDistance = 220.0
 JumpFallDistance = 150.0
-FastFallMultiplier = 2.5
+FastFallMultiplier = 2.0
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("CurrentState")]
 script = ExtResource("2_37448")
