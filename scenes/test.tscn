@@ -3,16 +3,15 @@
 [ext_resource type="PackedScene" uid="uid://nv60fvjx3ndt" path="res://scenes/Player.tscn" id="1_tstei"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vnthv"]
-size = Vector2(424, 126)
+size = Vector2(957, 122)
 
 [node name="Test" type="Node2D"]
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
-position = Vector2(501, 394)
+position = Vector2(555, 550)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(17, 0)
 shape = SubResource("RectangleShape2D_vnthv")
 
 [node name="Player" parent="." instance=ExtResource("1_tstei")]
-position = Vector2(512, 187)
+position = Vector2(548, 421)

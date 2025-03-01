@@ -3,37 +3,58 @@ using System;
 
 public partial class Jump : PlayerState {
     [Export] RayCast2D _onGroundRayCast;
-    [Export] Timer _jumpArcTimer;
 
-    float _groundYPosition;
+    float _gravity;
 
-    public override void Enter() {
-        _jumpArcTimer.Start(_player.JumpTime);
-        _groundYPosition = _player.Position.Y;
+    public override void _Ready() {
+        base._Ready();
+
+        _gravity = (-2 * _player.JumpMaxHeight * MathF.Pow(_player.MovementSpeed, 2)) / MathF.Pow(_player.JumpRiseDistance, 2);
     }
 
-    public override void Update(double delta) {
-        if (_onGroundRayCast.IsColliding()) {
-            _stateMachine.ChangeState("OnGround");
-            return;
-        }
+    public override void Enter() {
 
-        if (_jumpArcTimer.TimeLeft == 0) {
-            _stateMachine.ChangeState("Falling");
-            return;
-        }
+        GD.Print(_player.Velocity.X);
+        _player.Velocity.Y = (2 * _player.JumpMaxHeight * _player.MovementSpeed) / _player.JumpRiseDistance;
+    }
 
+    public override void Update(float delta) {
         if (Input.IsActionPressed("FastFall")) {
             _stateMachine.ChangeState("FastFall");
             return;
         }
 
-        var yVelocityTarget = _player.JumpArc.SampleBaked(1 - ((float) _jumpArcTimer.TimeLeft / _player.JumpTime)) * -_player.JumpHeight;
-        var yVelocity = yVelocityTarget - (_player.Position.Y - _groundYPosition);
+        if (_player.Velocity.Y <= 0) {
+            _stateMachine.ChangeState("Falling");
+            return;
+        }
 
-        _player.MoveAndCollide(new(0, yVelocity));
-        _player.VelocityPerSec = new(0, yVelocity * (1 / (float) delta));
 
-        GD.Print(_player.VelocityPerSec);
+        // 1 / delta = how many timesteps
+        // speed / (1 / d) = convert from position per sec to position per timestep
+        // the rest is just, accel = speed / time
+        var horizontalAccel = (_player.MovementSpeed / (1 / delta)) / (_player.FramesToMaxSpeedInAir / 60);
+        float dir = Input.GetAxis("Left", "Right");
+
+        if (dir != 0) {
+            _player.Velocity.X = Mathf.Clamp(_player.Velocity.X + dir * horizontalAccel, -_player.MovementSpeed, _player.MovementSpeed);
+        } else if (_player.Velocity.X < 0) {
+            _player.Velocity.X = MathF.Min(_player.Velocity.X + horizontalAccel, 0);
+        } else if (_player.Velocity.X > 0) {
+            _player.Velocity.X = MathF.Max(_player.Velocity.X - horizontalAccel, 0);
+        }
+
+
+        _player.MoveAndCollide(new Vector2(_player.Velocity.X, -_player.Velocity.Y) * delta);
+
+        _player.Velocity.Y = MathF.Max(_player.Velocity.Y + _gravity * delta, 0);
+
+
+        _onGroundRayCast.ForceRaycastUpdate();
+
+        if (_onGroundRayCast.IsColliding()) {
+            _stateMachine.ChangeState("OnGround");
+            return;
+        }
     }
 }

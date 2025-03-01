@@ -10,7 +10,7 @@ public partial class FastFall : PlayerState {
 
     }
 
-    public override void Update(double delta) {
+    public override void Update(float delta) {
         if (_onGroundRayCast.IsColliding()) {
             _stateMachine.ChangeState("OnGround");
             return;

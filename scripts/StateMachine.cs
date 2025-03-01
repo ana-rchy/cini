@@ -9,7 +9,7 @@ public partial class StateMachine : Node {
     }
 
     public override void _PhysicsProcess(double delta) {
-        CurrentState.Update(delta);
+        CurrentState.Update((float) delta);
     }
 
     public void ChangeState(string state) {
