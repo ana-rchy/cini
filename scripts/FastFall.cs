@@ -2,8 +2,6 @@ using Godot;
 using System;
 
 public partial class FastFall : PlayerState {
-    [Export] RayCast2D _onGroundRayCast;
-
     float _gravity, _terminalVelocity;
 
     public override void _Ready() {
@@ -21,7 +19,7 @@ public partial class FastFall : PlayerState {
     }
 
     public override void Update(float delta) {
-        if (_onGroundRayCast.IsColliding()) {
+        if (_player.IsOnFloor()) {
             _stateMachine.ChangeState("OnGround");
             return;
         }
@@ -39,16 +37,15 @@ public partial class FastFall : PlayerState {
         float dir = Input.GetAxis("Left", "Right");
 
         if (dir != 0) {
-            _player.Velocity.X = Mathf.Clamp(_player.Velocity.X + dir * horizontalAccel, -_player.MovementSpeed, _player.MovementSpeed);
-        } else if (_player.Velocity.X < 0) {
-            _player.Velocity.X = MathF.Min(_player.Velocity.X + horizontalAccel, 0);
-        } else if (_player.Velocity.X > 0) {
-            _player.Velocity.X = MathF.Max(_player.Velocity.X - horizontalAccel, 0);
+            _player.Vel.X = Mathf.Clamp(_player.Vel.X + dir * horizontalAccel, -_player.MovementSpeed, _player.MovementSpeed);
+        } else if (_player.Vel.X < 0) {
+            _player.Vel.X = MathF.Min(_player.Vel.X + horizontalAccel, 0);
+        } else if (_player.Vel.X > 0) {
+            _player.Vel.X = MathF.Max(_player.Vel.X - horizontalAccel, 0);
         }
 
+        _player.Vel.Y = MathF.Max(_player.Vel.Y + _gravity * delta, _terminalVelocity);
 
-        _player.Velocity.Y = MathF.Max(_player.Velocity.Y + _gravity * delta, _terminalVelocity);
-
-        _player.MoveAndCollide(new Vector2(_player.Velocity.X, -_player.Velocity.Y) * delta);
+        _player.Move(new(_player.Vel.X, -_player.Vel.Y));
     }
 }

@@ -13,5 +13,11 @@ public partial class Player : CharacterBody2D {
 
     [Export] public float FastFallMultiplier;
 
-    public Vector2 Velocity = Vector2.Zero;
+    // cause Velocity is already taken
+    public Vector2 Vel = Vector2.Zero;
+
+    public void Move(Vector2 velocity) {
+        Velocity = velocity;
+        MoveAndSlide();
+    }
 }

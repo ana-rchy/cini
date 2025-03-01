@@ -2,8 +2,6 @@ using Godot;
 using System;
 
 public partial class Jump : PlayerState {
-    [Export] RayCast2D _onGroundRayCast;
-
     float _gravity, _initialYPos;
 
     public override void _Ready() {
@@ -13,7 +11,7 @@ public partial class Jump : PlayerState {
     }
 
     public override void Enter() {
-        _player.Velocity.Y = (2 * _player.JumpMaxHeight * _player.MovementSpeed) / _player.JumpRiseDistance;
+        _player.Vel.Y = (2 * _player.JumpMaxHeight * _player.MovementSpeed) / _player.JumpRiseDistance;
 
         _initialYPos = _player.Position.Y;
     }
@@ -27,13 +25,13 @@ public partial class Jump : PlayerState {
             return;
         }
 
-        if (_player.Velocity.Y <= 0) {
+        if (_player.Vel.Y <= 0) {
             _stateMachine.ChangeState("Falling");
             return;
         }
 
         if (!Input.IsActionPressed("Jump") && heightJumped > _player.JumpMinHeight) {
-            _player.Velocity.Y /= 2;
+            _player.Vel.Y /= 2;
             _stateMachine.ChangeState("Falling");
             return;
         }
@@ -46,22 +44,19 @@ public partial class Jump : PlayerState {
         float dir = Input.GetAxis("Left", "Right");
 
         if (dir != 0) {
-            _player.Velocity.X = Mathf.Clamp(_player.Velocity.X + dir * horizontalAccel, -_player.MovementSpeed, _player.MovementSpeed);
-        } else if (_player.Velocity.X < 0) {
-            _player.Velocity.X = MathF.Min(_player.Velocity.X + horizontalAccel, 0);
-        } else if (_player.Velocity.X > 0) {
-            _player.Velocity.X = MathF.Max(_player.Velocity.X - horizontalAccel, 0);
+            _player.Vel.X = Mathf.Clamp(_player.Vel.X + dir * horizontalAccel, -_player.MovementSpeed, _player.MovementSpeed);
+        } else if (_player.Vel.X < 0) {
+            _player.Vel.X = MathF.Min(_player.Vel.X + horizontalAccel, 0);
+        } else if (_player.Vel.X > 0) {
+            _player.Vel.X = MathF.Max(_player.Vel.X - horizontalAccel, 0);
         }
 
+        _player.Move(new(_player.Vel.X, -_player.Vel.Y));
 
-        _player.MoveAndCollide(new Vector2(_player.Velocity.X, -_player.Velocity.Y) * delta);
-
-        _player.Velocity.Y = MathF.Max(_player.Velocity.Y + _gravity * delta, 0);
+        _player.Vel.Y = MathF.Max(_player.Vel.Y + _gravity * delta, 0);
 
 
-        _onGroundRayCast.ForceRaycastUpdate();
-
-        if (_onGroundRayCast.IsColliding()) {
+        if (_player.IsOnFloor()) {
             _stateMachine.ChangeState("OnGround");
             return;
         }
