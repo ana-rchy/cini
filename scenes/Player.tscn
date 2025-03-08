@@ -1,12 +1,12 @@
 [gd_scene load_steps=9 format=3 uid="uid://nv60fvjx3ndt"]
 
-[ext_resource type="Script" path="res://scripts/Player.cs" id="1_jdy7p"]
+[ext_resource type="Script" uid="uid://cesos8uww5ym3" path="res://scripts/Player.cs" id="1_jdy7p"]
 [ext_resource type="Texture2D" uid="uid://pgj2fejxka1i" path="res://sprites/icon.svg" id="1_wl63q"]
-[ext_resource type="Script" path="res://scripts/StateMachine.cs" id="2_37448"]
-[ext_resource type="Script" path="res://scripts/OnGround.cs" id="2_fbubv"]
-[ext_resource type="Script" path="res://scripts/Jump.cs" id="4_qjwwn"]
-[ext_resource type="Script" path="res://scripts/Falling.cs" id="5_6k5t4"]
-[ext_resource type="Script" path="res://scripts/FastFall.cs" id="5_axian"]
+[ext_resource type="Script" uid="uid://dvrv6o5xs1y8k" path="res://scripts/StateMachine.cs" id="2_37448"]
+[ext_resource type="Script" uid="uid://bd2bfwbd6jb8" path="res://scripts/OnGround.cs" id="2_fbubv"]
+[ext_resource type="Script" uid="uid://os87vt5olhoe" path="res://scripts/Jump.cs" id="4_qjwwn"]
+[ext_resource type="Script" uid="uid://b32p45ndulcof" path="res://scripts/Falling.cs" id="5_6k5t4"]
+[ext_resource type="Script" uid="uid://bba4m038dh25n" path="res://scripts/FastFall.cs" id="5_axian"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3ymge"]
 size = Vector2(128, 127)
