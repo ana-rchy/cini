@@ -44,8 +44,11 @@ public partial class FastFall : PlayerState {
             _player.Vel.X = MathF.Max(_player.Vel.X - horizontalAccel, 0);
         }
 
-        _player.Vel.Y = MathF.Max(_player.Vel.Y + _gravity * delta, _terminalVelocity);
+        // pos += vel * dt + (0.5 * accel * dt^2)
+        // thats the original velocity verlet equation, but fsr here it only works if i dont do dt^2, and instead just dt
+        float accel_term = 0.5f * _gravity * delta;
+        _player.Move(_player.Vel + new Vector2(0, accel_term));
 
-        _player.Move(new(_player.Vel.X, -_player.Vel.Y));
+        _player.Vel.Y = MathF.Max(_player.Vel.Y + _gravity * delta, _terminalVelocity);
     }
 }

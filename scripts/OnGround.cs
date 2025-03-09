@@ -21,7 +21,7 @@ public partial class OnGround : PlayerState {
         // 1 / delta = how many timesteps
         // speed / (1 / d) = convert from position per sec to position per timestep
         // the rest is just, accel = speed / time
-        var horizontalAccel = (_player.MovementSpeed / (1 / delta)) / (_player.FramesToMaxSpeed / 60);
+        float horizontalAccel = (_player.MovementSpeed / (1 / delta)) / (_player.FramesToMaxSpeed / 60);
         float dir = Input.GetAxis("Left", "Right");
 
         if (dir != 0) {

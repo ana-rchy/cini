@@ -17,7 +17,7 @@ public partial class Player : CharacterBody2D {
     public Vector2 Vel = Vector2.Zero;
 
     public void Move(Vector2 velocity) {
-        Velocity = velocity;
+        Velocity = new(velocity.X, -velocity.Y);
         MoveAndSlide();
     }
 }
