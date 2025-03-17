@@ -2,25 +2,21 @@ using Godot;
 using System;
 
 public partial class Jump : PlayerState {
-    float _gravity, _initialYPos;
+    float _gravity;
 
     public override void _Ready() {
         base._Ready();
 
-        _gravity = (-2 * _player.JumpMaxHeight * MathF.Pow(_player.MovementSpeed, 2)) / MathF.Pow(_player.JumpRiseDistance, 2);
+        _gravity = (-2 * _player.JumpHeight * MathF.Pow(_player.MovementSpeed, 2)) / MathF.Pow(_player.JumpRiseDistance, 2);
     }
 
     public override void Enter() {
-        _player.Vel.Y = (2 * _player.JumpMaxHeight * _player.MovementSpeed) / _player.JumpRiseDistance;
-
-        _initialYPos = _player.Position.Y;
+        _player.Vel.Y = (2 * _player.JumpHeight * _player.MovementSpeed) / _player.JumpRiseDistance;
+        _player.JumpTimeBeforeShortJump = 0;
     }
 
     public override void Update(float delta) {
-        float heightJumped = Mathf.Abs(_player.Position.Y - _initialYPos);
-        GD.Print(heightJumped);
-
-        if (Input.IsActionPressed("FastFall") && heightJumped > _player.JumpMinHeight) {
+        if (Input.IsActionPressed("FastFall")) {
             _stateMachine.ChangeState("FastFall");
             return;
         }
@@ -30,9 +26,8 @@ public partial class Jump : PlayerState {
             return;
         }
 
-        if (!Input.IsActionPressed("Jump") && heightJumped > _player.JumpMinHeight) {
-            _player.Vel.Y /= 2;
-            _stateMachine.ChangeState("Falling");
+        if (!Input.IsActionPressed("Jump")) {
+            _stateMachine.ChangeState("ShortJump");
             return;
         }
 
@@ -52,7 +47,7 @@ public partial class Jump : PlayerState {
         }
 
         // pos += vel * dt + (0.5 * accel * dt^2)
-        // thats the original velocity verlet equation, but fsr here it only works if i dont do dt^2, and instead just dt
+        // thats the original velocity verlet equation, but here its just dt, because move_and_slide also applies delta
         float accel_term = 0.5f * _gravity * delta;
         _player.Move(_player.Vel + new Vector2(0, accel_term));
 
@@ -62,5 +57,7 @@ public partial class Jump : PlayerState {
             _stateMachine.ChangeState("OnGround");
             return;
         }
+
+        _player.JumpTimeBeforeShortJump += delta;
     }
 }

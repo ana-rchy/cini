@@ -7,10 +7,10 @@ public partial class FastFall : PlayerState {
     public override void _Ready() {
         base._Ready();
 
-        _gravity = (-2 * _player.JumpMaxHeight * MathF.Pow(_player.MovementSpeed, 2)) / MathF.Pow(_player.JumpFallDistance, 2);
+        _gravity = (-2 * _player.JumpHeight * MathF.Pow(_player.MovementSpeed, 2)) / MathF.Pow(_player.JumpFallDistance, 2);
         _gravity *= _player.FastFallMultiplier;
 
-        _terminalVelocity = -(2 * _player.JumpMaxHeight * _player.MovementSpeed) / _player.JumpFallDistance;
+        _terminalVelocity = -(2 * _player.JumpHeight * _player.MovementSpeed) / _player.JumpFallDistance;
         _terminalVelocity *= _player.FastFallMultiplier;
     }
 
@@ -45,7 +45,7 @@ public partial class FastFall : PlayerState {
         }
 
         // pos += vel * dt + (0.5 * accel * dt^2)
-        // thats the original velocity verlet equation, but fsr here it only works if i dont do dt^2, and instead just dt
+        // thats the original velocity verlet equation, but here its just dt, because move_and_slide also applies delta
         float accel_term = 0.5f * _gravity * delta;
         _player.Move(_player.Vel + new Vector2(0, accel_term));
 
