@@ -22,7 +22,7 @@ public partial class OnGround : PlayerState {
 
     public override void Update(float delta) {
         if (!_player.IsOnFloor()) {
-            _stateMachine.ChangeState("Falling");
+            _stateMachine.ChangeState("CoyoteTime");
             return;
         }
 
