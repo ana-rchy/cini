@@ -4,6 +4,7 @@ using System;
 public partial class Falling : PlayerState {
     float _gravity, _terminalVelocity;
 
+
     public override void _Ready() {
         base._Ready();
 
@@ -12,9 +13,6 @@ public partial class Falling : PlayerState {
         _terminalVelocity = -(2 * _player.JumpHeight * _player.MovementSpeed) / _player.JumpFallDistance;
     }
 
-    public override void Enter() {
-
-    }
 
     public override void Update(float delta) {
         if (_player.IsOnFloor()) {

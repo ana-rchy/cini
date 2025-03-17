@@ -28,8 +28,13 @@ FastFallMultiplier = 2.0
 script = ExtResource("2_37448")
 CurrentState = NodePath("OnGround")
 
-[node name="OnGround" type="Node" parent="StateMachine"]
+[node name="OnGround" type="Node" parent="StateMachine" node_paths=PackedStringArray("_jumpBufferTimer")]
 script = ExtResource("2_fbubv")
+_jumpBufferTimer = NodePath("JumpBufferTimer")
+
+[node name="JumpBufferTimer" type="Timer" parent="StateMachine/OnGround"]
+wait_time = 0.1
+one_shot = true
 
 [node name="Jump" type="Node" parent="StateMachine"]
 script = ExtResource("4_qjwwn")

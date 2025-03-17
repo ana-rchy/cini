@@ -4,11 +4,13 @@ using System;
 public partial class ShortJump : PlayerState {
     float _gravity;
 
+
     public override void _Ready() {
         base._Ready();
 
         _gravity = (-2 * _player.ShortJumpHeight * MathF.Pow(_player.MovementSpeed, 2)) / MathF.Pow(_player.ShortJumpRiseDistance, 2);
     }
+
 
     public override void Enter() {
         _player.Vel.Y = (2 * _player.ShortJumpHeight * _player.MovementSpeed) / _player.ShortJumpRiseDistance;

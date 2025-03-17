@@ -2,8 +2,22 @@ using Godot;
 using System;
 
 public partial class OnGround : PlayerState {
+    [Export] Timer _jumpBufferTimer;
+
+
+    public override void _Process(double delta) {
+        if (Input.IsActionJustPressed("Jump")) {
+            _jumpBufferTimer.Start();
+        }
+    }
+
+
     public override void Enter() {
         _player.Vel.Y = 0;
+
+        if (!_jumpBufferTimer.IsStopped()) {
+            _stateMachine.ChangeState("Jump");
+        }
     }
 
     public override void Update(float delta) {

@@ -4,6 +4,7 @@ using System;
 public partial class FastFall : PlayerState {
     float _gravity, _terminalVelocity;
 
+
     public override void _Ready() {
         base._Ready();
 
@@ -14,9 +15,6 @@ public partial class FastFall : PlayerState {
         _terminalVelocity *= _player.FastFallMultiplier;
     }
 
-    public override void Enter() {
-
-    }
 
     public override void Update(float delta) {
         if (_player.IsOnFloor()) {
