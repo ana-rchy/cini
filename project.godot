@@ -10,14 +10,14 @@ config_version=5
 
 [application]
 
-config/name="games-fleadh"
+config/name="cini"
 run/main_scene="uid://cqkqasb4kcbxr"
 config/features=PackedStringArray("4.4", "C#", "GL Compatibility")
 config/icon="res://sprites/icon.svg"
 
 [dotnet]
 
-project/assembly_name="games-fleadh"
+project/assembly_name="cini"
 
 [file_customization]
 
