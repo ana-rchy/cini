@@ -34,7 +34,7 @@ script = ExtResource("2_fbubv")
 _jumpBufferTimer = NodePath("JumpBufferTimer")
 
 [node name="JumpBufferTimer" type="Timer" parent="StateMachine/OnGround"]
-wait_time = 0.1
+wait_time = 0.15
 one_shot = true
 
 [node name="CoyoteTime" type="Node" parent="StateMachine" node_paths=PackedStringArray("_timer")]

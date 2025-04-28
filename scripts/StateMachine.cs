@@ -18,7 +18,16 @@ public partial class StateMachine : Node {
         CurrentState = GetNode<PlayerState>(state);
         CurrentState.Enter();
 
-        GD.Print($"{state}");
+        // if the state changes in a states enter, the call stack will be:
+        // ChangeState() > [state].Enter() > ChangeState()
+        // 
+        // this condition makes sure it only prints state changes that arent exclusively used to transition to another state
+        // 
+        // TODO: probs make it so it does print *every* state change, but in the right order
+        // (without this condition, it will print transitionary states in the reverse order, due to the call stack)
+        if (state == CurrentState.Name) {
+            GD.Print($"{state}");
+        }
     }
 
 }

@@ -16,6 +16,7 @@ public partial class OnGround : PlayerState {
         _player.Vel.Y = 0;
 
         if (!_jumpBufferTimer.IsStopped()) {
+            _jumpBufferTimer.Stop();
             _stateMachine.ChangeState("Jump");
         }
     }
