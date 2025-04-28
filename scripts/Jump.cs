@@ -18,6 +18,22 @@ public partial class Jump : PlayerState {
     }
 
     public override void Update(float delta) {
+        _player.Vel.X = _player.GetHorizontalVel(_player.FramesToMaxSpeedInAir, delta);
+
+        float accelTerm = _player.GetVerletAccelTerm(_gravity, delta);
+        _player.Translate(_player.Vel + new Vector2(0, accelTerm));
+
+        _player.Vel.Y += _gravity * delta;
+        
+        
+        _player.JumpTimeBeforeShortJump += delta;
+        
+
+        if (_player.IsOnFloor()) {
+            _stateMachine.ChangeState("OnGround");
+            return;
+        }
+        
         if (Input.IsActionPressed("FastFall")) {
             _stateMachine.ChangeState("FastFall");
             return;
@@ -32,21 +48,5 @@ public partial class Jump : PlayerState {
             _stateMachine.ChangeState("ShortJump");
             return;
         }
-
-
-        _player.Vel.X = _player.GetHorizontalVel(_player.FramesToMaxSpeedInAir, delta);
-
-        float accelTerm = _player.GetVerletAccelTerm(_gravity, delta);
-        _player.Translate(_player.Vel + new Vector2(0, accelTerm));
-
-        _player.Vel.Y += _gravity * delta;
-        
-
-        if (_player.IsOnFloor()) {
-            _stateMachine.ChangeState("OnGround");
-            return;
-        }
-
-        _player.JumpTimeBeforeShortJump += delta;
     }
 }

@@ -27,17 +27,6 @@ public partial class ShortJump : PlayerState {
     }
 
     public override void Update(float delta) {
-        if (Input.IsActionPressed("FastFall")) {
-            _stateMachine.ChangeState("FastFall");
-            return;
-        }
-
-        if (_player.Vel.Y <= 0) {
-            _stateMachine.ChangeState("Falling");
-            return;
-        }
-
-
         _player.Vel.X = _player.GetHorizontalVel(_player.FramesToMaxSpeedInAir, delta);
 
         float accelTerm = _player.GetVerletAccelTerm(_gravity, delta);
@@ -48,6 +37,16 @@ public partial class ShortJump : PlayerState {
 
         if (_player.IsOnFloor()) {
             _stateMachine.ChangeState("OnGround");
+            return;
+        }
+        
+        if (Input.IsActionPressed("FastFall")) {
+            _stateMachine.ChangeState("FastFall");
+            return;
+        }
+
+        if (_player.Vel.Y <= 0) {
+            _stateMachine.ChangeState("Falling");
             return;
         }
     }

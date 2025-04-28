@@ -21,6 +21,10 @@ public partial class OnGround : PlayerState {
     }
 
     public override void Update(float delta) {
+        _player.Vel.X = _player.GetHorizontalVel(_player.FramesToMaxSpeed, delta);
+        _player.Translate(_player.Vel);
+        
+        
         if (!_player.IsOnFloor()) {
             _stateMachine.ChangeState("CoyoteTime");
             return;
@@ -30,9 +34,5 @@ public partial class OnGround : PlayerState {
             _stateMachine.ChangeState("Jump");
             return;
         }
-
-        
-        _player.Vel.X = _player.GetHorizontalVel(_player.FramesToMaxSpeed, delta);
-        _player.Translate(_player.Vel);
     }
 }
