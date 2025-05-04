@@ -30,4 +30,23 @@ public partial class StateMachine : Node {
         CurrentState = GetNode<PlayerState>(state);
         CurrentState.Enter();
     }
+    
+    
+    
+    public void InAirCommonStateTransitions(Player player) {
+        if (player.IsOnFloor()) {
+            ChangeState("OnGround");
+            return;
+        }
+        
+        if (player.IsOnWall() && Input.IsActionJustPressed("Jump") && Input.GetAxis("Left", "Right") != 0) {
+            ChangeState("WallJump");
+            return;
+        }
+        
+        if (player.IsOnWall() && Input.IsActionJustPressed("Jump") && Input.GetAxis("Left", "Right") == 0) {
+            ChangeState("NeutralWallJump");
+            return;
+        }
+    }
 }

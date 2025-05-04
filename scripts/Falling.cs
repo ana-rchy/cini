@@ -23,11 +23,8 @@ public partial class Falling : PlayerState {
         _player.Vel.Y = MathF.Max(_player.Vel.Y + _gravity * delta, _terminalVelocity);
         
         
-        if (_player.IsOnFloor()) {
-            _stateMachine.ChangeState("OnGround");
-            return;
-        }
-
+        _stateMachine.InAirCommonStateTransitions(_player);
+        
         if (Input.IsActionPressed("FastFall")) {
             _stateMachine.ChangeState("FastFall");
             return;

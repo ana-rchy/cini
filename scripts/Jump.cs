@@ -29,10 +29,7 @@ public partial class Jump : PlayerState {
         _player.JumpTimeBeforeShortJump += delta;
         
 
-        if (_player.IsOnFloor()) {
-            _stateMachine.ChangeState("OnGround");
-            return;
-        }
+        _stateMachine.InAirCommonStateTransitions(_player);
         
         if (Input.IsActionPressed("FastFall")) {
             _stateMachine.ChangeState("FastFall");

@@ -2,15 +2,25 @@ using Godot;
 using System;
 
 public partial class Player : CharacterBody2D {
+    // TODO: add timer timeouts to here too
     [Export] public float MovementSpeed;
     [Export] public float FramesToMaxSpeed;
     [Export] public float FramesToMaxSpeedInAir;
 
     [Export] public float JumpHeight;
-    [Export] public float ShortJumpHeight;
     [Export] public float JumpRiseDistance;
-    [Export] public float ShortJumpRiseDistance;
     [Export] public float JumpFallDistance;
+    
+    [Export] public float ShortJumpHeight;
+    [Export] public float ShortJumpRiseDistance;
+    
+    [Export] public float WallJumpHeight;
+    [Export] public float WallJumpRiseDistance;
+    [Export] public float WallJumpPushoffSpeed;
+    
+    [Export] public float NeutralWallJumpHeight;
+    [Export] public float NeutralWallJumpRiseDistance;
+    [Export] public float NeutralWallJumpPushoffSpeed;
 
     [Export] public float FastFallMultiplier;
 
@@ -31,17 +41,17 @@ public partial class Player : CharacterBody2D {
         float horizontalAccel = (MovementSpeed / (1 / delta)) / (framesToMaxSpeed / 60);
         float dir = Input.GetAxis("Left", "Right");
 
-        if (dir != 0) {
-            return Vel.X = Mathf.Clamp(Vel.X + dir * horizontalAccel, -MovementSpeed, MovementSpeed);
+        // TODO: implement a soft cap instead of hard cap on speed
+        if (dir != 0 && Mathf.Abs(Vel.X) <= MovementSpeed) {
+            return Mathf.Clamp(Vel.X + dir * horizontalAccel, -MovementSpeed, MovementSpeed);
         } else if (Vel.X < 0) {
-            return Vel.X = MathF.Min(Vel.X + horizontalAccel, 0);
+            return MathF.Min(Vel.X + horizontalAccel, 0);
         } else if (Vel.X > 0) {
-            return Vel.X = MathF.Max(Vel.X - horizontalAccel, 0);
+            return MathF.Max(Vel.X - horizontalAccel, 0);
         }
         
         return 0;
     }
-    
     
     public float GetVerletAccelTerm(float gravity, float delta) {
         // velocity verlet equation:
