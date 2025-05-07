@@ -36,3 +36,6 @@ shape = SubResource("RectangleShape2D_bl13t")
 
 [node name="Player" parent="." instance=ExtResource("1_tstei")]
 position = Vector2(548, 421)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0

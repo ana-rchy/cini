@@ -25,13 +25,22 @@ public partial class Player : CharacterBody2D {
     [Export] public float FastFallMultiplier;
 
     // cause Velocity is already taken
+    // and Velocity doesnt let you access its properties (Velocity.X/Y)
     public Vector2 Vel = Vector2.Zero;
 
     public float JumpTimeBeforeShortJump = 0;
 
-    public void Translate(Vector2 velocity) {
-        Velocity = new(velocity.X, -velocity.Y);
+    // base.Velocity is Y-down, vel in this function is Y-up
+    // all player physics are done Y-up
+    // 
+    // returns post-MoveAndSlide() velocity, which adjusts for things like collision
+    // (e.g. hitting a wall sets base.Velocity.X to 0)
+    public Vector2 Move(Vector2 vel) {
+        base.Velocity = new(vel.X, -vel.Y);
+        
         MoveAndSlide();
+        
+        return new(base.Velocity.X, -base.Velocity.Y);
     }
     
     public float GetHorizontalVel(float framesToMaxSpeed, float delta) {

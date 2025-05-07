@@ -11,7 +11,7 @@ public partial class CoyoteTime : PlayerState {
 
     public override void Update(float delta) {
         _player.Vel.X = _player.GetHorizontalVel(_player.FramesToMaxSpeed, delta);
-        _player.Translate(_player.Vel);
+        _player.Vel = _player.Move(_player.Vel);
         
         
         if (_player.IsOnFloor()) {

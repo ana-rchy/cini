@@ -24,9 +24,9 @@ public partial class WallJump : PlayerState {
     }
 
     public override void Update(float delta) {
-        float accelTerm = _player.GetVerletAccelTerm(_gravity, delta);
-        _player.Translate(_player.Vel + new Vector2(0, accelTerm));
-
+        Vector2 accelTerm = new(0, _player.GetVerletAccelTerm(_gravity, delta));
+        _player.Vel = _player.Move(_player.Vel + accelTerm) - accelTerm;
+        
         _player.Vel.Y += _gravity * delta;
         
         

@@ -19,8 +19,8 @@ public partial class FastFall : PlayerState {
     public override void Update(float delta) {
         _player.Vel.X = _player.GetHorizontalVel(_player.FramesToMaxSpeedInAir, delta);
 
-        float accelTerm = _player.GetVerletAccelTerm(_gravity, delta);
-        _player.Translate(_player.Vel + new Vector2(0, accelTerm));
+        Vector2 accelTerm = new(0, _player.GetVerletAccelTerm(_gravity, delta));
+        _player.Vel = _player.Move(_player.Vel + accelTerm) - accelTerm;
 
         _player.Vel.Y = MathF.Max(_player.Vel.Y + _gravity * delta, _terminalVelocity);
         
