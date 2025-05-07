@@ -5,12 +5,12 @@ public partial class Falling : PlayerState {
     float _gravity, _terminalVelocity;
 
 
-    public override void _Ready() {
-        base._Ready();
-
-        _gravity = (-2 * _player.JumpHeight * MathF.Pow(_player.MovementSpeed, 2)) / MathF.Pow(_player.JumpFallDistance, 2);
-
-        _terminalVelocity = -(2 * _player.JumpHeight * _player.MovementSpeed) / _player.JumpFallDistance;
+    public override void Enter() {
+        _gravity = (-2 * _player.JumpHeight * MathF.Pow(_player.MovementSpeed, 2))
+                   / MathF.Pow(_player.JumpFallDistance, 2);
+        
+        _terminalVelocity = -(2 * _player.JumpHeight * _player.MovementSpeed)
+                            / _player.JumpFallDistance;
     }
 
 

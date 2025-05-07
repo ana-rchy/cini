@@ -4,14 +4,14 @@ using System;
 public partial class FastFall : PlayerState {
     float _gravity, _terminalVelocity;
 
-
-    public override void _Ready() {
-        base._Ready();
-
-        _gravity = (-2 * _player.JumpHeight * MathF.Pow(_player.MovementSpeed, 2)) / MathF.Pow(_player.JumpFallDistance, 2);
+    
+    public override void Enter() {
+        _gravity = (-2 * _player.JumpHeight * MathF.Pow(_player.MovementSpeed, 2))
+                   / MathF.Pow(_player.JumpFallDistance, 2);
         _gravity *= _player.FastFallMultiplier;
 
-        _terminalVelocity = -(2 * _player.JumpHeight * _player.MovementSpeed) / _player.JumpFallDistance;
+        _terminalVelocity = -(2 * _player.JumpHeight * _player.MovementSpeed)
+                            / _player.JumpFallDistance;
         _terminalVelocity *= _player.FastFallMultiplier;
     }
 

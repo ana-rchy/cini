@@ -23,11 +23,14 @@ FramesToMaxSpeedInAir = 8.0
 JumpHeight = 200.0
 JumpRiseDistance = 220.0
 JumpFallDistance = 170.0
+JumpBufferTime = 0.15
+CoyoteTime = 0.06
 ShortJumpHeight = 50.0
 ShortJumpRiseDistance = 60.0
 WallJumpHeight = 200.0
 WallJumpRiseDistance = 220.0
 WallJumpPushoffSpeed = 500.0
+WallJumpPushoffTime = 0.2
 NeutralWallJumpHeight = 180.0
 NeutralWallJumpRiseDistance = 150.0
 NeutralWallJumpPushoffSpeed = 700.0
@@ -42,7 +45,6 @@ script = ExtResource("2_fbubv")
 _jumpBufferTimer = NodePath("JumpBufferTimer")
 
 [node name="JumpBufferTimer" type="Timer" parent="StateMachine/OnGround"]
-wait_time = 0.15
 one_shot = true
 
 [node name="CoyoteTime" type="Node" parent="StateMachine" node_paths=PackedStringArray("_timer")]
@@ -50,7 +52,6 @@ script = ExtResource("4_bruh7")
 _timer = NodePath("Timer")
 
 [node name="Timer" type="Timer" parent="StateMachine/CoyoteTime"]
-wait_time = 0.06
 one_shot = true
 
 [node name="Jump" type="Node" parent="StateMachine"]
@@ -64,7 +65,6 @@ script = ExtResource("7_6eyey")
 _pushoffTimer = NodePath("PushoffTimer")
 
 [node name="PushoffTimer" type="Timer" parent="StateMachine/WallJump"]
-wait_time = 0.2
 one_shot = true
 
 [node name="NeutralWallJump" type="Node" parent="StateMachine"]

@@ -3,24 +3,19 @@ using System;
 
 public partial class WallJump : PlayerState {
     [Export] Timer _pushoffTimer;
-    
     float _gravity;
 
-
-    public override void _Ready() {
-        base._Ready();
-
-        _gravity = (-2 * _player.WallJumpHeight * MathF.Pow(_player.MovementSpeed, 2))
-                   / MathF.Pow(_player.WallJumpRiseDistance, 2);
-    }
-
-
+    
     public override void Enter() {
         _player.Vel.Y = (2 * _player.WallJumpHeight * _player.MovementSpeed) / _player.WallJumpRiseDistance;
-        _player.JumpTimeBeforeShortJump = 0;
         
+        _gravity = (-2 * _player.WallJumpHeight * MathF.Pow(_player.MovementSpeed, 2))
+                   / MathF.Pow(_player.WallJumpRiseDistance, 2);
+        
+        _player.JumpTimeBeforeShortJump = 0;
         _player.Vel.X = _player.WallJumpPushoffSpeed * _player.GetWallNormal().X;
-        _pushoffTimer.Start();
+        
+        _pushoffTimer.Start(_player.WallJumpPushoffTime);
     }
 
     public override void Update(float delta) {

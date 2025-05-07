@@ -2,33 +2,42 @@ using Godot;
 using System;
 
 public partial class Player : CharacterBody2D {
-    // TODO: add timer timeouts to here too
+    [ExportGroup("Horizontal Movement")]
     [Export] public float MovementSpeed;
     [Export] public float FramesToMaxSpeed;
     [Export] public float FramesToMaxSpeedInAir;
 
+    [ExportGroup("Jumping")]
     [Export] public float JumpHeight;
     [Export] public float JumpRiseDistance;
     [Export] public float JumpFallDistance;
+    [Export] public float JumpBufferTime;
+    [Export] public float CoyoteTime;
     
+    [ExportGroup("Short Jumping")]
     [Export] public float ShortJumpHeight;
     [Export] public float ShortJumpRiseDistance;
     
+    [ExportGroup("Wall Jumping")]
     [Export] public float WallJumpHeight;
     [Export] public float WallJumpRiseDistance;
     [Export] public float WallJumpPushoffSpeed;
+    [Export] public float WallJumpPushoffTime;
     
+    [ExportGroup("Neutral Wall Jumping")]
     [Export] public float NeutralWallJumpHeight;
     [Export] public float NeutralWallJumpRiseDistance;
     [Export] public float NeutralWallJumpPushoffSpeed;
 
+    [ExportGroup("FastFalling")]
     [Export] public float FastFallMultiplier;
 
     // cause Velocity is already taken
     // and Velocity doesnt let you access its properties (Velocity.X/Y)
     public Vector2 Vel = Vector2.Zero;
-
     public float JumpTimeBeforeShortJump = 0;
+    
+    
 
     // base.Velocity is Y-down, vel in this function is Y-up
     // all player physics are done Y-up

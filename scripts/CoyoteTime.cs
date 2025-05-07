@@ -6,7 +6,7 @@ public partial class CoyoteTime : PlayerState {
 
 
     public override void Enter() {
-        _timer.Start();
+        _timer.Start(_player.CoyoteTime);
     }
 
     public override void Update(float delta) {

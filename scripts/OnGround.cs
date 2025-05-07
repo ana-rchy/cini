@@ -7,7 +7,7 @@ public partial class OnGround : PlayerState {
 
     public override void _Process(double delta) {
         if (Input.IsActionJustPressed("Jump")) {
-            _jumpBufferTimer.Start();
+            _jumpBufferTimer.Start(_player.JumpBufferTime);
         }
     }
 
