@@ -15,6 +15,13 @@ run/main_scene="uid://cqkqasb4kcbxr"
 config/features=PackedStringArray("4.4", "C#", "GL Compatibility")
 config/icon="res://sprites/icon.svg"
 
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/stretch/mode="canvas_items"
+window/stretch/aspect="ignore"
+
 [dotnet]
 
 project/assembly_name="cini"
