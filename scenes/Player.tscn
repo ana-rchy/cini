@@ -23,17 +23,8 @@ FramesToMaxSpeedInAir = 8.0
 JumpHeight = 200.0
 JumpRiseDistance = 220.0
 JumpFallDistance = 170.0
-JumpBufferTime = 0.15
-CoyoteTime = 0.06
 ShortJumpHeight = 50.0
 ShortJumpRiseDistance = 60.0
-WallJumpHeight = 200.0
-WallJumpRiseDistance = 220.0
-WallJumpPushoffSpeed = 500.0
-WallJumpPushoffTime = 0.2
-NeutralWallJumpHeight = 180.0
-NeutralWallJumpRiseDistance = 150.0
-NeutralWallJumpPushoffSpeed = 700.0
 FastFallMultiplier = 2.0
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("CurrentState")]
