@@ -1,76 +1,16 @@
-[gd_scene load_steps=13 format=3 uid="uid://nv60fvjx3ndt"]
+[gd_scene load_steps=4 format=3 uid="uid://d06f8v6im24nc"]
 
-[ext_resource type="Script" uid="uid://cesos8uww5ym3" path="res://scripts/Player.cs" id="1_jdy7p"]
-[ext_resource type="Texture2D" uid="uid://pgj2fejxka1i" path="res://sprites/icon.svg" id="1_wl63q"]
-[ext_resource type="Script" uid="uid://dvrv6o5xs1y8k" path="res://scripts/StateMachine.cs" id="2_37448"]
-[ext_resource type="Script" uid="uid://bd2bfwbd6jb8" path="res://scripts/OnGround.cs" id="2_fbubv"]
-[ext_resource type="Script" uid="uid://br6orr27c2imb" path="res://scripts/CoyoteTime.cs" id="4_bruh7"]
-[ext_resource type="Script" uid="uid://os87vt5olhoe" path="res://scripts/Jump.cs" id="4_qjwwn"]
-[ext_resource type="Script" uid="uid://b32p45ndulcof" path="res://scripts/Falling.cs" id="5_6k5t4"]
-[ext_resource type="Script" uid="uid://bba4m038dh25n" path="res://scripts/FastFall.cs" id="5_axian"]
-[ext_resource type="Script" uid="uid://durloo67v5f26" path="res://scripts/ShortJump.cs" id="5_khinc"]
-[ext_resource type="Script" uid="uid://bkl60d5cq2kdf" path="res://scripts/WallJump.cs" id="7_6eyey"]
-[ext_resource type="Script" uid="uid://jubbwsaeklux" path="res://scripts/NeutralWallJump.cs" id="8_d3wef"]
+[ext_resource type="Script" uid="uid://cky84lfdw6dyy" path="res://scripts/Player.cs" id="1_3li8b"]
+[ext_resource type="PackedScene" uid="uid://b1g2kesfiwncp" path="res://scenes/Collider.tscn" id="1_p0vlq"]
+[ext_resource type="Texture2D" uid="uid://cb7xdxayr7x1y" path="res://sprites/player.png" id="2_v6fml"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_3ymge"]
-size = Vector2(128, 128)
+[node name="Player" type="Node2D" node_paths=PackedStringArray("_collider")]
+script = ExtResource("1_3li8b")
+_collider = NodePath("Collider")
 
-[node name="Player" type="CharacterBody2D"]
-script = ExtResource("1_jdy7p")
-MovementSpeed = 500.0
-FramesToMaxSpeed = 4.0
-FramesToMaxSpeedInAir = 8.0
-JumpHeight = 200.0
-JumpRiseDistance = 220.0
-JumpFallDistance = 170.0
-ShortJumpHeight = 50.0
-ShortJumpRiseDistance = 60.0
-FastFallMultiplier = 2.0
-
-[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("CurrentState")]
-script = ExtResource("2_37448")
-CurrentState = NodePath("Falling")
-
-[node name="OnGround" type="Node" parent="StateMachine" node_paths=PackedStringArray("_jumpBufferTimer")]
-script = ExtResource("2_fbubv")
-_jumpBufferTimer = NodePath("JumpBufferTimer")
-
-[node name="JumpBufferTimer" type="Timer" parent="StateMachine/OnGround"]
-one_shot = true
-
-[node name="CoyoteTime" type="Node" parent="StateMachine" node_paths=PackedStringArray("_timer")]
-script = ExtResource("4_bruh7")
-_timer = NodePath("Timer")
-
-[node name="Timer" type="Timer" parent="StateMachine/CoyoteTime"]
-one_shot = true
-
-[node name="Jump" type="Node" parent="StateMachine"]
-script = ExtResource("4_qjwwn")
-
-[node name="ShortJump" type="Node" parent="StateMachine"]
-script = ExtResource("5_khinc")
-
-[node name="WallJump" type="Node" parent="StateMachine" node_paths=PackedStringArray("_pushoffTimer")]
-script = ExtResource("7_6eyey")
-_pushoffTimer = NodePath("PushoffTimer")
-
-[node name="PushoffTimer" type="Timer" parent="StateMachine/WallJump"]
-one_shot = true
-
-[node name="NeutralWallJump" type="Node" parent="StateMachine"]
-script = ExtResource("8_d3wef")
-
-[node name="Falling" type="Node" parent="StateMachine"]
-script = ExtResource("5_6k5t4")
-
-[node name="FastFall" type="Node" parent="StateMachine"]
-script = ExtResource("5_axian")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_3ymge")
+[node name="Collider" parent="." instance=ExtResource("1_p0vlq")]
+_colliderColor = Color(0.34, 1, 0.494, 0.501961)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_wl63q")
-
-[connection signal="timeout" from="StateMachine/WallJump/PushoffTimer" to="StateMachine/WallJump" method="_OnPushoffTimeout"]
+texture = ExtResource("2_v6fml")
+centered = false

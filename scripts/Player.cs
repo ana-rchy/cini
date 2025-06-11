@@ -1,81 +1,52 @@
 using Godot;
 using System;
 
-public partial class Player : CharacterBody2D {
-    [ExportGroup("Horizontal Movement")]
-    [Export] public float MovementSpeed;
-    [Export] public float FramesToMaxSpeed;
-    [Export] public float FramesToMaxSpeedInAir;
-
-    [ExportGroup("Jumping")]
-    [Export] public float JumpHeight;
-    [Export] public float JumpRiseDistance;
-    [Export] public float JumpFallDistance;
-    [Export] public float JumpBufferTime;
-    [Export] public float CoyoteTime;
+public partial class Player : Node2D {
+    [ExportGroup("node refs")]
+    [Export] Collider _collider;
     
-    [ExportGroup("Short Jumping")]
-    [Export] public float ShortJumpHeight;
-    [Export] public float ShortJumpRiseDistance;
+    int _posX { get { return (int) Position.X; } set { Position = new(value, Position.Y); }}
+    int _posY { get { return (int) Position.Y; } set { Position = new(Position.X, value); }}
     
-    [ExportGroup("Wall Jumping")]
-    [Export] public float WallJumpHeight;
-    [Export] public float WallJumpRiseDistance;
-    [Export] public float WallJumpPushoffSpeed;
-    [Export] public float WallJumpPushoffTime;
-    
-    [ExportGroup("Neutral Wall Jumping")]
-    [Export] public float NeutralWallJumpHeight;
-    [Export] public float NeutralWallJumpRiseDistance;
-    [Export] public float NeutralWallJumpPushoffSpeed;
-
-    [ExportGroup("FastFalling")]
-    [Export] public float FastFallMultiplier;
-
-    // cause Velocity is already taken
-    // and Velocity doesnt let you access its properties (Velocity.X/Y)
-    public Vector2 Vel = Vector2.Zero;
-    public float JumpTimeBeforeShortJump = 0;
-    
-    
-
-    // base.Velocity is Y-down, vel in this function is Y-up
-    // all player physics are done Y-up
-    // 
-    // returns post-MoveAndSlide() velocity, which adjusts for things like collision
-    // (e.g. hitting a wall sets base.Velocity.X to 0)
-    public Vector2 Move(Vector2 vel) {
-        base.Velocity = new(vel.X, -vel.Y);
-        
-        MoveAndSlide();
-        
-        return new(base.Velocity.X, -base.Velocity.Y);
-    }
-    
-    public float GetHorizontalVel(float framesToMaxSpeed, float delta) {
-        // 1 / delta = how many timesteps
-        // speed / (1 / d) = convert from position per sec to position per timestep
-        // the rest is just, accel = speed / time
-        float horizontalAccel = (MovementSpeed / (1 / delta)) / (framesToMaxSpeed / 60);
-        float dir = Input.GetAxis("Left", "Right");
-
-        // TODO: implement a soft cap instead of hard cap on speed
-        if (dir != 0 && Mathf.Abs(Vel.X) <= MovementSpeed) {
-            return Mathf.Clamp(Vel.X + dir * horizontalAccel, -MovementSpeed, MovementSpeed);
-        } else if (Vel.X < 0) {
-            return MathF.Min(Vel.X + horizontalAccel, 0);
-        } else if (Vel.X > 0) {
-            return MathF.Max(Vel.X - horizontalAccel, 0);
+    public override void _Process(double _) {
+        if (Input.IsActionJustPressed("Left")) {
+            _posX -= 1;
+        } else if (Input.IsActionJustPressed("Right")) {
+            _posX += 1;
+        }
+        if (Input.IsActionJustPressed("Up")) {
+            _posY -= 1;
+        } else if (Input.IsActionJustPressed("Down")) {
+            _posY += 1;
         }
         
-        return 0;
+        if (InTile()) {
+            GD.Print("InTile");
+        }
+        if (OnGround()) {
+            GD.Print("OnGround");
+        }
+        if (OnCeiling()) {
+            GD.Print("OnCeiling");
+        }
+        if (OnWall()) {
+            GD.Print("OnWall");
+        }
     }
     
-    public float GetVerletAccelTerm(float gravity, float delta) {
-        // velocity verlet equation:
-        // pos += vel * dt + (0.5 * accel * dt^2)
-        // 
-        // tho here its just dt (delta), because move_and_slide also applies delta
-        return 0.5f * gravity * delta;
+    bool TestTileCollision(int offsetX, int offsetY) {
+        foreach (Collider tile in GetTree().GetNodesInGroup("Tiles")) {
+            if (_collider.Intersects(tile, offsetX, offsetY)) {
+                return true;
+            }
+        }
+        
+        return false;
     }
+    
+    
+    bool InTile() => TestTileCollision(0, 0);
+    bool OnGround() => TestTileCollision(0, 1) && !InTile();
+    bool OnCeiling() => TestTileCollision(0, -1) && !InTile();
+    bool OnWall() => (TestTileCollision(1, 0) || TestTileCollision(-1, 0)) && !InTile();
 }

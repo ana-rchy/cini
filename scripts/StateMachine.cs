@@ -33,7 +33,7 @@ public partial class StateMachine : Node {
     
     
     
-    public void InAirCommonStateTransitions(Player player) {
+    public void InAirCommonStateTransitions(PlayerOld player) {
         if (player.IsOnFloor()) {
             ChangeState("OnGround");
             return;

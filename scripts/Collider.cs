@@ -16,7 +16,9 @@ public partial class Collider : Node2D {
 
 
     public override void _Draw() {
-        DrawRect(new(_x, _y, _width, _height), _colliderColor);
+        if (Engine.IsEditorHint() || GetTree().DebugCollisionsHint) {
+            DrawRect(new(_x, _y, _width, _height), _colliderColor);
+        }
     }
 
     public override void _Process(double delta) {
