@@ -5,19 +5,26 @@ public partial class Player : Node2D {
     [ExportGroup("node refs")]
     [Export] Collider _collider;
     
-    int _posX { get { return (int) Position.X; } set { Position = new(value, Position.Y); }}
-    int _posY { get { return (int) Position.Y; } set { Position = new(Position.X, value); }}
+    Vector2PP _pos = new();
+    
+    float _speed = 1.5f;
     
     public override void _Process(double _) {
         if (Input.IsActionJustPressed("Left")) {
-            _posX -= 1;
-        } else if (Input.IsActionJustPressed("Right")) {
-            _posX += 1;
+            _pos.x -= _speed;
+            GD.Print($"({_pos.x}, {_pos.y})");
+        }
+        if (Input.IsActionJustPressed("Right")) {
+            _pos.x += _speed;
+            GD.Print($"({_pos.x}, {_pos.y})");
         }
         if (Input.IsActionJustPressed("Up")) {
-            _posY -= 1;
-        } else if (Input.IsActionJustPressed("Down")) {
-            _posY += 1;
+            _pos.y -= _speed;
+            GD.Print($"({_pos.x}, {_pos.y})");
+        }
+        if (Input.IsActionJustPressed("Down")) {
+            _pos.y += _speed;
+            GD.Print($"({_pos.x}, {_pos.y})");
         }
         
         if (InTile()) {
@@ -32,6 +39,8 @@ public partial class Player : Node2D {
         if (OnWall()) {
             GD.Print("OnWall");
         }
+        
+        Position = new(_pos.xInt, _pos.yInt);
     }
     
     bool TestTileCollision(int offsetX, int offsetY) {
