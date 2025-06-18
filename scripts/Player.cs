@@ -5,11 +5,15 @@ public partial class Player : Node2D {
     [ExportGroup("node refs")]
     [Export] Collider _collider;
     
-    Vector2PP _pos = new();
+    Vector2PP _pos;
     
     float _speed = 1.5f;
     
-    public override void _Process(double _) {
+    public override void _Ready() {
+        _pos = new(this);
+    }
+    
+    public override void _PhysicsProcess(double _) {
         if (Input.IsActionJustPressed("Left")) {
             _pos.x -= _speed;
             GD.Print($"({_pos.x}, {_pos.y})");
@@ -39,9 +43,9 @@ public partial class Player : Node2D {
         if (OnWall()) {
             GD.Print("OnWall");
         }
-        
-        Position = new(_pos.xInt, _pos.yInt);
     }
+    
+    
     
     bool TestTileCollision(int offsetX, int offsetY) {
         foreach (Collider tile in GetTree().GetNodesInGroup("Tiles")) {
@@ -51,6 +55,25 @@ public partial class Player : Node2D {
         }
         
         return false;
+    }
+    
+    bool MoveX(float distance) {
+        int dir = Mathf.Sign(distance);
+        float remainder = distance - (int) distance;
+        
+        bool collided = false;
+        
+        for (int i = 0; i < (int) Mathf.Abs(distance); i++) {
+            if (TestTileCollision(dir, 0)) {
+                collided = true;
+                break;
+            }
+            
+            _pos.x += 1;
+        }
+        
+        _pos.x += remainder;
+        return collided;
     }
     
     
