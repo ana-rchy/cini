@@ -12,7 +12,7 @@ public class Vector2PP {
         }
         set {
             _floatPos.X = value;
-            _intPos.X = (int) MathF.Round(value, MidpointRounding.ToPositiveInfinity);
+            _intPos.X = (int) value;
             _associatedNode.Position = new(_intPos.X, _associatedNode.Position.Y);
         }
     }
@@ -22,7 +22,7 @@ public class Vector2PP {
         }
         set {
             _floatPos.Y = value;
-            _intPos.Y = (int) MathF.Round(value, MidpointRounding.ToPositiveInfinity);
+            _intPos.Y = (int) value;
             _associatedNode.Position = new(_associatedNode.Position.X, _intPos.Y);
         }
     }

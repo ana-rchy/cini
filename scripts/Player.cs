@@ -15,33 +15,20 @@ public partial class Player : Node2D {
     
     public override void _PhysicsProcess(double _) {
         if (Input.IsActionJustPressed("Left")) {
-            _pos.x -= _speed;
+            MoveX(-_speed);
             GD.Print($"({_pos.x}, {_pos.y})");
         }
         if (Input.IsActionJustPressed("Right")) {
-            _pos.x += _speed;
+            MoveX(_speed);
             GD.Print($"({_pos.x}, {_pos.y})");
         }
         if (Input.IsActionJustPressed("Up")) {
-            _pos.y -= _speed;
+            MoveY(-_speed);
             GD.Print($"({_pos.x}, {_pos.y})");
         }
         if (Input.IsActionJustPressed("Down")) {
-            _pos.y += _speed;
+            MoveY(_speed);
             GD.Print($"({_pos.x}, {_pos.y})");
-        }
-        
-        if (InTile()) {
-            GD.Print("InTile");
-        }
-        if (OnGround()) {
-            GD.Print("OnGround");
-        }
-        if (OnCeiling()) {
-            GD.Print("OnCeiling");
-        }
-        if (OnWall()) {
-            GD.Print("OnWall");
         }
     }
     
@@ -61,19 +48,37 @@ public partial class Player : Node2D {
         int dir = Mathf.Sign(distance);
         float remainder = distance - (int) distance;
         
-        bool collided = false;
-        
         for (int i = 0; i < (int) Mathf.Abs(distance); i++) {
             if (TestTileCollision(dir, 0)) {
-                collided = true;
-                break;
+                return true;
             }
             
-            _pos.x += 1;
+            _pos.x += dir;
         }
         
         _pos.x += remainder;
-        return collided;
+        return false;
+    }
+    
+    bool MoveY(float distance) {
+        int dir = Mathf.Sign(distance);
+        float absDistance = Mathf.Abs(distance);
+        
+        float remainder = distance - (int) distance;
+        
+        GD.Print(remainder);
+        
+        for (int i = 0; i < (int) absDistance; i++) {
+            if (TestTileCollision(0, dir)) {
+                GD.Print("colliding");
+                return true;
+            }
+            
+            _pos.y += dir;
+        }
+        
+        _pos.y += remainder;
+        return false;
     }
     
     
