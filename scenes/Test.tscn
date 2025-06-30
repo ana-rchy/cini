@@ -6,7 +6,172 @@
 [node name="Test" type="Node2D"]
 
 [node name="Tile" parent="." instance=ExtResource("1_w8un3")]
-position = Vector2(11, 17)
+position = Vector2(0, 104)
+
+[node name="Tile2" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(8, 104)
+
+[node name="Tile3" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(16, 104)
+
+[node name="Tile4" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(24, 104)
+
+[node name="Tile5" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(32, 104)
+
+[node name="Tile6" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(40, 104)
+
+[node name="Tile7" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(48, 104)
+
+[node name="Tile8" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(56, 104)
+
+[node name="Tile9" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(64, 104)
+
+[node name="Tile10" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(72, 104)
+
+[node name="Tile11" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(80, 104)
+
+[node name="Tile12" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(88, 104)
+
+[node name="Tile13" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(96, 104)
+
+[node name="Tile14" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(104, 104)
+
+[node name="Tile15" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(112, 104)
+
+[node name="Tile16" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(120, 104)
+
+[node name="Tile17" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(128, 104)
+
+[node name="Tile18" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(136, 104)
+
+[node name="Tile19" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(144, 104)
+
+[node name="Tile20" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(152, 104)
+
+[node name="Tile21" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(160, 104)
+
+[node name="Tile25" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(192, 104)
+
+[node name="Tile26" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(200, 104)
+
+[node name="Tile27" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(208, 104)
+
+[node name="Tile28" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(216, 104)
+
+[node name="Tile29" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(224, 104)
+
+[node name="Tile30" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(232, 104)
+
+[node name="Tile31" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(240, 104)
+
+[node name="Tile32" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(248, 104)
+
+[node name="Tile33" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(256, 104)
+
+[node name="Tile34" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(264, 104)
+
+[node name="Tile35" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(272, 104)
+
+[node name="Tile36" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(280, 104)
+
+[node name="Tile37" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(288, 104)
+
+[node name="Tile38" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(296, 104)
+
+[node name="Tile39" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(304, 104)
+
+[node name="Tile40" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(312, 104)
+
+[node name="Tile41" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(320, 104)
+
+[node name="Tile42" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(328, 104)
+
+[node name="Tile43" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(336, 104)
+
+[node name="Tile44" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(344, 104)
+
+[node name="Tile45" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(352, 104)
+
+[node name="Tile46" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(360, 104)
+
+[node name="Tile47" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(368, 104)
+
+[node name="Tile48" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(376, 104)
+
+[node name="Tile49" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(184, 104)
+
+[node name="Tile50" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(184, 96)
+
+[node name="Tile51" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(184, 88)
+
+[node name="Tile52" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(184, 80)
+
+[node name="Tile53" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(184, 72)
+
+[node name="Tile54" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(184, 64)
+
+[node name="Tile55" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(184, 56)
+
+[node name="Tile56" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(184, 48)
+
+[node name="Tile57" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(184, 40)
+
+[node name="Tile58" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(184, 32)
+
+[node name="Tile59" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(184, 24)
 
 [node name="Player" parent="." instance=ExtResource("2_0d6la")]
-position = Vector2(11, 8)
+position = Vector2(48, 94)

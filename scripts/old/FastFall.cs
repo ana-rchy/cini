@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class FastFall : PlayerState {
+public partial class FastFallOld : PlayerStateOld {
     float _gravity, _terminalVelocity;
 
     
@@ -25,7 +25,7 @@ public partial class FastFall : PlayerState {
         _player.Vel.Y = MathF.Max(_player.Vel.Y + _gravity * delta, _terminalVelocity);
         
         
-        _stateMachine.InAirCommonStateTransitions(_player);
+        // _stateMachine.InAirCommonStateTransitions(_player);
         
         if (!Input.IsActionPressed("FastFall")) {
             _stateMachine.ChangeState("Falling");

@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class CoyoteTime : PlayerState {
+public partial class CoyoteTimeOld : PlayerStateOld {
     [Export] Timer _timer;
 
 

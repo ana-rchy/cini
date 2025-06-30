@@ -1,7 +1,7 @@
 using Godot;
 using System.Diagnostics;
 
-public partial class PlayerState : State {
+public partial class PlayerStateOld : State {
     protected PlayerOld _player;
 
     public override void _Ready() {

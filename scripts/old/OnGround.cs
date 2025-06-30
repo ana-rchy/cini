@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class OnGround : PlayerState {
+public partial class OnGroundOld : PlayerStateOld {
     [Export] Timer _jumpBufferTimer;
 
 

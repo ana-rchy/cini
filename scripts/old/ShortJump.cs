@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class ShortJump : PlayerState {
+public partial class ShortJumpOld : PlayerStateOld {
     float _gravity;
 
     
@@ -31,7 +31,7 @@ public partial class ShortJump : PlayerState {
         _player.Vel.Y += _gravity * delta;
         
 
-        _stateMachine.InAirCommonStateTransitions(_player);
+        // _stateMachine.InAirCommonStateTransitions(_player);
         
         if (Input.IsActionPressed("FastFall")) {
             _stateMachine.ChangeState("FastFall");

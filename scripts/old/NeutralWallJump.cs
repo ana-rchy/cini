@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class NeutralWallJump : PlayerState {
+public partial class NeutralWallJump : PlayerStateOld {
     float _gravity;
 
     
@@ -27,7 +27,7 @@ public partial class NeutralWallJump : PlayerState {
         _player.JumpTimeBeforeShortJump += delta;
         
 
-        _stateMachine.InAirCommonStateTransitions(_player);
+        // _stateMachine.InAirCommonStateTransitions(_player);
         
         if (Input.IsActionPressed("FastFall")) {
             _stateMachine.ChangeState("FastFall");

@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Collections.Generic;
 
 public partial class StateMachine : Node {
-    [Export] public PlayerState CurrentState { get; private set; }
+    [Export] public State CurrentState { get; private set; }
     
     // needed in cases where ChangeState() is called from within a ChangeState()'s call stack,
     // so that it preserves the correct order of the state changes
@@ -29,24 +29,5 @@ public partial class StateMachine : Node {
 
         CurrentState = GetNode<PlayerState>(state);
         CurrentState.Enter();
-    }
-    
-    
-    
-    public void InAirCommonStateTransitions(PlayerOld player) {
-        if (player.IsOnFloor()) {
-            ChangeState("OnGround");
-            return;
-        }
-        
-        if (player.IsOnWall() && Input.IsActionJustPressed("Jump") && Input.GetAxis("Left", "Right") != 0) {
-            ChangeState("WallJump");
-            return;
-        }
-        
-        if (player.IsOnWall() && Input.IsActionJustPressed("Jump") && Input.GetAxis("Left", "Right") == 0) {
-            ChangeState("NeutralWallJump");
-            return;
-        }
     }
 }

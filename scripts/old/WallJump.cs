@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class WallJump : PlayerState {
+public partial class WallJumpOld : PlayerStateOld {
     [Export] Timer _pushoffTimer;
     float _gravity;
 
@@ -28,7 +28,7 @@ public partial class WallJump : PlayerState {
         _player.JumpTimeBeforeShortJump += delta;
         
 
-        _stateMachine.InAirCommonStateTransitions(_player);
+        // _stateMachine.InAirCommonStateTransitions(_player);
         
         if (Input.IsActionPressed("FastFall")) {
             _stateMachine.ChangeState("FastFall");
