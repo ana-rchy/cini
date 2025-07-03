@@ -23,7 +23,7 @@ public partial class ShortJump : PlayerState {
     }
 
     public override void Update(float delta) {
-        _player.Vel.X = _player.GetMovementXVel(_player.Vel.X, _player.FramesToMaxSpeedInAir);
+        _player.Vel.X = _player.GetMovementXVel(_player.Vel.X, _player.FramesToMaxSpeedInAir, delta);
         _player.MoveX(_player.Vel.X * delta);
         
         float accelTerm = _player.GetVerletAccelTerm(_gravity, delta);
@@ -32,8 +32,6 @@ public partial class ShortJump : PlayerState {
         _player.Vel.Y += _gravity * delta;
         
 
-        // _stateMachine.InAirCommonStateTransitions(_player);
-        
         if (_player.OnGround()) {
             _stateMachine.ChangeState("OnGround");
             return;
@@ -42,6 +40,11 @@ public partial class ShortJump : PlayerState {
         if (_player.OnWall() && Input.IsActionJustPressed("Jump") && Input.GetAxis("Left", "Right") != 0) {
            _stateMachine.ChangeState("WallJump");
            return;
+        }
+        
+        if (_player.OnWall() && Input.IsActionJustPressed("Jump") && Input.GetAxis("Left", "Right") == 0) {
+            _stateMachine.ChangeState("NeutralWallJump");
+            return;
         }
         
         if (Input.IsActionPressed("FastFall")) {

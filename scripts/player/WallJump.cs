@@ -32,8 +32,6 @@ public partial class WallJump : PlayerState {
         _player.TimeSinceJump += delta;
         
 
-        // _stateMachine.InAirCommonStateTransitions(_player);
-        
         if (_player.OnGround()) {
             _stateMachine.ChangeState("OnGround");
             return;
@@ -41,6 +39,11 @@ public partial class WallJump : PlayerState {
         
         if (_player.OnWall() && Input.IsActionJustPressed("Jump") && Input.GetAxis("Left", "Right") != 0) {
             _stateMachine.ChangeState("WallJump");
+            return;
+        }
+        
+        if (_player.OnWall() && Input.IsActionJustPressed("Jump") && Input.GetAxis("Left", "Right") == 0) {
+            _stateMachine.ChangeState("NeutralWallJump");
             return;
         }
         

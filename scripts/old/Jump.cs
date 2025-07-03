@@ -28,6 +28,8 @@ public partial class JumpOld : PlayerStateOld {
 
         // _stateMachine.InAirCommonStateTransitions(_player);
         
+        
+        
         if (Input.IsActionPressed("FastFall")) {
             _stateMachine.ChangeState("FastFall");
             return;

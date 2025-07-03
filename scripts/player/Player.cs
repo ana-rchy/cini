@@ -128,18 +128,18 @@ public partial class Player : Node2D {
         return false;
     }
     
-    public float GetMovementXVel(float xVel, float framesToMaxSpeed, float? dirOverride = null) {
+    public float GetMovementXVel(float xVel, float framesToMaxSpeed, float delta) {
         // accel = speed / time
         float horizontalAccel = MovementSpeed / (framesToMaxSpeed / 60);
-        float dir = (dirOverride == null) ? Input.GetAxis("Left", "Right") : (float) dirOverride;
+        float dir = Input.GetAxis("Left", "Right");
 
         // TODO: implement a soft cap instead of hard cap on speed
         if (dir != 0 && Mathf.Abs(xVel) <= MovementSpeed) {
-            return Mathf.Clamp(xVel + dir * horizontalAccel, -MovementSpeed, MovementSpeed);
+            return Mathf.Clamp(xVel + dir * horizontalAccel * delta, -MovementSpeed, MovementSpeed);
         } else if (xVel < 0) {
-            return MathF.Min(xVel + horizontalAccel, 0);
+            return MathF.Min(xVel + horizontalAccel * delta, 0);
         } else if (xVel > 0) {
-            return MathF.Max(xVel - horizontalAccel, 0);
+            return MathF.Max(xVel - horizontalAccel * delta, 0);
         }
         
         return 0;

@@ -68,6 +68,12 @@ position = Vector2(152, 104)
 [node name="Tile21" parent="." instance=ExtResource("1_w8un3")]
 position = Vector2(160, 104)
 
+[node name="Tile22" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(168, 104)
+
+[node name="Tile23" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(176, 104)
+
 [node name="Tile25" parent="." instance=ExtResource("1_w8un3")]
 position = Vector2(192, 104)
 
@@ -144,34 +150,64 @@ position = Vector2(376, 104)
 position = Vector2(184, 104)
 
 [node name="Tile50" parent="." instance=ExtResource("1_w8un3")]
-position = Vector2(184, 96)
+position = Vector2(80, 96)
 
 [node name="Tile51" parent="." instance=ExtResource("1_w8un3")]
-position = Vector2(184, 88)
+position = Vector2(80, 88)
 
 [node name="Tile52" parent="." instance=ExtResource("1_w8un3")]
-position = Vector2(184, 80)
+position = Vector2(80, 80)
 
 [node name="Tile53" parent="." instance=ExtResource("1_w8un3")]
-position = Vector2(184, 72)
+position = Vector2(80, 72)
 
 [node name="Tile54" parent="." instance=ExtResource("1_w8un3")]
-position = Vector2(184, 64)
+position = Vector2(80, 64)
 
 [node name="Tile55" parent="." instance=ExtResource("1_w8un3")]
-position = Vector2(184, 56)
+position = Vector2(80, 56)
 
 [node name="Tile56" parent="." instance=ExtResource("1_w8un3")]
-position = Vector2(184, 48)
+position = Vector2(80, 48)
 
 [node name="Tile57" parent="." instance=ExtResource("1_w8un3")]
-position = Vector2(184, 40)
+position = Vector2(80, 40)
 
 [node name="Tile58" parent="." instance=ExtResource("1_w8un3")]
-position = Vector2(184, 32)
+position = Vector2(80, 32)
 
 [node name="Tile59" parent="." instance=ExtResource("1_w8un3")]
-position = Vector2(184, 24)
+position = Vector2(80, 24)
+
+[node name="Tile60" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(48, 80)
+
+[node name="Tile61" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(48, 72)
+
+[node name="Tile62" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(48, 64)
+
+[node name="Tile63" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(48, 56)
+
+[node name="Tile64" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(48, 48)
+
+[node name="Tile65" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(48, 40)
+
+[node name="Tile66" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(48, 32)
+
+[node name="Tile67" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(48, 24)
+
+[node name="Tile68" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(48, 16)
+
+[node name="Tile69" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(48, 8)
 
 [node name="Player" parent="." instance=ExtResource("2_0d6la")]
 position = Vector2(48, 94)

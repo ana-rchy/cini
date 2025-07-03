@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class NeutralWallJump : PlayerStateOld {
+public partial class NeutralWallJumpOld : PlayerStateOld {
     float _gravity;
 
     

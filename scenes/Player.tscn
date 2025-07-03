@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://d06f8v6im24nc"]
+[gd_scene load_steps=14 format=3 uid="uid://d06f8v6im24nc"]
 
 [ext_resource type="Script" uid="uid://cky84lfdw6dyy" path="res://scripts/player/Player.cs" id="1_3li8b"]
 [ext_resource type="PackedScene" uid="uid://b1g2kesfiwncp" path="res://scenes/Collider.tscn" id="1_p0vlq"]
@@ -12,25 +12,30 @@
 [ext_resource type="Script" uid="uid://bgn2356cdvwif" path="res://scripts/player/ShortJump.cs" id="9_6eyey"]
 [ext_resource type="Script" uid="uid://bb4il1c4ej8lm" path="res://scripts/player/DebugState.cs" id="9_bruh7"]
 [ext_resource type="Script" uid="uid://bt2djn6ayvvlb" path="res://scripts/player/WallJump.cs" id="11_o4126"]
+[ext_resource type="Script" uid="uid://kgf17c5kv7oh" path="res://scripts/player/NeutralWallJump.cs" id="12_lkdrv"]
 
 [node name="Player" type="Node2D" node_paths=PackedStringArray("_collider")]
+position = Vector2(1, 0)
 script = ExtResource("1_3li8b")
 MovementSpeed = 65.0
-FramesToMaxSpeed = 4.0
-FramesToMaxSpeedInAir = 9.0
+FramesToMaxSpeed = 5.0
+FramesToMaxSpeedInAir = 8.0
 JumpHeight = 16.0
-JumpRiseDistance = 16.0
-JumpFallDistance = 16.0
+JumpRiseDistance = 18.0
+JumpFallDistance = 14.0
 CoyoteTime = 0.06
 ShortJumpHeight = 6.0
 ShortJumpRiseDistance = 6.0
 TerminalVelocity = 70.0
 FastFallTerminalVelocity = 120.0
 FastFallGravityMultiplier = 10.0
-WallJumpHeight = 16.0
-WallJumpRiseDistance = 16.0
-WallJumpPushoffSpeed = 90.0
-WallJumpPushoffTime = 0.2
+WallJumpHeight = 17.0
+WallJumpRiseDistance = 17.0
+WallJumpPushoffSpeed = 65.0
+WallJumpPushoffTime = 0.12
+NeutralWallJumpHeight = 17.0
+NeutralWallJumpRiseDistance = 17.0
+NeutralWallJumpPushoffSpeed = 65.0
 _collider = NodePath("Collider")
 
 [node name="Collider" parent="." instance=ExtResource("1_p0vlq")]
@@ -72,6 +77,9 @@ _pushoffTimer = NodePath("PushoffTimer")
 
 [node name="PushoffTimer" type="Timer" parent="StateMachine/WallJump"]
 one_shot = true
+
+[node name="NeutralWallJump" type="Node" parent="StateMachine"]
+script = ExtResource("12_lkdrv")
 
 [node name="DebugState" type="Node" parent="StateMachine"]
 script = ExtResource("9_bruh7")

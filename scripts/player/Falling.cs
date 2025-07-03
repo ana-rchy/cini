@@ -10,7 +10,7 @@ public partial class Falling : PlayerState {
     }
 
     public override void Update(float delta) {
-        _player.Vel.X = _player.GetMovementXVel(_player.Vel.X, _player.FramesToMaxSpeedInAir);
+        _player.Vel.X = _player.GetMovementXVel(_player.Vel.X, _player.FramesToMaxSpeedInAir, delta);
         _player.MoveX(_player.Vel.X * delta);
 
         float accelTerm = _player.GetVerletAccelTerm(_gravity, delta);
@@ -29,11 +29,14 @@ public partial class Falling : PlayerState {
            return;
         }
         
+        if (_player.OnWall() && Input.IsActionJustPressed("Jump") && Input.GetAxis("Left", "Right") == 0) {
+            _stateMachine.ChangeState("NeutralWallJump");
+            return;
+        }
+        
         if (Input.IsActionPressed("FastFall")) {
             _stateMachine.ChangeState("FastFall");
             return;
         }
-        
-        // _stateMachine.InAirCommonStateTransitions(_player);
     }
 }
