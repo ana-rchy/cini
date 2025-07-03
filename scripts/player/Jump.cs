@@ -15,7 +15,7 @@ public partial class Jump : PlayerState {
     }
 
     public override void Update(float delta) {
-        _player.Vel.X = _player.GetMovementXVel(_player.Vel.X, _player.FramesToMaxSpeedInAir, delta);
+        _player.Vel.X = _player.GetMovementXVel(_player.Vel.X, _player.FramesToMaxSpeedInAir);
         _player.MoveX(_player.Vel.X * delta);
        
         float accelTerm = _player.GetVerletAccelTerm(_gravity, delta);

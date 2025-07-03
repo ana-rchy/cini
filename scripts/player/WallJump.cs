@@ -12,13 +12,7 @@ public partial class WallJump : PlayerState {
         _gravity = (2 * _player.WallJumpHeight * MathF.Pow(_player.MovementSpeed, 2))
                    / MathF.Pow(_player.WallJumpRiseDistance, 2);
         
-        
-        if (_player.OnLeftWall()) {
-            _player.Vel.X = _player.WallJumpPushoffSpeed;
-        } else if (_player.OnRightWall()) {
-            _player.Vel.X = -_player.WallJumpPushoffSpeed;
-        }
-        
+        _player.Vel.X = _player.WallJumpPushoffSpeed * _player.GetWallNormal();
         
         _player.TimeSinceJump = 0;
         
@@ -27,7 +21,7 @@ public partial class WallJump : PlayerState {
     }
 
     public override void Update(float delta) {
-        _player.MoveX(_player.Vel.X);
+        _player.MoveX(_player.Vel.X * delta);
         
         float accelTerm = _player.GetVerletAccelTerm(_gravity, delta);
         
@@ -50,12 +44,7 @@ public partial class WallJump : PlayerState {
             return;
         }
         
-        if (Input.IsActionPressed("FastFall")) {
-            _stateMachine.ChangeState("FastFall");
-            return;
-        }
-
-        if (_player.Vel.Y <= 0 || _pushoffTimer.IsStopped()) {
+        if (_pushoffTimer.IsStopped()) {
             _stateMachine.ChangeState("Falling");
             return;
         }

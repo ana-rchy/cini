@@ -29,8 +29,8 @@ FastFallTerminalVelocity = 120.0
 FastFallGravityMultiplier = 10.0
 WallJumpHeight = 16.0
 WallJumpRiseDistance = 16.0
-WallJumpPushoffSpeed = 65.0
-WallJumpPushoffTime = 0.5
+WallJumpPushoffSpeed = 90.0
+WallJumpPushoffTime = 0.2
 _collider = NodePath("Collider")
 
 [node name="Collider" parent="." instance=ExtResource("1_p0vlq")]

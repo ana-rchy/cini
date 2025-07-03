@@ -7,7 +7,7 @@ public partial class OnGround : PlayerState {
     }
     
     public override void Update(float delta) {
-        _player.Vel.X = _player.GetMovementXVel(_player.Vel.X, _player.FramesToMaxSpeed, delta);
+        _player.Vel.X = _player.GetMovementXVel(_player.Vel.X, _player.FramesToMaxSpeed);
         _player.MoveX(_player.Vel.X * delta);
         
         

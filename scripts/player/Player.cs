@@ -74,6 +74,16 @@ public partial class Player : Node2D {
     public bool OnRightWall() => TestTileCollision(1, 0) && !InTile();
     public bool OnWall() => OnLeftWall() || OnRightWall();
     
+    public int GetWallNormal() {
+        if (OnLeftWall()) {
+            return 1;
+        } else if (OnRightWall()) {
+            return -1;
+        }
+        
+        return 0;
+    }
+    
     
     
     public bool MoveX(float distance) {
@@ -118,10 +128,10 @@ public partial class Player : Node2D {
         return false;
     }
     
-    public float GetMovementXVel(float xVel, float framesToMaxSpeed, float delta) {
+    public float GetMovementXVel(float xVel, float framesToMaxSpeed, float? dirOverride = null) {
         // accel = speed / time
         float horizontalAccel = MovementSpeed / (framesToMaxSpeed / 60);
-        float dir = Input.GetAxis("Left", "Right");
+        float dir = (dirOverride == null) ? Input.GetAxis("Left", "Right") : (float) dirOverride;
 
         // TODO: implement a soft cap instead of hard cap on speed
         if (dir != 0 && Mathf.Abs(xVel) <= MovementSpeed) {
