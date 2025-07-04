@@ -18,8 +18,9 @@ public partial class FastFall : PlayerState {
         _player.MoveX(_player.Vel.X * delta);
         
         float accelTerm = _player.GetVerletAccelTerm(_gravity, delta);
+        float yPosChange = MathF.Min(_player.Vel.Y * delta + accelTerm, _player.FastFallTerminalVelocity * delta);
         
-        _player.MoveY(_player.Vel.Y * delta + accelTerm);
+        _player.MoveY(yPosChange);
         _player.Vel.Y = MathF.Min(_player.Vel.Y + _gravity * delta, _player.FastFallTerminalVelocity);
         
         

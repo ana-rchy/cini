@@ -15,7 +15,6 @@
 [ext_resource type="Script" uid="uid://kgf17c5kv7oh" path="res://scripts/player/NeutralWallJump.cs" id="12_lkdrv"]
 
 [node name="Player" type="Node2D" node_paths=PackedStringArray("_collider")]
-position = Vector2(1, 0)
 script = ExtResource("1_3li8b")
 MovementSpeed = 65.0
 FramesToMaxSpeed = 5.0

@@ -145,9 +145,10 @@ public partial class Player : Node2D {
         return 0;
     }
     
-    public float GetVerletAccelTerm(float gravity, float delta) {
+    public float GetVerletAccelTerm(float accel, float delta) {
         // velocity verlet equation:
         // pos += vel * dt + (0.5 * accel * dt^2)
-        return 0.5f * gravity * delta * delta;
+        // vel += acc * dt
+        return 0.5f * accel * delta * delta;
     }
 }
