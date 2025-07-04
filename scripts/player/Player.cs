@@ -34,6 +34,9 @@ public partial class Player : Node2D {
     [Export] public float NeutralWallJumpRiseDistance;
     [Export] public float NeutralWallJumpPushoffSpeed;
     
+    [ExportGroup("etc")]
+    [Export] public int WallClipThreshold;
+    
     [ExportGroup("node refs")]
     [Export] Collider _collider;
     
@@ -65,6 +68,38 @@ public partial class Player : Node2D {
         }
         
         return false;
+    }
+    
+    public bool TestXThenYCollision(int offsetX, int offsetY) {
+        float ogX = Pos.x;
+        float ogY = Pos.y;
+        
+        if (MoveX(offsetX)) {
+            return true;
+        }
+        
+        bool result = TestTileCollision(0, offsetY);
+        
+        Pos.x = ogX;
+        Pos.y = ogY;
+        
+        return result;
+    }
+    
+    public bool TestYThenXCollision(int offsetY, int offsetX) {
+        float ogX = Pos.x;
+        float ogY = Pos.y;
+        
+        if (MoveY(offsetY)) {
+            return true;
+        }
+        
+        bool result = TestTileCollision(offsetX, 0);
+        
+        Pos.x = ogX;
+        Pos.y = ogY;
+        
+        return result;
     }
     
     public bool InTile() => TestTileCollision(0, 0);

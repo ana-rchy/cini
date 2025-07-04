@@ -11,4 +11,38 @@ public partial class PlayerState : State {
 
         _player = GetNode<Player>("../..");
     }
+    
+    public void CheckWallClip() {
+        if (_player.OnCeiling()) {
+            for (int i = 1; i <= _player.WallClipThreshold; i++) {
+                if (!_player.TestXThenYCollision(-i, -1)) {
+                    _player.MoveX(-i);
+                    break;
+                }
+
+                if (!_player.TestXThenYCollision(i, -1)) {
+                    _player.MoveX(i);
+                    break;
+                }
+            }
+        }
+    }
+    
+    // state transitions that happen whenever youre in the air
+    public void CommonInAirTransitions() {
+        if (_player.OnGround()) {
+            _stateMachine.ChangeState("OnGround");
+            return;
+        }
+        
+        if (_player.OnWall() && Input.IsActionJustPressed("Jump") && Input.GetAxis("Left", "Right") != 0) {
+            _stateMachine.ChangeState("WallJump");
+            return;
+        }
+        
+        if (_player.OnWall() && Input.IsActionJustPressed("Jump") && Input.GetAxis("Left", "Right") == 0) {
+            _stateMachine.ChangeState("NeutralWallJump");
+            return;
+        }
+    }
 }

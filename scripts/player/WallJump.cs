@@ -28,30 +28,23 @@ public partial class WallJump : PlayerState {
         _player.MoveY(_player.Vel.Y * delta + accelTerm);
         _player.Vel.Y += _gravity * delta;
         
+        CheckWallClip();
         
         _player.TimeSinceJump += delta;
         
 
-        if (_player.OnGround()) {
-            _stateMachine.ChangeState("OnGround");
-            return;
-        }
-        
-        if (_player.OnWall() && Input.IsActionJustPressed("Jump") && Input.GetAxis("Left", "Right") != 0) {
-            _stateMachine.ChangeState("WallJump");
-            return;
-        }
-        
-        if (_player.OnWall() && Input.IsActionJustPressed("Jump") && Input.GetAxis("Left", "Right") == 0) {
-            _stateMachine.ChangeState("NeutralWallJump");
-            return;
-        }
+        CommonInAirTransitions();
         
         if (_pushoffTimer.IsStopped()) {
             _stateMachine.ChangeState("Falling");
             return;
         }
 
+        if (!Input.IsActionPressed("Jump")) {
+            _stateMachine.ChangeState("ShortJump");
+            return;
+        }
+        
         if (!Input.IsActionPressed("Jump")) {
             _stateMachine.ChangeState("ShortJump");
             return;

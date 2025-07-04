@@ -20,20 +20,7 @@ public partial class Falling : PlayerState {
         _player.Vel.Y = MathF.Min(_player.Vel.Y + _gravity * delta, _player.TerminalVelocity);
         
         
-        if (_player.OnGround()) {
-            _stateMachine.ChangeState("OnGround");
-            return;
-        }
-        
-        if (_player.OnWall() && Input.IsActionJustPressed("Jump") && Input.GetAxis("Left", "Right") != 0) {
-           _stateMachine.ChangeState("WallJump");
-           return;
-        }
-        
-        if (_player.OnWall() && Input.IsActionJustPressed("Jump") && Input.GetAxis("Left", "Right") == 0) {
-            _stateMachine.ChangeState("NeutralWallJump");
-            return;
-        }
+        CommonInAirTransitions();
         
         if (Input.IsActionPressed("FastFall")) {
             _stateMachine.ChangeState("FastFall");
