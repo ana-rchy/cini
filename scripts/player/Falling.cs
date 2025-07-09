@@ -10,14 +10,24 @@ public partial class Falling : PlayerState {
     }
 
     public override void Update(float delta) {
-        _player.Vel.X = _player.GetMovementXVel(_player.Vel.X, _player.FramesToMaxSpeedInAir, delta);
-        _player.MoveX(_player.Vel.X * delta);
+        // wall sliding
+        float gravity = _gravity;
+        float terminalVelocity = _player.TerminalVelocity;
+        
+        if ((Input.IsActionPressed("Left") && _player.OnLeftWall()) ||
+            (Input.IsActionPressed("Right") && _player.OnRightWall()))
+        {
+            gravity = _gravity / _player.WallSlidingDivisor;
+            terminalVelocity = _player.TerminalVelocity / _player.WallSlidingDivisor;
+        }
+        
+        HorizontalMovement(_player.FramesToMaxSpeedInAir, delta);
 
-        float accelTerm = _player.GetVerletAccelTerm(_gravity, delta);
-        float yPosChange = MathF.Min(_player.Vel.Y * delta + accelTerm, _player.TerminalVelocity * delta);
+        float accelTerm = GetVerletAccelTerm(gravity, delta);
+        float yPosChange = MathF.Min(_player.Vel.Y * delta + accelTerm, terminalVelocity * delta);
         
         _player.MoveY(yPosChange);
-        _player.Vel.Y = MathF.Min(_player.Vel.Y + _gravity * delta, _player.TerminalVelocity);
+        _player.Vel.Y = MathF.Min(_player.Vel.Y + gravity * delta, terminalVelocity);
         
         
         CommonInAirTransitions();

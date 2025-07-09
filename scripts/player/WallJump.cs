@@ -23,12 +23,13 @@ public partial class WallJump : PlayerState {
     public override void Update(float delta) {
         _player.MoveX(_player.Vel.X * delta);
         
-        float accelTerm = _player.GetVerletAccelTerm(_gravity, delta);
+        float accelTerm = GetVerletAccelTerm(_gravity, delta);
+        float yPosChange = _player.Vel.Y * delta + accelTerm;
         
-        _player.MoveY(_player.Vel.Y * delta + accelTerm);
+        _player.MoveY(yPosChange);
         _player.Vel.Y += _gravity * delta;
         
-        CheckWallClip();
+        WallClip();
         
         _player.TimeSinceJump += delta;
         

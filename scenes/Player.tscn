@@ -36,6 +36,7 @@ NeutralWallJumpHeight = 17.0
 NeutralWallJumpRiseDistance = 17.0
 NeutralWallJumpPushoffSpeed = 65.0
 WallClipThreshold = 3
+WallSlidingDivisor = 2.4
 _collider = NodePath("Collider")
 
 [node name="Collider" parent="." instance=ExtResource("1_p0vlq")]

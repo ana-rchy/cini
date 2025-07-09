@@ -34,8 +34,9 @@ public partial class Player : Node2D {
     [Export] public float NeutralWallJumpRiseDistance;
     [Export] public float NeutralWallJumpPushoffSpeed;
     
-    [ExportGroup("etc")]
+    [ExportGroup("Other")]
     [Export] public int WallClipThreshold;
+    [Export] public float WallSlidingDivisor;
     
     [ExportGroup("node refs")]
     [Export] Collider _collider;
@@ -161,29 +162,5 @@ public partial class Player : Node2D {
         
         Pos.y = targetPos;
         return false;
-    }
-    
-    public float GetMovementXVel(float xVel, float framesToMaxSpeed, float delta) {
-        // accel = speed / time
-        float horizontalAccel = MovementSpeed / (framesToMaxSpeed / 60);
-        float dir = Input.GetAxis("Left", "Right");
-
-        // TODO: implement a soft cap instead of hard cap on speed
-        if (dir != 0 && Mathf.Abs(xVel) <= MovementSpeed) {
-            return Mathf.Clamp(xVel + dir * horizontalAccel * delta, -MovementSpeed, MovementSpeed);
-        } else if (xVel < 0) {
-            return MathF.Min(xVel + horizontalAccel * delta, 0);
-        } else if (xVel > 0) {
-            return MathF.Max(xVel - horizontalAccel * delta, 0);
-        }
-        
-        return 0;
-    }
-    
-    public float GetVerletAccelTerm(float accel, float delta) {
-        // velocity verlet equation:
-        // pos += vel * dt + (0.5 * accel * dt^2)
-        // vel += acc * dt
-        return 0.5f * accel * delta * delta;
     }
 }
