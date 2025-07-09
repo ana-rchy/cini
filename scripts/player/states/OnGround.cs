@@ -15,8 +15,9 @@ public partial class OnGround : PlayerState {
             return;
         }
 
-        if (Input.IsActionJustPressed("Jump")) {
+        if (Input.IsActionJustPressed("Jump") || _inputBuffer.ShouldJump) {
             _stateMachine.ChangeState("Jump");
+            _inputBuffer.StopJumpBufferTimer();
             return;
         }
     }

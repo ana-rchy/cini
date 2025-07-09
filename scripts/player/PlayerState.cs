@@ -4,6 +4,7 @@ using System.Diagnostics;
 
 public partial class PlayerState : State {
     protected Player _player;
+    protected InputBuffer _inputBuffer;
 
     public override void _Ready() {
         base._Ready();
@@ -11,6 +12,7 @@ public partial class PlayerState : State {
         Debug.Assert(GetNode("../..") is Player, $"State {Name}'s grandparent is not a Player");
 
         _player = GetNode<Player>("../..");
+        _inputBuffer = _player.InputBuffer;
     }
     
     public float GetMovementXVel(float xVel, float framesToMaxSpeed, float delta) {

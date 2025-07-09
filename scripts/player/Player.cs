@@ -39,6 +39,7 @@ public partial class Player : Node2D {
     [Export] public float WallSlidingDivisor;
     
     [ExportGroup("node refs")]
+    [Export] public InputBuffer InputBuffer { get; private set; }
     [Export] Collider _collider;
     
     

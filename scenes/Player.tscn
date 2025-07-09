@@ -1,20 +1,21 @@
-[gd_scene load_steps=14 format=3 uid="uid://d06f8v6im24nc"]
+[gd_scene load_steps=15 format=3 uid="uid://d06f8v6im24nc"]
 
 [ext_resource type="Script" uid="uid://cky84lfdw6dyy" path="res://scripts/player/Player.cs" id="1_3li8b"]
 [ext_resource type="PackedScene" uid="uid://b1g2kesfiwncp" path="res://scenes/Collider.tscn" id="1_p0vlq"]
 [ext_resource type="Texture2D" uid="uid://cb7xdxayr7x1y" path="res://sprites/player.png" id="2_v6fml"]
+[ext_resource type="Script" uid="uid://mbrva57nh2kk" path="res://scripts/player/InputBuffer.cs" id="4_p7iby"]
 [ext_resource type="Script" uid="uid://dvrv6o5xs1y8k" path="res://scripts/StateMachine.cs" id="4_qu4a1"]
-[ext_resource type="Script" uid="uid://b0u3di0y246hq" path="res://scripts/player/OnGround.cs" id="5_70d11"]
-[ext_resource type="Script" uid="uid://btbbwkiludhyk" path="res://scripts/player/Falling.cs" id="6_70d11"]
-[ext_resource type="Script" uid="uid://coxu850chd7bb" path="res://scripts/player/CoyoteTime.cs" id="6_d3wef"]
-[ext_resource type="Script" uid="uid://bj5hy85tc125w" path="res://scripts/player/FastFall.cs" id="7_cw2d6"]
-[ext_resource type="Script" uid="uid://dxn1m3ne6yt5b" path="res://scripts/player/Jump.cs" id="8_khinc"]
-[ext_resource type="Script" uid="uid://bgn2356cdvwif" path="res://scripts/player/ShortJump.cs" id="9_6eyey"]
-[ext_resource type="Script" uid="uid://bb4il1c4ej8lm" path="res://scripts/player/DebugState.cs" id="9_bruh7"]
-[ext_resource type="Script" uid="uid://bt2djn6ayvvlb" path="res://scripts/player/WallJump.cs" id="11_o4126"]
-[ext_resource type="Script" uid="uid://kgf17c5kv7oh" path="res://scripts/player/NeutralWallJump.cs" id="12_lkdrv"]
+[ext_resource type="Script" uid="uid://b0u3di0y246hq" path="res://scripts/player/states/OnGround.cs" id="5_70d11"]
+[ext_resource type="Script" uid="uid://btbbwkiludhyk" path="res://scripts/player/states/Falling.cs" id="6_70d11"]
+[ext_resource type="Script" uid="uid://coxu850chd7bb" path="res://scripts/player/states/CoyoteTime.cs" id="6_d3wef"]
+[ext_resource type="Script" uid="uid://bj5hy85tc125w" path="res://scripts/player/states/FastFall.cs" id="7_cw2d6"]
+[ext_resource type="Script" uid="uid://dxn1m3ne6yt5b" path="res://scripts/player/states/Jump.cs" id="8_khinc"]
+[ext_resource type="Script" uid="uid://bgn2356cdvwif" path="res://scripts/player/states/ShortJump.cs" id="9_6eyey"]
+[ext_resource type="Script" uid="uid://bb4il1c4ej8lm" path="res://scripts/player/states/DebugState.cs" id="9_bruh7"]
+[ext_resource type="Script" uid="uid://bt2djn6ayvvlb" path="res://scripts/player/states/WallJump.cs" id="11_o4126"]
+[ext_resource type="Script" uid="uid://kgf17c5kv7oh" path="res://scripts/player/states/NeutralWallJump.cs" id="12_lkdrv"]
 
-[node name="Player" type="Node2D" node_paths=PackedStringArray("_collider")]
+[node name="Player" type="Node2D" node_paths=PackedStringArray("InputBuffer", "_collider")]
 script = ExtResource("1_3li8b")
 MovementSpeed = 65.0
 FramesToMaxSpeed = 5.0
@@ -22,6 +23,7 @@ FramesToMaxSpeedInAir = 8.0
 JumpHeight = 16.0
 JumpRiseDistance = 18.0
 JumpFallDistance = 14.0
+JumpBufferTime = 0.15
 CoyoteTime = 0.06
 ShortJumpHeight = 6.0
 ShortJumpRiseDistance = 6.0
@@ -37,6 +39,7 @@ NeutralWallJumpRiseDistance = 17.0
 NeutralWallJumpPushoffSpeed = 65.0
 WallClipThreshold = 3
 WallSlidingDivisor = 2.4
+InputBuffer = NodePath("InputBuffer")
 _collider = NodePath("Collider")
 
 [node name="Collider" parent="." instance=ExtResource("1_p0vlq")]
@@ -45,6 +48,14 @@ _colliderColor = Color(0.34, 1, 0.494, 0.501961)
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_v6fml")
 centered = false
+
+[node name="InputBuffer" type="Node" parent="." node_paths=PackedStringArray("_jumpBufferTimer")]
+script = ExtResource("4_p7iby")
+_jumpBufferTime = 0.15
+_jumpBufferTimer = NodePath("JumpBufferTimer")
+
+[node name="JumpBufferTimer" type="Timer" parent="InputBuffer"]
+one_shot = true
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("CurrentState")]
 script = ExtResource("4_qu4a1")
