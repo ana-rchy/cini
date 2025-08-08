@@ -35,10 +35,14 @@ public partial class Player : Node2D {
     [Export] public float NeutralWallJumpPushoffSpeed;
 
     [ExportGroup("Climbing")]
-    [Export] public float ClimbingSpeed;
     [Export] public float TotalStamina;
+    [Export] public float ClimbingSpeed;
     [Export] public float GrabbingStaminaCost;
     [Export] public float ClimbingStaminaCost;
+    [ExportGroup("Climbing/Hanging")]
+    [Export] public float HangingMoveSpeed;
+    [Export] public float HangingStaminaCost;
+    [Export] public float HangingMoveStaminaCost;
 
     [ExportGroup("Other")]
     [Export] public int WallClipThreshold;

@@ -18,6 +18,10 @@ public partial class Climbing : PlayerState {
         }
 
 
+        if (Input.IsActionPressed("Grab") && _inputBuffer.ShouldJump) {
+            _stateMachine.ChangeState("WallJump");
+        }
+
         if (!Input.IsActionPressed("Grab") && _inputBuffer.ShouldJump) {
             if (Input.GetAxis("Left", "Right") != 0) {
                 _stateMachine.ChangeState("WallJump");

@@ -65,24 +65,32 @@ public partial class PlayerState : State {
 
 
     // state transitions that happen whenever youre in the air
-    public void CommonInAirTransitions() {
+    public bool CommonInAirTransitions() {
         if (_player.OnGround()) {
             _stateMachine.ChangeState("OnGround");
-            return;
+            return true;
         }
 
         if (_player.OnWall() && _inputBuffer.ShouldJump && Input.GetAxis("Left", "Right") != 0) {
             _stateMachine.ChangeState("WallJump");
-            return;
+            return true;
         }
 
         if (_player.OnWall() && _inputBuffer.ShouldJump && Input.GetAxis("Left", "Right") == 0) {
             _stateMachine.ChangeState("NeutralWallJump");
-            return;
+            return true;
         }
 
         if (_player.OnWall() && Input.IsActionPressed("Grab") && _player.Stamina > 0) {
             _stateMachine.ChangeState("Climbing");
+            return true;
         }
+
+        if (_player.OnCeiling() && Input.IsActionPressed("Grab") && _player.Stamina > 0) {
+            _stateMachine.ChangeState("Hanging");
+            return true;
+        }
+
+        return false;
     }
 }

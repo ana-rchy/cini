@@ -21,5 +21,9 @@ public partial class OnGround : PlayerState {
             _inputBuffer.StopJumpBufferTimer();
             return;
         }
+
+        if (_player.OnWall() && Input.IsActionPressed("Grab")) {
+            _stateMachine.ChangeState("Hanging");
+        }
     }
 }

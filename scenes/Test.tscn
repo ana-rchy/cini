@@ -191,6 +191,21 @@ position = Vector2(48, 64)
 [node name="Tile63" parent="." instance=ExtResource("1_w8un3")]
 position = Vector2(48, 56)
 
+[node name="Tile70" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(40, 56)
+
+[node name="Tile71" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(32, 56)
+
+[node name="Tile72" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(24, 56)
+
+[node name="Tile73" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(16, 56)
+
+[node name="Tile74" parent="." instance=ExtResource("1_w8un3")]
+position = Vector2(8, 56)
+
 [node name="Tile64" parent="." instance=ExtResource("1_w8un3")]
 position = Vector2(48, 48)
 

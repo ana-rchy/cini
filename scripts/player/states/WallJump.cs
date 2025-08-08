@@ -35,7 +35,7 @@ public partial class WallJump : PlayerState {
         _player.TimeSinceJump += delta;
 
 
-        CommonInAirTransitions();
+        if (CommonInAirTransitions()) return;
 
         if (_pushoffTimer.IsStopped()) {
             _stateMachine.ChangeState("Falling");
