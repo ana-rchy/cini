@@ -2,6 +2,14 @@ using System;
 using Godot;
 
 public partial class Climbing : PlayerState {
+    public override bool Prereqs() {
+        if (_player.Stamina > 0 && _player.OnWall()) {
+            return true;
+        }
+
+        return false;
+    }
+
     public override void Enter() {
         _player.Vel = Vector2.Zero;
     }

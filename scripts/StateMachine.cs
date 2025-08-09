@@ -23,10 +23,11 @@ public partial class StateMachine : Node {
     }
 
     public void ChangeState(string stateName) {
-        Debug.Assert(HasNode(stateName), $"StateMachine in {GetParent().Name} doesn't contain state \"{stateName}\"");
+        Debug.Assert(HasNode(stateName), $"StateMachine in '{GetParent().Name}' doesn't contain state '{stateName}'");
 
         var state = GetNode<PlayerState>(stateName);
         if (!state.Prereqs()) {
+            GD.Print($"'{stateName}' didn't meet prereqs");
             return;
         }
 

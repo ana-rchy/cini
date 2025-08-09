@@ -6,6 +6,14 @@ public partial class WallJump : PlayerState {
     float _gravity;
 
 
+    public override bool Prereqs() {
+        if (_player.OnWall() && Input.GetAxis("Left", "Right") != 0) {
+            return true;
+        }
+
+        return false;
+    }
+
     public override void Enter() {
         _player.Vel.Y = (-2 * _player.WallJumpHeight * _player.MovementSpeed) / _player.WallJumpRiseDistance;
 

@@ -2,6 +2,14 @@ using System;
 using Godot;
 
 public partial class OnGround : PlayerState {
+    public override bool Prereqs() {
+        if (_player.OnGround()) {
+            return true;
+        }
+
+        return false;
+    }
+
     public override void Enter() {
         _player.Vel.Y = 0;
         _player.Stamina = _player.TotalStamina;
@@ -24,7 +32,7 @@ public partial class OnGround : PlayerState {
         }
 
         if (_player.OnWall() && Input.IsActionPressed("Grab")) {
-            _stateMachine.ChangeState("Hanging");
+            _stateMachine.ChangeState("Climbing");
             return;
         }
 
