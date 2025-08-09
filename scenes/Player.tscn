@@ -49,6 +49,7 @@ HangingStaminaCost = 1.75
 HangingMoveStaminaCost = 2.0
 DashDistance = 24.0
 DashLength = 0.15
+DashChargeTotal = 2
 WallClipThreshold = 3
 WallSlidingDivisor = 2.4
 InputBuffer = NodePath("InputBuffer")

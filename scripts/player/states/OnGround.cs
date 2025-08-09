@@ -13,7 +13,7 @@ public partial class OnGround : PlayerState {
     public override void Enter() {
         _player.Vel.Y = 0;
         _player.Stamina = _player.TotalStamina;
-        _player.DashCharges = 1;
+        _player.DashCharges = _player.DashChargeTotal;
     }
 
     public override void Update(float delta) {

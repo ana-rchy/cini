@@ -40,6 +40,11 @@ public partial class Climbing : PlayerState {
             }
         }
 
+        if (Input.IsActionJustPressed("Dash")) {
+            _stateMachine.ChangeState("Dashing");
+            return;
+        }
+
         if (!Input.IsActionPressed("Grab") || !_player.OnWall() || _player.Stamina <= 0) {
             _stateMachine.ChangeState("Falling");
             return;

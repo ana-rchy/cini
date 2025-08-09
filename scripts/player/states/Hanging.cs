@@ -26,13 +26,18 @@ public partial class Hanging : PlayerState {
         }
 
 
-        if (!Input.IsActionPressed("Grab") || !_player.OnCeiling() || _player.Stamina <= 0) {
+        if (Input.IsActionJustPressed("Jump")) {
+            _player.MoveY(1);
             _stateMachine.ChangeState("Falling");
             return;
         }
 
-        if (Input.IsActionJustPressed("Jump")) {
-            _player.MoveY(1);
+        if (Input.IsActionJustPressed("Dash")) {
+            _stateMachine.ChangeState("Dashing");
+            return;
+        }
+
+        if (!Input.IsActionPressed("Grab") || !_player.OnCeiling() || _player.Stamina <= 0) {
             _stateMachine.ChangeState("Falling");
             return;
         }

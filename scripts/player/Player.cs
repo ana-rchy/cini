@@ -45,6 +45,7 @@ public partial class Player : Node2D {
     [ExportGroup("Dashing")]
     [Export] public float DashDistance;
     [Export] public float DashLength;
+    [Export] public int DashChargeTotal;
     public float DashSpeed => DashDistance / DashLength;
 
     [ExportGroup("Other")]
@@ -61,7 +62,7 @@ public partial class Player : Node2D {
     public Vector2PP Pos;
     public Vector2 Vel = Vector2.Zero;
     public float Stamina;
-    public float DashCharges;
+    public int DashCharges = 0;
 
 
     public override void _Ready() {
