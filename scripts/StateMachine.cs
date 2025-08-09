@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public partial class StateMachine : Node {
     [Export] public State CurrentState { get; private set; }
-    
+
     // needed in cases where ChangeState() is called from within a ChangeState()'s call stack,
     // so that it preserves the correct order of the state changes
     Queue<string> _stateChangesExecuted = new();
@@ -18,16 +18,24 @@ public partial class StateMachine : Node {
         while (_stateChangesExecuted.Count > 0) {
             GD.Print($"{_stateChangesExecuted.Dequeue()}");
         }
-        
+
         CurrentState.Update((float) delta);
     }
 
-    public void ChangeState(string state) {
-        Debug.Assert(HasNode(state), $"StateMachine in {GetParent().Name} doesn't contain state \"{state}\"");
-        
-        _stateChangesExecuted.Enqueue(state);
+    public void ChangeState(string stateName) {
+        Debug.Assert(HasNode(stateName), $"StateMachine in {GetParent().Name} doesn't contain state \"{stateName}\"");
 
-        CurrentState = GetNode<PlayerState>(state);
+        var state = GetNode<PlayerState>(stateName);
+        if (!state.Prereqs()) {
+            return;
+        }
+
+
+        CurrentState.Exit();
+
+        _stateChangesExecuted.Enqueue(stateName);
+
+        CurrentState = GetNode<PlayerState>(stateName);
         CurrentState.Enter();
     }
 }

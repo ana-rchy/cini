@@ -5,6 +5,7 @@ public partial class OnGround : PlayerState {
     public override void Enter() {
         _player.Vel.Y = 0;
         _player.Stamina = _player.TotalStamina;
+        _player.DashCharges = 1;
     }
 
     public override void Update(float delta) {
@@ -24,6 +25,12 @@ public partial class OnGround : PlayerState {
 
         if (_player.OnWall() && Input.IsActionPressed("Grab")) {
             _stateMachine.ChangeState("Hanging");
+            return;
+        }
+
+        if (Input.IsActionJustPressed("Dash")) {
+            _stateMachine.ChangeState("Dashing");
+            return;
         }
     }
 }

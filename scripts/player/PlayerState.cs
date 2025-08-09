@@ -81,6 +81,11 @@ public partial class PlayerState : State {
             return true;
         }
 
+        if (Input.IsActionJustPressed("Dash")) {
+            _stateMachine.ChangeState("Dashing");
+            return true;
+        }
+
         if (_player.OnWall() && Input.IsActionPressed("Grab") && _player.Stamina > 0) {
             _stateMachine.ChangeState("Climbing");
             return true;

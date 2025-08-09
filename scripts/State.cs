@@ -10,6 +10,10 @@ public partial class State : Node {
         _stateMachine = GetParent<StateMachine>();
     }
 
+    public virtual bool Prereqs() {
+        return true;
+    }
     public virtual void Enter() {}
     public virtual void Update(float delta) {}
+    public virtual void Exit() {}
 }

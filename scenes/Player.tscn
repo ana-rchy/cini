@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://d06f8v6im24nc"]
+[gd_scene load_steps=18 format=3 uid="uid://d06f8v6im24nc"]
 
 [ext_resource type="Script" uid="uid://cky84lfdw6dyy" path="res://scripts/player/Player.cs" id="1_3li8b"]
 [ext_resource type="PackedScene" uid="uid://b1g2kesfiwncp" path="res://scenes/Collider.tscn" id="1_p0vlq"]
@@ -16,9 +16,9 @@
 [ext_resource type="Script" uid="uid://kgf17c5kv7oh" path="res://scripts/player/states/NeutralWallJump.cs" id="12_lkdrv"]
 [ext_resource type="Script" uid="uid://cea6x4ib3544u" path="res://scripts/player/states/Climbing.cs" id="14_0rnld"]
 [ext_resource type="Script" uid="uid://cogxbh0rnt3pn" path="res://scripts/player/states/Hanging.cs" id="15_srp4u"]
+[ext_resource type="Script" uid="uid://c2n8f7k88fxdx" path="res://scripts/player/states/Dashing.cs" id="16_jfpux"]
 
 [node name="Player" type="Node2D" node_paths=PackedStringArray("InputBuffer", "_collider")]
-position = Vector2(-1, 0)
 script = ExtResource("1_3li8b")
 MovementSpeed = 65.0
 FramesToMaxSpeed = 5.0
@@ -47,6 +47,8 @@ ClimbingStaminaCost = 2.0
 HangingMoveSpeed = 18.0
 HangingStaminaCost = 1.75
 HangingMoveStaminaCost = 2.0
+DashDistance = 24.0
+DashLength = 0.15
 WallClipThreshold = 3
 WallSlidingDivisor = 2.4
 InputBuffer = NodePath("InputBuffer")
@@ -108,6 +110,14 @@ script = ExtResource("14_0rnld")
 
 [node name="Hanging" type="Node" parent="StateMachine"]
 script = ExtResource("15_srp4u")
+
+[node name="Dashing" type="Node" parent="StateMachine" node_paths=PackedStringArray("_dashTimer", "_playerSprite")]
+script = ExtResource("16_jfpux")
+_dashTimer = NodePath("DashLength")
+_playerSprite = NodePath("../../Sprite2D")
+
+[node name="DashLength" type="Timer" parent="StateMachine/Dashing"]
+one_shot = true
 
 [node name="DebugState" type="Node" parent="StateMachine"]
 script = ExtResource("9_bruh7")

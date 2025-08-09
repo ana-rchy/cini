@@ -13,8 +13,7 @@ public partial class Player : Node2D {
     [Export] public float JumpFallDistance;
     [Export] public float JumpBufferTime;
     [Export] public float CoyoteTime;
-
-    [ExportGroup("Short Jumping")]
+    [ExportGroup("Jumping/Short Jumping")]
     [Export] public float ShortJumpHeight;
     [Export] public float ShortJumpRiseDistance;
 
@@ -28,8 +27,7 @@ public partial class Player : Node2D {
     [Export] public float WallJumpRiseDistance;
     [Export] public float WallJumpPushoffSpeed;
     [Export] public float WallJumpPushoffTime;
-
-    [ExportGroup("Neutral Wall Jumping")]
+    [ExportGroup("Wall Jumping/Neutral Wall Jumping")]
     [Export] public float NeutralWallJumpHeight;
     [Export] public float NeutralWallJumpRiseDistance;
     [Export] public float NeutralWallJumpPushoffSpeed;
@@ -43,6 +41,11 @@ public partial class Player : Node2D {
     [Export] public float HangingMoveSpeed;
     [Export] public float HangingStaminaCost;
     [Export] public float HangingMoveStaminaCost;
+
+    [ExportGroup("Dashing")]
+    [Export] public float DashDistance;
+    [Export] public float DashLength;
+    public float DashSpeed => DashDistance / DashLength;
 
     [ExportGroup("Other")]
     [Export] public int WallClipThreshold;
@@ -58,6 +61,7 @@ public partial class Player : Node2D {
     public Vector2PP Pos;
     public Vector2 Vel = Vector2.Zero;
     public float Stamina;
+    public float DashCharges;
 
 
     public override void _Ready() {
