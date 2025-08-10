@@ -16,7 +16,7 @@
 [ext_resource type="Script" uid="uid://kgf17c5kv7oh" path="res://scripts/player/states/NeutralWallJump.cs" id="12_lkdrv"]
 [ext_resource type="Script" uid="uid://cea6x4ib3544u" path="res://scripts/player/states/Climbing.cs" id="14_0rnld"]
 [ext_resource type="Script" uid="uid://cogxbh0rnt3pn" path="res://scripts/player/states/Hanging.cs" id="15_srp4u"]
-[ext_resource type="Script" uid="uid://c2n8f7k88fxdx" path="res://scripts/player/states/Dashing.cs" id="16_jfpux"]
+[ext_resource type="Script" uid="uid://c2n8f7k88fxdx" path="res://scripts/player/states/Dash.cs" id="16_jfpux"]
 
 [node name="Player" type="Node2D" node_paths=PackedStringArray("InputBuffer", "_collider")]
 script = ExtResource("1_3li8b")
@@ -44,6 +44,7 @@ TotalStamina = 8.0
 ClimbingSpeed = 22.0
 GrabbingStaminaCost = 1.0
 ClimbingStaminaCost = 2.0
+WallSlidingDivisor = 2.4
 HangingMoveSpeed = 18.0
 HangingStaminaCost = 1.75
 HangingMoveStaminaCost = 2.0
@@ -51,7 +52,7 @@ DashDistance = 24.0
 DashLength = 0.15
 DashChargeTotal = 2
 WallClipThreshold = 3
-WallSlidingDivisor = 2.4
+DashClipThreshold = 3
 InputBuffer = NodePath("InputBuffer")
 _collider = NodePath("Collider")
 

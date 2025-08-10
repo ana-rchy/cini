@@ -47,17 +47,19 @@ public partial class PlayerState : State {
     }
 
     public void WallClip() {
-        if (_player.OnCeiling()) {
-            for (int i = 1; i <= _player.WallClipThreshold; i++) {
-                if (!_player.TestXThenYCollision(-i, -1)) {
-                    _player.MoveX(-i);
-                    break;
-                }
+        if (!_player.OnCeiling()) {
+            return;
+        }
 
-                if (!_player.TestXThenYCollision(i, -1)) {
-                    _player.MoveX(i);
-                    break;
-                }
+        for (int x = 1; x <= _player.WallClipThreshold; x++) {
+            if (!_player.TestXThenYCollision(-x, -1)) {
+                _player.MoveX(-x);
+                break;
+            }
+
+            if (!_player.TestXThenYCollision(x, -1)) {
+                _player.MoveX(x);
+                break;
             }
         }
     }

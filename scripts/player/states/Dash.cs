@@ -1,7 +1,7 @@
 using System;
 using Godot;
 
-public partial class Dashing : PlayerState {
+public partial class Dash : PlayerState {
     [Export] Timer _dashTimer;
     [Export] Sprite2D _playerSprite;
 
@@ -25,8 +25,8 @@ public partial class Dashing : PlayerState {
     }
 
     public override void Update(float delta) {
-        _player.MoveX(_player.Vel.X * delta);
-        _player.MoveY(_player.Vel.Y * delta);
+        _player.MoveAndSlide(_player.Vel * delta);
+
 
         if (_dashTimer.IsStopped()) {
             _stateMachine.ChangeState("Falling");
@@ -36,5 +36,29 @@ public partial class Dashing : PlayerState {
 
     public override void Exit() {
         _playerSprite.SelfModulate = new(1, 1, 1);
+    }
+
+
+
+    void DashClip() {
+        if (_player.InAir()) {
+            return;
+        }
+
+
+
+        int xDir = MathF.Sign(_player.Vel.X);
+
+        for (int y = 1; y <= _player.WallClipThreshold; y++) {
+            if (!_player.TestYThenXCollision(-y, xDir)) {
+                _player.MoveY(-y);
+                break;
+            }
+
+            if (!_player.TestYThenXCollision(y, xDir)) {
+                _player.MoveY(y);
+                break;
+            }
+        }
     }
 }
