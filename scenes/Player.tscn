@@ -24,7 +24,7 @@
 _data = [Vector2(0, 0), 0.0, 3.22, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[node name="Player" type="Node2D" node_paths=PackedStringArray("SpawnState", "InputBuffer", "_collider")]
+[node name="Player" type="Node2D" node_paths=PackedStringArray("SpawnState", "Collider", "StateMachine", "InputBuffer") groups=["Player"]]
 script = ExtResource("1_3li8b")
 MovementSpeed = 65.0
 FramesToMaxSpeed = 5.0
@@ -60,8 +60,9 @@ DashChargeTotal = 2
 SpawnState = NodePath("StateMachine/Falling")
 WallClipThreshold = 3
 DashClipThreshold = 3
+Collider = NodePath("Collider")
+StateMachine = NodePath("StateMachine")
 InputBuffer = NodePath("InputBuffer")
-_collider = NodePath("Collider")
 
 [node name="Collider" parent="." instance=ExtResource("1_p0vlq")]
 _x = -4

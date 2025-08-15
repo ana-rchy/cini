@@ -55,8 +55,9 @@ public partial class Player : Node2D {
     [Export] public int DashClipThreshold;
 
     [ExportGroup("node refs")]
+    [Export] public Collider Collider { get; private set; }
+    [Export] public StateMachine StateMachine { get; private set; }
     [Export] public InputBuffer InputBuffer { get; private set; }
-    [Export] Collider _collider;
 
 
     public Vector2 SpawnPosition { get; private set; }
@@ -88,7 +89,7 @@ public partial class Player : Node2D {
         Pos.v += offset;
 
         foreach (Collider tile in GetTree().GetNodesInGroup("Tiles")) {
-            if (_collider.Intersects(tile, 0, 0)) {
+            if (Collider.Intersects(tile, 0, 0)) {
                 colliding = true;
             }
         }
@@ -103,7 +104,7 @@ public partial class Player : Node2D {
 
     public bool CheckIntCollision(int offsetX, int offsetY, out Collider collidingWith) {
         foreach (Collider tile in GetTree().GetNodesInGroup("Tiles")) {
-            if (_collider.Intersects(tile, offsetX, offsetY)) {
+            if (Collider.Intersects(tile, offsetX, offsetY)) {
                 collidingWith = tile;
                 return true;
             }

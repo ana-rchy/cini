@@ -27,7 +27,7 @@ public partial class Collider : Node2D {
     }
 
 
-    public bool Intersects(Collider other, int offsetX, int offsetY) {
+    public bool Intersects(Collider other, int offsetX = 0, int offsetY = 0) {
         return
             (Right + offsetX) > other.Left &&
             (Left + offsetX) < other.Right &&
