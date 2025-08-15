@@ -62,17 +62,17 @@ InputBuffer = NodePath("InputBuffer")
 _collider = NodePath("Collider")
 
 [node name="Collider" parent="." instance=ExtResource("1_p0vlq")]
+_x = -4
+_y = -4
 _colliderColor = Color(0.34, 1, 0.494, 0.501961)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_v6fml")
-centered = false
 
 [node name="PixelCamera" type="Camera2D" parent="." node_paths=PackedStringArray("_playerCollider")]
 top_level = true
-position = Vector2(4, 4)
 script = ExtResource("4_61ith")
-_innerBoundsWH = Vector2i(32, 32)
+_innerBoundsWH = Vector2i(24, 24)
 _outerBoundsWH = Vector2i(128, 128)
 _cameraSpeedCurve = SubResource("Curve_61ith")
 _playerCollider = NodePath("../Collider")

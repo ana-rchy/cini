@@ -31,6 +31,7 @@ project/assembly_name="cini"
 
 folder_colors={
 "res://addons/": "gray",
+"res://resources/": "yellow",
 "res://scenes/": "blue",
 "res://scripts/": "green",
 "res://sprites/": "red"
