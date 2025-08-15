@@ -1,15 +1,16 @@
-[gd_scene load_steps=20 format=3 uid="uid://d06f8v6im24nc"]
+[gd_scene load_steps=21 format=3 uid="uid://d06f8v6im24nc"]
 
 [ext_resource type="Script" uid="uid://cky84lfdw6dyy" path="res://scripts/player/Player.cs" id="1_3li8b"]
 [ext_resource type="PackedScene" uid="uid://b1g2kesfiwncp" path="res://scenes/Collider.tscn" id="1_p0vlq"]
 [ext_resource type="Texture2D" uid="uid://cb7xdxayr7x1y" path="res://sprites/player.png" id="2_v6fml"]
 [ext_resource type="Script" uid="uid://s3cki24oc7as" path="res://scripts/PixelCamera.cs" id="4_61ith"]
 [ext_resource type="Script" uid="uid://mbrva57nh2kk" path="res://scripts/player/InputBuffer.cs" id="4_p7iby"]
-[ext_resource type="Script" uid="uid://dvrv6o5xs1y8k" path="res://scripts/StateMachine.cs" id="4_qu4a1"]
 [ext_resource type="Script" uid="uid://b0u3di0y246hq" path="res://scripts/player/states/OnGround.cs" id="5_70d11"]
 [ext_resource type="Script" uid="uid://btbbwkiludhyk" path="res://scripts/player/states/Falling.cs" id="6_70d11"]
 [ext_resource type="Script" uid="uid://coxu850chd7bb" path="res://scripts/player/states/CoyoteTime.cs" id="6_d3wef"]
+[ext_resource type="Script" uid="uid://7pvw87j2k50d" path="res://scripts/player/PlayerStateMachine.cs" id="6_ebwui"]
 [ext_resource type="Script" uid="uid://bj5hy85tc125w" path="res://scripts/player/states/FastFall.cs" id="7_cw2d6"]
+[ext_resource type="Script" uid="uid://5pebk6twe5xc" path="res://scripts/player/states/Respawn.cs" id="7_ebwui"]
 [ext_resource type="Script" uid="uid://dxn1m3ne6yt5b" path="res://scripts/player/states/Jump.cs" id="8_khinc"]
 [ext_resource type="Script" uid="uid://bgn2356cdvwif" path="res://scripts/player/states/ShortJump.cs" id="9_6eyey"]
 [ext_resource type="Script" uid="uid://bb4il1c4ej8lm" path="res://scripts/player/states/DebugState.cs" id="9_bruh7"]
@@ -23,7 +24,7 @@
 _data = [Vector2(0, 0), 0.0, 3.22, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[node name="Player" type="Node2D" node_paths=PackedStringArray("InputBuffer", "_collider")]
+[node name="Player" type="Node2D" node_paths=PackedStringArray("SpawnState", "InputBuffer", "_collider")]
 script = ExtResource("1_3li8b")
 MovementSpeed = 65.0
 FramesToMaxSpeed = 5.0
@@ -56,6 +57,7 @@ HangingMoveStaminaCost = 2.0
 DashDistance = 30.0
 DashLength = 0.2
 DashChargeTotal = 2
+SpawnState = NodePath("StateMachine/Falling")
 WallClipThreshold = 3
 DashClipThreshold = 3
 InputBuffer = NodePath("InputBuffer")
@@ -73,7 +75,7 @@ texture = ExtResource("2_v6fml")
 top_level = true
 script = ExtResource("4_61ith")
 _innerBoundsWH = Vector2i(24, 24)
-_outerBoundsWH = Vector2i(128, 128)
+_outerBoundsWH = Vector2i(128, 96)
 _cameraSpeedCurve = SubResource("Curve_61ith")
 _playerCollider = NodePath("../Collider")
 
@@ -86,8 +88,12 @@ _jumpBufferTimer = NodePath("JumpBufferTimer")
 one_shot = true
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("CurrentState")]
-script = ExtResource("4_qu4a1")
-CurrentState = NodePath("Falling")
+script = ExtResource("6_ebwui")
+CurrentState = NodePath("Respawn")
+
+[node name="Respawn" type="Node" parent="StateMachine" node_paths=PackedStringArray("_camera")]
+script = ExtResource("7_ebwui")
+_camera = NodePath("../../PixelCamera")
 
 [node name="OnGround" type="Node" parent="StateMachine"]
 script = ExtResource("5_70d11")
@@ -137,3 +143,5 @@ one_shot = true
 
 [node name="DebugState" type="Node" parent="StateMachine"]
 script = ExtResource("9_bruh7")
+
+[connection signal="ready" from="." to="StateMachine" method="_OnPlayerReady"]

@@ -50,6 +50,7 @@ public partial class Player : Node2D {
     public float DashSpeed => DashDistance / DashLength;
 
     [ExportGroup("Other")]
+    [Export] public PlayerState SpawnState;
     [Export] public int WallClipThreshold;
     [Export] public int DashClipThreshold;
 
@@ -58,25 +59,22 @@ public partial class Player : Node2D {
     [Export] Collider _collider;
 
 
-    public float TimeSinceJump = 0;
-
+    public Vector2 SpawnPosition { get; private set; }
+    
     public Vector2PP Pos;
     public Vector2 Vel = Vector2.Zero;
+    
+    public float TimeSinceJump = 0;
     public float Stamina;
     public int DashCharges = 0;
 
 
     public override void _Ready() {
+        Vector2 editorPosition = Position;
+        SpawnPosition = editorPosition;
+        
         // move player to where they were placed in the scene
-        float posX = Position.X;
-        float posY = Position.Y;
-
-        Pos = new(this);
-
-        Pos.x = posX;
-        Pos.y = posY;
-
-        Stamina = TotalStamina;
+        Pos = new(this, SpawnPosition);
     }
 
 

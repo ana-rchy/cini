@@ -60,4 +60,9 @@ public class Vector2PP {
         this.x = x;
         this.y = y;
     }
+    
+    public Vector2PP(Node2D associatedNode, Vector2 vec) {
+        _associatedNode = associatedNode;
+        this.v = vec;
+    }
 }

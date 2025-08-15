@@ -3,11 +3,11 @@ using System.Diagnostics;
 using System.Collections.Generic;
 
 public partial class StateMachine : Node {
-    [Export] public State CurrentState { get; private set; }
+    [Export] public State CurrentState { get; protected set; }
 
     // needed in cases where ChangeState() is called from within a ChangeState()'s call stack,
     // so that it preserves the correct order of the state changes
-    Queue<string> _stateChangesExecuted = new();
+    protected Queue<string> _stateChangesExecuted = new();
 
     public override void _Ready() {
         CurrentState.Enter();
