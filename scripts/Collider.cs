@@ -13,6 +13,7 @@ public partial class Collider : Node2D {
     public int Right => Left + _width;
     public int Top => (int) GlobalPosition.Y + _y;
     public int Bottom => Top + _height;
+    public Vector2I Centre => new((Left + Right) / 2, (Top + Bottom) / 2);
 
 
     public override void _Draw() {

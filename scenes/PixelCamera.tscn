@@ -1,9 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://b23bort70gpci"]
-
-[ext_resource type="Script" uid="uid://s3cki24oc7as" path="res://scripts/PixelCamera.cs" id="1_8pora"]
-
-[node name="PixelCamera" type="Node2D"]
-script = ExtResource("1_8pora")
-
-[node name="Camera2D" type="Camera2D" parent="."]
-anchor_mode = 0

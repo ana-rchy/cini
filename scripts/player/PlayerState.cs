@@ -84,7 +84,7 @@ public partial class PlayerState : State {
         }
 
         if (Input.IsActionJustPressed("Dash")) {
-            _stateMachine.ChangeState("Dashing");
+            _stateMachine.ChangeState("Dash");
             return true;
         }
 

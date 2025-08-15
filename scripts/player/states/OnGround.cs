@@ -37,7 +37,7 @@ public partial class OnGround : PlayerState {
         }
 
         if (Input.IsActionJustPressed("Dash")) {
-            _stateMachine.ChangeState("Dashing");
+            _stateMachine.ChangeState("Dash");
             return;
         }
     }
