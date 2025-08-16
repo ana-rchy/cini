@@ -8,7 +8,7 @@ public partial class Respawn : PlayerState {
 	public override void _Ready() {
 		base._Ready();
 
-		Debug.Assert(_camera is PixelCamera, "Respawn state doesn't have '_camera' set");
+		Debug.Assert(_camera is PixelCamera, $"'{Name}' state doesn't have '{nameof(_camera)}' set");
 	}
 
 	public override void Enter() {
@@ -24,8 +24,8 @@ public partial class Respawn : PlayerState {
 		_stateMachine.ChangeState(_player.SpawnState.Name);
 	}
 
-	public override void _Process(double _) {
-		if (Input.IsActionJustPressed("Respawn")) {
+	public override void _PhysicsProcess(double _) {
+		if (Input.IsActionJustPressed("Respawn") || _player.InTile("Spikes")) {
 			_stateMachine.ChangeState(this.Name);
 		}
 	}

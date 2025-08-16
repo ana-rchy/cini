@@ -1,14 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://chbafsn1dl8p3"]
+[gd_scene load_steps=3 format=3 uid="uid://chbafsn1dl8p3"]
 
-[ext_resource type="Script" uid="uid://csn0c6r4rakv8" path="res://scripts/Spikes.cs" id="1_8dvpl"]
 [ext_resource type="Texture2D" uid="uid://cjau7ieb4pvj3" path="res://sprites/spikes.png" id="1_46j5w"]
 [ext_resource type="PackedScene" uid="uid://b1g2kesfiwncp" path="res://scenes/Collider.tscn" id="1_jx45f"]
 
-[node name="Spikes" type="Node2D" node_paths=PackedStringArray("_collider")]
-script = ExtResource("1_8dvpl")
-_collider = NodePath("Collider")
+[node name="Spikes" type="Node2D"]
 
-[node name="Collider" parent="." instance=ExtResource("1_jx45f")]
+[node name="Collider" parent="." groups=["Spikes"] instance=ExtResource("1_jx45f")]
 _x = -4
 _y = 1
 _height = 3

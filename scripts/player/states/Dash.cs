@@ -14,7 +14,7 @@ public partial class Dash : PlayerState {
     }
 
     public override void Enter() {
-        _player.Vel = _player.DashSpeed * Input.GetVector("Left", "Right", "Up", "Down");
+        _player.Vel = Input.GetVector("Left", "Right", "Up", "Down") * _player.DashSpeed;
 
         _dashTimer.WaitTime = _player.DashLength;
         _dashTimer.OneShot = true;
@@ -44,21 +44,7 @@ public partial class Dash : PlayerState {
         if (_player.InAir()) {
             return;
         }
-
-
-
-        int xDir = MathF.Sign(_player.Vel.X);
-
-        for (int y = 1; y <= _player.WallClipThreshold; y++) {
-            if (!_player.TestYThenXCollision(-y, xDir)) {
-                _player.MoveY(-y);
-                break;
-            }
-
-            if (!_player.TestYThenXCollision(y, xDir)) {
-                _player.MoveY(y);
-                break;
-            }
-        }
+        
+        // TODO: this
     }
 }

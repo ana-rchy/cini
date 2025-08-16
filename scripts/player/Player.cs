@@ -1,5 +1,5 @@
 using Godot;
-using System;
+using System.Collections.Generic;
 
 public partial class Player : Node2D {
     [ExportGroup("Horizontal Movement")]
@@ -80,40 +80,29 @@ public partial class Player : Node2D {
 
 
 
-    public bool CheckFloatCollision(Vector2 offset) => CheckFloatCollision(offset, out _);
+    public bool CheckCollision(Vector2 offset, string nodesGroup = "Tiles") => CheckCollision(offset, out _, nodesGroup);
+    public bool CheckCollision(float x, float y, string nodesGroup = "Tiles") => CheckCollision(x, y, out _, nodesGroup);
+    public bool CheckCollision(float x, float y, out List<Collider> collidingWith, string nodesGroup = "Tiles") =>
+        CheckCollision(new(x, y), out collidingWith, nodesGroup);
 
-    public bool CheckFloatCollision(Vector2 offset, out Collider collidingWith) {
+    public bool CheckCollision(Vector2 offset, out List<Collider> collidingWith, string nodesGroup = "Tiles") {
         Vector2 oldPos = Pos.v;
-        bool colliding = false;
-
         Pos.v += offset;
+        
+        bool colliding = false;
+        collidingWith = new();
 
-        foreach (Collider tile in GetTree().GetNodesInGroup("Tiles")) {
+        foreach (Collider tile in GetTree().GetNodesInGroup(nodesGroup)) {
             if (Collider.Intersects(tile, 0, 0)) {
                 colliding = true;
+                collidingWith.Add(tile);
             }
         }
 
         Pos.v = oldPos;
-
-        collidingWith = null;
         return colliding;
     }
-
-    public bool CheckIntCollision(int offsetX, int offsetY) => CheckIntCollision(offsetX, offsetY, out _);
-
-    public bool CheckIntCollision(int offsetX, int offsetY, out Collider collidingWith) {
-        foreach (Collider tile in GetTree().GetNodesInGroup("Tiles")) {
-            if (Collider.Intersects(tile, offsetX, offsetY)) {
-                collidingWith = tile;
-                return true;
-            }
-        }
-
-        collidingWith = null;
-        return false;
-    }
-
+    
     public bool TestXThenYCollision(int offsetX, int offsetY) {
         float ogX = Pos.x;
         float ogY = Pos.y;
@@ -122,7 +111,7 @@ public partial class Player : Node2D {
             return true;
         }
 
-        bool result = CheckIntCollision(0, offsetY);
+        bool result = CheckCollision(0, offsetY);
 
         Pos.x = ogX;
         Pos.y = ogY;
@@ -138,7 +127,7 @@ public partial class Player : Node2D {
             return true;
         }
 
-        bool result = CheckIntCollision(offsetX, 0);
+        bool result = CheckCollision(offsetX, 0);
 
         Pos.x = ogX;
         Pos.y = ogY;
@@ -147,34 +136,38 @@ public partial class Player : Node2D {
     }
 
 
-    public bool InTile() => CheckIntCollision(0, 0);
-    public bool OnGround() => CheckIntCollision(0, 1) && !InTile();
-    public bool OnCeiling() => CheckIntCollision(0, -1) && !InTile();
-    public bool OnLeftWall() => CheckIntCollision(-1, 0) && !InTile();
-    public bool OnRightWall() => CheckIntCollision(1, 0) && !InTile();
+    public bool InTile(string nodesGroup = "Tiles") => CheckCollision(0, 0, nodesGroup);
+    public bool OnGround() => CheckCollision(0, 1) && !InTile();
+    public bool OnCeiling() => CheckCollision(0, -1) && !InTile();
+    public bool OnLeftWall() => CheckCollision(-1, 0) && !InTile();
+    public bool OnRightWall() => CheckCollision(1, 0) && !InTile();
     public bool OnWall() => OnLeftWall() || OnRightWall();
     public bool OnSurface() => (OnGround() || OnCeiling() || OnWall()) && !InTile();
     public bool InAir() => !OnGround() && !OnCeiling() && !OnWall() && !InTile();
 
     public int GetWallNormal() {
-        if (OnLeftWall()) {
-            return 1;
-        } else if (OnRightWall()) {
-            return -1;
-        }
-
-        return 0;
+        int normal = 0;
+        normal += OnLeftWall() ? 1 : 0;
+        normal += OnRightWall() ? -1 : 0;
+        
+        return normal;
     }
 
 
 
+    
+    public bool MoveAndStop(float x, float y) => MoveAndStop(new(x, y));
+    public void MoveAndSlide(float x, float y) => MoveAndSlide(new(x, y));
+    public bool MoveX(float x) => MoveAndStop(x, 0);
+    public bool MoveY(float y) => MoveAndStop(0, y);
+    
     public bool MoveAndStop(Vector2 vec) {
         Vector2 normalized = vec.Normalized();
         float magnitude = vec.Length();
         int steps = (int) magnitude;
 
         for (int i = 1; i <= steps; i++) {
-            if (CheckFloatCollision(normalized * i)) {
+            if (CheckCollision(normalized * i)) {
                 return true;
             }
 
@@ -184,7 +177,7 @@ public partial class Player : Node2D {
 
         Vector2 vecRemainder = vec - (normalized * steps);
 
-        if (CheckFloatCollision(vecRemainder)) {
+        if (CheckCollision(vecRemainder)) {
             return true;
         }
 
@@ -199,11 +192,11 @@ public partial class Player : Node2D {
         int steps = (int) magnitude;
 
         for (int i = 1; i <= steps; i++) {
-            if (!CheckFloatCollision(new(normalized.X, 0))) {
+            if (!CheckCollision(normalized.X, 0)) {
                 Pos.x += normalized.X;
             }
 
-            if (!CheckFloatCollision(new(0, normalized.Y))) {
+            if (!CheckCollision(0, normalized.Y)) {
                 Pos.y += normalized.Y;
             }
         }
@@ -211,55 +204,12 @@ public partial class Player : Node2D {
 
         Vector2 vecRemainder = vec - (normalized * steps);
 
-        if (!CheckFloatCollision(new(vecRemainder.X, 0))) {
+        if (!CheckCollision(vecRemainder.X, 0)) {
             Pos.x += vecRemainder.X;
         }
 
-        if (!CheckFloatCollision(new(0, vecRemainder.Y))) {
+        if (!CheckCollision(0, vecRemainder.Y)) {
             Pos.y += vecRemainder.Y;
         }
-    }
-
-    public bool MoveX(float distance) {
-        float targetPos = Pos.x + distance;
-
-        int lastPos = Pos.xInt;
-        int nextPos = (int) targetPos;
-
-        int steps = nextPos - lastPos;
-        int dir = Mathf.Sign(steps);
-
-        for (int i = 0; i < Mathf.Abs(steps); i++) {
-            if (CheckIntCollision(dir, 0)) {
-                return true;
-            }
-
-            Pos.x += dir;
-        }
-
-        // BUG: e.g. if x-pos is 1.8 and you wanna add on 1.5, it will check for collision for 2.8, but not for 3.3
-        Pos.x = targetPos;
-        return false;
-    }
-
-    public bool MoveY(float distance) {
-        float targetPos = Pos.y + distance;
-
-        int lastPos = Pos.yInt;
-        int nextPos = (int) targetPos;
-
-        int steps = nextPos - lastPos;
-        int dir = Mathf.Sign(steps);
-
-        for (int i = 0; i < Mathf.Abs(steps); i++) {
-            if (CheckIntCollision(0, dir)) {
-                return true;
-            }
-
-            Pos.y += dir;
-        }
-
-        Pos.y = targetPos;
-        return false;
     }
 }
