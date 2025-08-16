@@ -143,7 +143,6 @@ public partial class Player : Node2D {
     public bool OnRightWall() => CheckCollision(1, 0) && !InTile();
     public bool OnWall() => OnLeftWall() || OnRightWall();
     public bool OnSurface() => (OnGround() || OnCeiling() || OnWall()) && !InTile();
-    public bool InAir() => !OnGround() && !OnCeiling() && !OnWall() && !InTile();
 
     public int GetWallNormal() {
         int normal = 0;

@@ -3,11 +3,27 @@ using System;
 
 public partial class Falling : PlayerState {
     float _gravity;
+    
+    
+    public override bool EarlyExitStateTransitions() {
+        if (_player.OnGround()) {
+            _stateMachine.ChangeState<OnGround>();
+            return true;
+        }
+        
+        if (Input.IsActionPressed("FastFall")) {
+            _stateMachine.ChangeState<FastFall>();
+            return true;
+        }
+        
+        return false;
+    }
 
     public override void Enter() {
-        _gravity = (2 * _player.JumpHeight * MathF.Pow(_player.MovementSpeed, 2))
-                   / MathF.Pow(_player.JumpFallDistance, 2);
+        _gravity = 2 * _player.JumpHeight * MathF.Pow(_player.MovementSpeed, 2);
+        _gravity /= MathF.Pow(_player.JumpFallDistance, 2);
     }
+    
 
     public override void Update(float delta) {
         // wall sliding
@@ -15,24 +31,27 @@ public partial class Falling : PlayerState {
         float terminalVelocity = _player.TerminalVelocity;
 
         if ((Input.IsActionPressed("Left") && _player.OnLeftWall()) ||
-                (Input.IsActionPressed("Right") && _player.OnRightWall())) {
+            (Input.IsActionPressed("Right") && _player.OnRightWall())
+        ) {
+            // TODO: make the gravity wall sliding thingy into a proper feature
             gravity = _gravity / _player.WallSlidingDivisor;
             terminalVelocity = _player.TerminalVelocity / _player.WallSlidingDivisor;
         }
 
         HorizontalMovement(_player.FramesToMaxSpeedInAir, delta);
 
-        float accelTerm = GetVerletAccelTerm(gravity, delta);
-        float yPosChange = MathF.Min(_player.Vel.Y * delta + accelTerm, terminalVelocity * delta);
+        float yAccel = GetVerletAccelTerm(gravity, delta);
+        float yPosChange = MathF.Min(_player.Vel.Y * delta + yAccel, terminalVelocity * delta);
 
         _player.MoveY(yPosChange);
         _player.Vel.Y = MathF.Min(_player.Vel.Y + gravity * delta, terminalVelocity);
-
-
+    }
+    
+    public override void Update_StateTransitions() {
         if (CommonInAirTransitions()) return;
 
         if (Input.IsActionPressed("FastFall")) {
-            _stateMachine.ChangeState("FastFall");
+            _stateMachine.ChangeState<FastFall>();
             return;
         }
     }

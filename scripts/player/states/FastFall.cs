@@ -3,11 +3,23 @@ using System;
 
 public partial class FastFall : PlayerState {
     float _gravity;
-
+    
+    
+    public override bool Prereqs() =>
+        Input.IsActionPressed("FastFall");
+    
+    public override bool EarlyExitStateTransitions() {
+        if (_player.OnGround()) {
+            _stateMachine.ChangeState<OnGround>();
+            return true;
+        }
+        
+        return false;
+    }
 
     public override void Enter() {
-        _gravity = (2 * _player.JumpHeight * MathF.Pow(_player.MovementSpeed, 2))
-                   / MathF.Pow(_player.JumpFallDistance, 2);
+        _gravity = 2 * _player.JumpHeight * MathF.Pow(_player.MovementSpeed, 2);
+        _gravity /= MathF.Pow(_player.JumpFallDistance, 2);
 
         _gravity *= _player.FastFallGravityMultiplier;
     }
@@ -16,17 +28,18 @@ public partial class FastFall : PlayerState {
     public override void Update(float delta) {
         HorizontalMovement(_player.FramesToMaxSpeedInAir, delta);
 
-        float accelTerm = GetVerletAccelTerm(_gravity, delta);
-        float yPosChange = MathF.Min(_player.Vel.Y * delta + accelTerm, _player.FastFallTerminalVelocity * delta);
+        float yAccel = GetVerletAccelTerm(_gravity, delta);
+        float yPosChange = MathF.Min(_player.Vel.Y * delta + yAccel, _player.FastFallTerminalVelocity * delta);
 
         _player.MoveY(yPosChange);
         _player.Vel.Y = MathF.Min(_player.Vel.Y + _gravity * delta, _player.FastFallTerminalVelocity);
-
-
+    }
+    
+    public override void Update_StateTransitions() {
         if (CommonInAirTransitions()) return;
 
         if (!Input.IsActionPressed("FastFall")) {
-            _stateMachine.ChangeState("Falling");
+            _stateMachine.ChangeState<Falling>();
             return;
         }
     }

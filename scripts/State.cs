@@ -10,10 +10,10 @@ public partial class State : Node {
         _stateMachine = GetParent<StateMachine>();
     }
 
-    public virtual bool Prereqs() {
-        return true;
-    }
+    public virtual bool Prereqs() { return true; }
+    public virtual bool EarlyExitStateTransitions() { return false; }
     public virtual void Enter() {}
     public virtual void Update(float delta) {}
+    public virtual void Update_StateTransitions() {} // the state is transing YOUR kids
     public virtual void Exit() {}
 }
