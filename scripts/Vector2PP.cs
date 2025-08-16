@@ -5,11 +5,10 @@ public class Vector2PP {
     Vector2 _floatPos;
     Vector2I _intPos;
     Node2D _associatedNode;
+    
 
     public Vector2 v {
-        get {
-            return _floatPos;
-        }
+        get => _floatPos;
         set {
             _floatPos = value;
             _intPos = (Vector2I) value;
@@ -18,9 +17,7 @@ public class Vector2PP {
     }
 
     public float x {
-        get {
-            return _floatPos.X;
-        }
+        get => _floatPos.X;
         set {
             _floatPos.X = value;
             _intPos.X = (int) value;
@@ -28,9 +25,7 @@ public class Vector2PP {
         }
     }
     public float y {
-        get {
-            return _floatPos.Y;
-        }
+        get => _floatPos.Y;
         set {
             _floatPos.Y = value;
             _intPos.Y = (int) value;

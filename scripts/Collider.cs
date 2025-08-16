@@ -16,14 +16,14 @@ public partial class Collider : Node2D {
     public Vector2I Centre => new((Left + Right) / 2, (Top + Bottom) / 2);
 
 
+    public override void _Process(double delta) {
+        QueueRedraw();
+    }
+    
     public override void _Draw() {
         if (Engine.IsEditorHint() || GetTree().DebugCollisionsHint) {
             DrawRect(new(_x, _y, _width, _height), _colliderColor);
         }
-    }
-
-    public override void _Process(double delta) {
-        QueueRedraw();
     }
 
 

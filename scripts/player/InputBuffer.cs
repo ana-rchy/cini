@@ -10,6 +10,7 @@ public partial class InputBuffer : Node {
     
     bool _shouldJump;
     
+    
     public override void _Ready() {
         _jumpBufferTimer.OneShot = true;
         _jumpBufferTimer.Timeout += _OnJumpBufferTimeout;
