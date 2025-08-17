@@ -3,11 +3,11 @@ using Godot;
 
 public class Vector2PP {
     Vector2 _floatPos;
-    Vector2I _intPos;
-    Node2D _associatedNode;
+    Vector2I _intPos; // truncated from _floatPos
+    Node2D _associatedNode; // used for forcing a Node2D's Position to be the same as _intPos
     
 
-    public Vector2 v {
+    public Vector2 Vec { // vector
         get => _floatPos;
         set {
             _floatPos = value;
@@ -33,11 +33,13 @@ public class Vector2PP {
         }
     }
 
-    public Vector2I vInt => _intPos;
+    public Vector2I VecInt => _intPos;
     public int xInt => _intPos.X;
     public int yInt => _intPos.Y;
 
-    public Vector2 Remainder => _floatPos - _intPos;
+    public Vector2 VecRemainder => _floatPos - _intPos;
+    public float xRemainder => x - xInt;
+    public float yRemainder => y - yInt;
 
 
     public Vector2PP(Node2D associatedNode) {
@@ -58,6 +60,6 @@ public class Vector2PP {
     
     public Vector2PP(Node2D associatedNode, Vector2 vec) {
         _associatedNode = associatedNode;
-        this.v = vec;
+        Vec = vec;
     }
 }

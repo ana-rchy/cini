@@ -18,15 +18,18 @@ public partial class FastFall : PlayerState {
     }
 
     public override void Enter() {
-        _gravity = 2 * _player.JumpHeight * MathF.Pow(_player.MovementSpeed, 2);
-        _gravity /= MathF.Pow(_player.JumpFallDistance, 2);
-
+        _gravity = GetGravity(
+                _player.MovementSpeed,
+                _player.JumpHeight,
+                _player.JumpFallDistance
+        );
+        
         _gravity *= _player.FastFallGravityMultiplier;
     }
 
 
     public override void Update(float delta) {
-        HorizontalMovement(_player.FramesToMaxSpeedInAir, delta);
+        HorizontalMovement(_player.MovementSpeed, _player.FramesToMaxSpeedInAir, delta);
 
         float yAccel = GetVerletAccelTerm(_gravity, delta);
         float yPosChange = MathF.Min(_player.Vel.Y * delta + yAccel, _player.FastFallTerminalVelocity * delta);

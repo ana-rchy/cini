@@ -2,9 +2,13 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
+// fsr sometimes when this script is a tool, it just spams out a bunch of errors in the editor
+// so i stopped it from doing that when the editor bounding boxes are not needed
+// 
+// it could be when it tries to print about smth that isnt available in editor
 // [Tool]
 public partial class PixelCamera : Camera2D {
-    [Export] public Vector2I _innerBoundsWH, _outerBoundsWH;
+    [Export] public Vector2I _innerBoundsWH, _outerBoundsWH; // width, height
     [Export] Color _innerBoundsColor = new(0, 1, 0, 0.8f);
     [Export] Color _outerBoundsColor = new(1, 0, 0, 0.8f);
     [Export] Curve _cameraSpeedCurve;
@@ -15,20 +19,20 @@ public partial class PixelCamera : Camera2D {
     Vector2PP _pos;
     
     // top-left, bottom-right coords
-    Vector2I _innerBoundsTL => _pos.vInt - (_innerBoundsWH / 2);
+    Vector2I _innerBoundsTL => _pos.VecInt - (_innerBoundsWH / 2);
     Vector2I _innerBoundsBR => _innerBoundsTL + _innerBoundsWH;
-    Vector2I _outerBoundsTL => _pos.vInt - (_outerBoundsWH / 2);
+    Vector2I _outerBoundsTL => _pos.VecInt - (_outerBoundsWH / 2);
     Vector2I _outerBoundsBR => _outerBoundsTL + _outerBoundsWH;
     
     
     public override void _Ready() {
         _pos = new(this);
-        _pos.v = _playerCollider.Centre; 
+        _pos.Vec = _playerCollider.Centre; 
     }
     
     public override void _Process(double delta) {
-        // left, right, up, down
-        float[] weightsLRUD = new float[] {
+        // smooth interpolating (determined by curve) when between inner and outer bounds //
+        float[] weightsLRUD = new float[] { // left, right, up, down
             Mathf.InverseLerp(_innerBoundsTL.X, _outerBoundsTL.X, _playerCollider.Left),
             Mathf.InverseLerp(_innerBoundsBR.X, _outerBoundsBR.X, _playerCollider.Right),
             Mathf.InverseLerp(_innerBoundsTL.Y, _outerBoundsTL.Y, _playerCollider.Top),
@@ -50,6 +54,7 @@ public partial class PixelCamera : Camera2D {
 
         
         
+        // forces camera to move if player moves outside the outer bounds, so the player stays within them //
         float leftDiff = Mathf.Min(_playerCollider.Left - _outerBoundsTL.X, 0);
         float rightDiff = Mathf.Max(_playerCollider.Right - _outerBoundsBR.X, 0);
         float upDiff = Mathf.Min(_playerCollider.Top - _outerBoundsTL.Y, 0);

@@ -86,8 +86,8 @@ public partial class Player : Node2D {
         CheckCollision(new(x, y), out collidingWith, nodesGroup);
 
     public bool CheckCollision(Vector2 offset, out List<Collider> collidingWith, string nodesGroup = "Tiles") {
-        Vector2 oldPos = Pos.v;
-        Pos.v += offset;
+        Vector2 oldPos = Pos.Vec;
+        Pos.Vec += offset;
         
         bool colliding = false;
         collidingWith = new();
@@ -99,10 +99,11 @@ public partial class Player : Node2D {
             }
         }
 
-        Pos.v = oldPos;
+        Pos.Vec = oldPos;
         return colliding;
     }
     
+    // plan to remove/replace
     public bool TestXThenYCollision(int offsetX, int offsetY) {
         float ogX = Pos.x;
         float ogY = Pos.y;
@@ -119,6 +120,7 @@ public partial class Player : Node2D {
         return result;
     }
 
+    // plan to remove/replace
     public bool TestYThenXCollision(int offsetY, int offsetX) {
         float ogX = Pos.x;
         float ogY = Pos.y;
@@ -170,7 +172,7 @@ public partial class Player : Node2D {
                 return true;
             }
 
-            Pos.v += normalized;
+            Pos.Vec += normalized;
         }
 
 
@@ -180,7 +182,7 @@ public partial class Player : Node2D {
             return true;
         }
 
-        Pos.v += vecRemainder;
+        Pos.Vec += vecRemainder;
 
         return false;
     }

@@ -1,6 +1,7 @@
 using System;
 using Godot;
 
+// plan to remove
 public partial class DebugState : PlayerState {
     float speed = 1.5f;
     

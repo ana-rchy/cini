@@ -15,7 +15,8 @@ public partial class Collider : Node2D {
     public int Bottom => Top + _height;
     public Vector2I Centre => new((Left + Right) / 2, (Top + Bottom) / 2);
 
-
+    
+    // doesnt draw otherwise fsr
     public override void _Process(double delta) {
         QueueRedraw();
     }

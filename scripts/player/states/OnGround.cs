@@ -13,7 +13,7 @@ public partial class OnGround : PlayerState {
     
 
     public override void Update(float delta) {
-        HorizontalMovement(_player.FramesToMaxSpeed, delta);
+        HorizontalMovement(_player.MovementSpeed, _player.FramesToMaxSpeed, delta);
     }
     
     public override void Update_StateTransitions() {

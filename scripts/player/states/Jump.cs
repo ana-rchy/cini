@@ -9,18 +9,24 @@ public partial class Jump : PlayerState {
         _inputBuffer.ShouldJump();
 
     public override void Enter() {
-        _player.Vel.Y = -2 * _player.JumpHeight * _player.MovementSpeed;
-        _player.Vel.Y /= _player.JumpRiseDistance;
-
-        _gravity = 2 * _player.JumpHeight * MathF.Pow(_player.MovementSpeed, 2);
-        _gravity /= MathF.Pow(_player.JumpRiseDistance, 2);
+        _player.Vel.Y = GetJumpVelocity(
+                _player.MovementSpeed,
+                _player.JumpHeight,
+                _player.JumpRiseDistance
+        );
+        
+        _gravity = GetGravity(
+                _player.MovementSpeed,
+                _player.JumpHeight,
+                _player.JumpRiseDistance
+        );
 
         _player.TimeSinceJump = 0;
     }
     
 
     public override void Update(float delta) {
-        HorizontalMovement(_player.FramesToMaxSpeedInAir, delta);
+        HorizontalMovement(_player.MovementSpeed, _player.FramesToMaxSpeedInAir, delta);
 
         float yAccel = GetVerletAccelTerm(_gravity, delta);
         float yPosChange = _player.Vel.Y * delta + yAccel;

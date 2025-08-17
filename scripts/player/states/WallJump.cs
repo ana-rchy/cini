@@ -12,11 +12,17 @@ public partial class WallJump : PlayerState {
     public override void Enter() {
         _player.Vel.X = _player.WallJumpPushoffSpeed * _player.GetWallNormal();
         
-        _player.Vel.Y = -2 * _player.WallJumpHeight * _player.MovementSpeed;
-        _player.Vel.Y /= _player.WallJumpRiseDistance;
-
-        _gravity = 2 * _player.WallJumpHeight * MathF.Pow(_player.MovementSpeed, 2);
-        _gravity /= MathF.Pow(_player.WallJumpRiseDistance, 2);
+        _player.Vel.Y = GetJumpVelocity(
+                _player.MovementSpeed,
+                _player.WallJumpHeight,
+                _player.WallJumpRiseDistance
+        );
+        
+        _gravity = GetGravity(
+                _player.MovementSpeed,
+                _player.WallJumpHeight,
+                _player.WallJumpRiseDistance
+        );
 
         _player.TimeSinceJump = 0;
 

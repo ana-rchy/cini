@@ -19,7 +19,7 @@ public partial class Dash : PlayerState {
 
         _player.DashCharges--;
         
-        _playerSprite.SelfModulate = new(1, 0, 1);
+        _playerSprite.SelfModulate = new(1, 0, 1); // TODO: make a better coloring system for slimes
     }
     
 

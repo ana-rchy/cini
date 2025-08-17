@@ -20,8 +20,11 @@ public partial class Falling : PlayerState {
     }
 
     public override void Enter() {
-        _gravity = 2 * _player.JumpHeight * MathF.Pow(_player.MovementSpeed, 2);
-        _gravity /= MathF.Pow(_player.JumpFallDistance, 2);
+        _gravity = GetGravity(
+                _player.MovementSpeed,
+                _player.JumpHeight,
+                _player.JumpFallDistance
+        );
     }
     
 
@@ -33,12 +36,12 @@ public partial class Falling : PlayerState {
         if ((Input.IsActionPressed("Left") && _player.OnLeftWall()) ||
             (Input.IsActionPressed("Right") && _player.OnRightWall())
         ) {
-            // TODO: make the gravity wall sliding thingy into a proper feature
+            // TODO: make the gravity wall up-sliding thingy into a proper feature
             gravity = _gravity / _player.WallSlidingDivisor;
             terminalVelocity = _player.TerminalVelocity / _player.WallSlidingDivisor;
         }
 
-        HorizontalMovement(_player.FramesToMaxSpeedInAir, delta);
+        HorizontalMovement(_player.MovementSpeed, _player.FramesToMaxSpeedInAir, delta);
 
         float yAccel = GetVerletAccelTerm(gravity, delta);
         float yPosChange = MathF.Min(_player.Vel.Y * delta + yAccel, terminalVelocity * delta);

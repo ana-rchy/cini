@@ -19,7 +19,7 @@ public partial class Respawn : PlayerState {
 	
 
 	public override void Enter() {
-		_player.Pos.v = _player.SpawnPosition;
+		_player.Pos.Vec = _player.SpawnPosition;
 		_player.Vel = Vector2.Zero;
 
 		_player.TimeSinceJump = 0;

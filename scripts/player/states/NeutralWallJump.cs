@@ -11,18 +11,24 @@ public partial class NeutralWallJump : PlayerState {
     public override void Enter() {
         _player.Vel.X = _player.NeutralWallJumpPushoffSpeed * _player.GetWallNormal();
         
-        _player.Vel.Y = -2 * _player.NeutralWallJumpHeight * _player.MovementSpeed;
-        _player.Vel.Y /= _player.NeutralWallJumpRiseDistance;
-
-        _gravity = 2 * _player.WallJumpHeight * MathF.Pow(_player.MovementSpeed, 2);
-        _gravity /= MathF.Pow(_player.NeutralWallJumpRiseDistance, 2);
+        _player.Vel.Y = GetJumpVelocity(
+                _player.MovementSpeed,
+                _player.NeutralWallJumpHeight,
+                _player.NeutralWallJumpRiseDistance
+        );
+        
+        _gravity = GetGravity(
+                _player.MovementSpeed,
+                _player.WallJumpHeight,
+                _player.NeutralWallJumpRiseDistance
+        );
 
         _player.TimeSinceJump = 0;
     }
     
 
     public override void Update(float delta) {
-        HorizontalMovement(_player.FramesToMaxSpeedInAir, delta);
+        HorizontalMovement(_player.MovementSpeed, _player.FramesToMaxSpeedInAir, delta);
 
         float yAccel = GetVerletAccelTerm(_gravity, delta);
         float yPosChange = _player.Vel.Y * delta + yAccel;
