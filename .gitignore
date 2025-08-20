@@ -1,4 +1,5 @@
 exports/
+logs/
 # Godot 4+ specific ignores
 .godot/
 /android/

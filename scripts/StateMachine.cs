@@ -16,13 +16,18 @@ public partial class StateMachine : Node {
     }
 
     public override void _PhysicsProcess(double delta) {
-        // flushing all the state change log msgs after exiting a 'parent' ChangeState()
-        while (_stateChangesExecuted.Count > 0) {
-            GD.Print($"{_stateChangesExecuted.Dequeue()}");
-        }
-
         CurrentState.Update((float) delta);
         CurrentState.Update_StateTransitions();
+        
+        // flushing all the state change log msgs after exiting a 'parent' ChangeState()
+        string logMsg = "";
+        while (_stateChangesExecuted.Count > 0) {
+            logMsg += $"{_stateChangesExecuted.Dequeue()} -> ";
+        }
+        
+        if (logMsg != "") {
+            Logging.Log(logMsg, Logging.LogCategory.PlayerStateTransitions);
+        }
     }
 
     public void ChangeState<T>(bool forceReEnter = false) => ChangeState(typeof(T).ToString(), forceReEnter);

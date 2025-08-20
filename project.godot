@@ -16,7 +16,7 @@ config/features=PackedStringArray("4.4", "C#", "GL Compatibility")
 
 [autoload]
 
-Log="*res://addons/GoLogger/Log.tscn"
+Logging="*res://scenes/Logging.tscn"
 
 [display]
 
