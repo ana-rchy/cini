@@ -1,14 +1,19 @@
 using Godot;
 using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 
 public partial class Logging : Node {
     public enum LogCategory {
+        Asserts,
         PlayerStateTransitions,
+        PlayerStatePrereqFails,
     }
     
     [Export] Godot.Collections.Dictionary<LogCategory, bool> _activeLogs = new() {
+        { LogCategory.Asserts, false },
         { LogCategory.PlayerStateTransitions, true },
+        { LogCategory.PlayerStatePrereqFails, false },
     };
     
     static Dictionary<LogCategory, Queue<String>> _logs = new();
@@ -29,15 +34,14 @@ public partial class Logging : Node {
     
     public override void _PhysicsProcess(double _) {
         foreach (LogCategory category in _logs.Keys) {
-            if (!_activeLogs.GetValueOrDefault(category, false)) {
-                continue;
-            }
-            
             while (_logs[category].Count > 0) {
                 string logMsg = $"[{Time.GetTimeStringFromSystem()}] {_logs[category].Dequeue()}";
                 
                 _logFiles[category].StoreString($"{logMsg}\n");
-                GD.Print(logMsg);
+                
+                if (_activeLogs[category]) {
+                    GD.Print(logMsg);
+                }
             }
         }
     }
@@ -50,11 +54,19 @@ public partial class Logging : Node {
     }
     
     
-    public static void Log(string msg, LogCategory logCategory) {
-        if (!_logs.ContainsKey(logCategory)) {
-            _logs[logCategory] = new();
+    public static void Log(string msg, LogCategory category) {
+        if (!_logs.ContainsKey(category)) {
+            _logs[category] = new();
         }
         
-        _logs[logCategory].Enqueue(msg);
+        _logs[category].Enqueue(msg);
+    }
+    
+    public static void Assert(bool condition, string msg) {
+        if (!condition) {
+            Log(msg, LogCategory.Asserts);
+        }
+        
+        Debug.Assert(condition, msg);
     }
 }

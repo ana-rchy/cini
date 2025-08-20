@@ -5,6 +5,12 @@ public partial class CoyoteTime : PlayerState {
     [Export] Timer _timer;
     
 
+    public override void _Ready() {
+        base._Ready();
+        
+        Logging.Assert(_timer is Timer, $"'{GetParent().Name}/{Name}' is missing '{nameof(_timer)}'");
+    }
+    
     public override bool Prereqs() {
         State lastState = _stateMachine.CurrentState;
         return lastState is OnGround;

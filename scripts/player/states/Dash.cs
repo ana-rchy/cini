@@ -6,6 +6,15 @@ public partial class Dash : PlayerState {
     [Export] Sprite2D _playerSprite;
     
 
+    public override void _Ready() {
+        base._Ready();
+        
+        string assertMsg(object obj) => $"'{GetParent().Name}/{Name}' is missing '{nameof(obj)}'";
+        
+        Logging.Assert(_dashTimer is Timer, assertMsg(_dashTimer));
+        Logging.Assert(_playerSprite is Sprite2D, assertMsg(_playerSprite));
+    }
+    
     public override bool Prereqs() =>
         Input.IsActionJustPressed("Dash") && _player.DashCharges > 0 &&
         Input.GetVector("Left", "Right", "Up", "Down") != Vector2.Zero;

@@ -12,6 +12,8 @@ public partial class StateMachine : Node {
     
 
     public override void _Ready() {
+        _stateChangesExecuted.Enqueue($"{CurrentState.GetType()}");
+        
         CurrentState.Enter();
     }
 
@@ -32,23 +34,26 @@ public partial class StateMachine : Node {
 
     public void ChangeState<T>(bool forceReEnter = false) => ChangeState(typeof(T).ToString(), forceReEnter);
     
-    public void ChangeState(string stateName, bool forceReEnter = false) {
-        Debug.Assert(HasNode(stateName), $"StateMachine in '{GetParent().Name}' doesn't contain state '{stateName}'");
+    public void ChangeState(string newStateName, bool forceReEnter = false) {
+        Logging.Assert(HasNode(newStateName), $"'{GetParent().Name}/{Name}' doesn't have state '{newStateName}'");
         
-        if (!forceReEnter && $"{CurrentState.GetType()}" == stateName) {
+        if (!forceReEnter && $"{CurrentState.GetType()}" == newStateName) {
             return;
         }
         
-        var state = GetNode<PlayerState>(stateName);
-        if (!state.Prereqs()) {
-            GD.Print($"'{stateName}' didn't meet prereqs");
+        var newState = GetNode<PlayerState>(newStateName);
+        if (!newState.Prereqs()) {
+            string currentStateName = $"{CurrentState.GetType()}";
+            
+            Logging.Log($"'{currentStateName} -> {newStateName}' didn't meet prerequisites", Logging.LogCategory.PlayerStatePrereqFails);
+            
             return;
         }
         
-        _stateChangesExecuted.Enqueue(stateName);
+        _stateChangesExecuted.Enqueue(newStateName);
         CurrentState.Exit();
         
-        CurrentState = GetNode<PlayerState>(stateName);
+        CurrentState = GetNode<PlayerState>(newStateName);
         if (!CurrentState.EarlyExitStateTransitions()) {
             CurrentState.Enter();
         }

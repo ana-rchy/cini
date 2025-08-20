@@ -71,6 +71,14 @@ public partial class Player : Node2D {
 
 
     public override void _Ready() {
+        string assertMsg(object obj) => $"'{Name}' is missing '{nameof(obj)}'";
+        
+        Logging.Assert(SpawnState is PlayerState, assertMsg(SpawnState));
+        Logging.Assert(Collider is Collider, assertMsg(Collider));
+        Logging.Assert(StateMachine is StateMachine, assertMsg(StateMachine));
+        Logging.Assert(InputBuffer is InputBuffer, assertMsg(InputBuffer));
+        
+        
         Vector2 editorPosition = Position;
         SpawnPosition = editorPosition;
         
@@ -103,7 +111,7 @@ public partial class Player : Node2D {
         return colliding;
     }
     
-    // plan to remove/replace
+    // TODO: plan to remove/replace
     public bool TestXThenYCollision(int offsetX, int offsetY) {
         float ogX = Pos.x;
         float ogY = Pos.y;
@@ -120,7 +128,7 @@ public partial class Player : Node2D {
         return result;
     }
 
-    // plan to remove/replace
+    // TODO: plan to remove/replace
     public bool TestYThenXCollision(int offsetY, int offsetX) {
         float ogX = Pos.x;
         float ogY = Pos.y;

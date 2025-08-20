@@ -5,9 +5,10 @@ public partial class State : Node {
     protected StateMachine _stateMachine;
 
     public override void _Ready() {
-        Debug.Assert(GetParent() is StateMachine, $"State {Name}'s parent is not a StateMachine");
+        Node parent = GetParent();
+        Logging.Assert(parent is StateMachine, $"'{parent.Name}' is not a '{typeof(StateMachine)}'");
 
-        _stateMachine = GetParent<StateMachine>();
+        _stateMachine = (StateMachine) parent;
     }
 
     public virtual bool Prereqs() { return true; } // prerequisites to entering the state

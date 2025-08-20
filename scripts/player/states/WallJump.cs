@@ -6,6 +6,12 @@ public partial class WallJump : PlayerState {
     float _gravity;
 
 
+    public override void _Ready() {
+        base._Ready();
+        
+        Logging.Assert(_pushoffTimer is Timer, $"'{GetParent().Name}/{Name}' is missing '{nameof(_pushoffTimer)}'");
+    }
+    
     public override bool Prereqs() =>
         _player.OnWall() && _inputBuffer.ShouldJump() && Input.GetAxis("Left", "Right") != 0;
 

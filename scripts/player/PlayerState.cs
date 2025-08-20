@@ -9,10 +9,11 @@ public partial class PlayerState : State {
 
     public override void _Ready() {
         base._Ready();
-
-        Debug.Assert(GetNode("../..") is Player, $"State {Name}'s grandparent is not a Player");
-
-        _player = GetNode<Player>("../..");
+        
+        Node grandparent = GetNode("../..");
+        Logging.Assert(grandparent is Player, $"{grandparent.Name} is not a '{typeof(Player)}'");
+        _player = (Player) grandparent;
+        
         _inputBuffer = _player.InputBuffer;
     }
     

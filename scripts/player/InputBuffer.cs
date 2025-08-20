@@ -12,6 +12,8 @@ public partial class InputBuffer : Node {
     
     
     public override void _Ready() {
+        Logging.Assert(_jumpBufferTimer is Timer, $"'{GetParent().Name}/{Name}' is missing '{nameof(_jumpBufferTimer)}'");
+        
         _jumpBufferTimer.OneShot = true;
         _jumpBufferTimer.Timeout += _OnJumpBufferTimeout;
     }

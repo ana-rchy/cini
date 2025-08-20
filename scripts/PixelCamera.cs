@@ -1,6 +1,6 @@
 using Godot;
 using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 
 // fsr sometimes when this script is a tool, it just spams out a bunch of errors in the editor
 // so i stopped it from doing that when the editor bounding boxes are not needed
@@ -26,6 +26,8 @@ public partial class PixelCamera : Camera2D {
     
     
     public override void _Ready() {
+        Logging.Assert(_playerCollider is Collider, $"'{GetParent().Name}/{Name}' is missing '{nameof(_playerCollider)}'");
+        
         _pos = new(this);
         _pos.Vec = _playerCollider.Centre; 
     }

@@ -6,15 +6,15 @@ public partial class Respawn : PlayerState {
 	[Export] PixelCamera _camera;
 	
 	
+	public override void _Ready() {
+        base._Ready();
+        
+		Logging.Assert(_camera is PixelCamera, $"'{GetParent().Name}/{Name}' is missing '{nameof(_camera)}'");
+	}
+	
 	public override bool Prereqs() {
 		State lastState = _stateMachine.CurrentState;
 		return lastState is not Respawn;
-	}
-
-	public override void _Ready() {
-		base._Ready();
-
-		Debug.Assert(_camera is PixelCamera, $"'{Name}' state doesn't have '{nameof(_camera)}' set");
 	}
 	
 
