@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://chbafsn1dl8p3"]
+
+[ext_resource type="PackedScene" uid="uid://b1g2kesfiwncp" path="res://scenes/Collider.tscn" id="1_uk17d"]
+[ext_resource type="Texture2D" uid="uid://cjau7ieb4pvj3" path="res://sprites/spikes.png" id="2_n1wj0"]
+
+[node name="SpikesUp" type="Node2D"]
+
+[node name="Collider" parent="." groups=["Spikes"] instance=ExtResource("1_uk17d")]
+_x = -4
+_y = 1
+_height = 3
+_colliderColor = Color(1, 0, 0, 0.501961)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_n1wj0")

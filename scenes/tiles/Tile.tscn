@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://dvdbwv2a6mvx8"]
+
+[ext_resource type="PackedScene" uid="uid://b1g2kesfiwncp" path="res://scenes/Collider.tscn" id="1_h3aqd"]
+[ext_resource type="Texture2D" uid="uid://dm6j3vqp1g5tn" path="res://sprites/tile.png" id="2_lpyr5"]
+
+[node name="Tile" type="Node2D"]
+
+[node name="Collider" parent="." groups=["Tiles"] instance=ExtResource("1_h3aqd")]
+_x = -4
+_y = -4
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_lpyr5")

@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://7jehqn0j5jbd"]
+
+[ext_resource type="PackedScene" uid="uid://chbafsn1dl8p3" path="res://scenes/tiles/spikes/SpikesUp.tscn" id="1_qw86v"]
+
+[node name="SpikesDown" instance=ExtResource("1_qw86v")]
+
+[node name="Collider" parent="." index="0"]
+_y = -4
+
+[node name="Sprite2D" parent="." index="1"]
+rotation = 3.14159
