@@ -25,13 +25,15 @@ public partial class Climbing : PlayerState {
 		}
 		
 		if (_inputBuffer.ShouldJump()) {
-			if (Input.GetAxis("Left", "Right") != 0) {
+			float dir = Input.GetAxis("Left", "Right");
+			
+			if (dir == _player.GetWallNormal()) {
 				_stateMachine.ChangeState<WallJump>();
-				return;
 			} else {
-				_stateMachine.ChangeState<NeutralWallJump>();
-				return;
+				_stateMachine.ChangeState<ClimbJump>();
 			}
+			
+			return;
 		}
 
 		if (Input.IsActionJustPressed("Dash")) {

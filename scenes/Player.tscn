@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://d06f8v6im24nc"]
+[gd_scene load_steps=23 format=3 uid="uid://d06f8v6im24nc"]
 
 [ext_resource type="Script" uid="uid://cky84lfdw6dyy" path="res://scripts/player/Player.cs" id="1_3li8b"]
 [ext_resource type="PackedScene" uid="uid://b1g2kesfiwncp" path="res://scenes/Collider.tscn" id="1_p0vlq"]
@@ -19,6 +19,8 @@
 [ext_resource type="Script" uid="uid://cea6x4ib3544u" path="res://scripts/player/states/Climbing.cs" id="14_0rnld"]
 [ext_resource type="Script" uid="uid://cogxbh0rnt3pn" path="res://scripts/player/states/Hanging.cs" id="15_srp4u"]
 [ext_resource type="Script" uid="uid://c2n8f7k88fxdx" path="res://scripts/player/states/Dash.cs" id="16_jfpux"]
+[ext_resource type="Script" uid="uid://gwya0owgpoq2" path="res://scripts/player/states/ClimbJump.cs" id="17_sfy4j"]
+[ext_resource type="Script" uid="uid://c0jsqkwsgj1hn" path="res://scripts/player/states/ClimbShortJump.cs" id="18_gv3ic"]
 
 [sub_resource type="Curve" id="Curve_61ith"]
 _data = [Vector2(0, 0), 0.0, 3.22, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
@@ -48,12 +50,12 @@ NeutralWallJumpRiseDistance = 17.0
 NeutralWallJumpPushoffSpeed = 65.0
 TotalStamina = 8.0
 ClimbingSpeed = 25.0
-GrabbingStaminaCost = 1.0
-ClimbingStaminaCost = 2.0
+ClimbingStaminaCost = 1.5
 WallSlidingDivisor = 2.4
+ClimbJumpStaminaCost = 2.0
 HangingMoveSpeed = 20.0
-HangingStaminaCost = 1.75
-HangingMoveStaminaCost = 2.0
+HangingStaminaCost = 1.25
+HangingMoveStaminaCost = 1.5
 DashDistance = 30.0
 DashLength = 0.2
 DashChargeTotal = 2
@@ -130,6 +132,12 @@ script = ExtResource("12_lkdrv")
 
 [node name="Climbing" type="Node" parent="StateMachine"]
 script = ExtResource("14_0rnld")
+
+[node name="ClimbJump" type="Node" parent="StateMachine"]
+script = ExtResource("17_sfy4j")
+
+[node name="ClimbShortJump" type="Node" parent="StateMachine"]
+script = ExtResource("18_gv3ic")
 
 [node name="Hanging" type="Node" parent="StateMachine"]
 script = ExtResource("15_srp4u")

@@ -38,6 +38,8 @@ public partial class Player : Node2D {
     [Export] public float GrabbingStaminaCost;
     [Export] public float ClimbingStaminaCost;
     [Export] public float WallSlidingDivisor;
+    [ExportGroup("Climbing/Climb Jumping")]
+    [Export] public float ClimbJumpStaminaCost;
     [ExportGroup("Climbing/Hanging")]
     [Export] public float HangingMoveSpeed;
     [Export] public float HangingStaminaCost;
