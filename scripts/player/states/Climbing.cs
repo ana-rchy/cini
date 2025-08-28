@@ -19,6 +19,11 @@ public partial class Climbing : PlayerState {
 	}
 	
 	public override void Update_StateTransitions() {
+		if (_player.OnCeiling() && Input.GetAxis("Left", "Right") != 0 && Input.IsActionPressed("Grab")) {
+			_stateMachine.ChangeState<Hanging>();
+			return;
+		}
+		
 		if (!Input.IsActionPressed("Grab") && _inputBuffer.ShouldJump()) {
 			if (Input.GetAxis("Left", "Right") != 0) {
 				_stateMachine.ChangeState<WallJump>();
@@ -33,6 +38,24 @@ public partial class Climbing : PlayerState {
 			_stateMachine.ChangeState<Dash>();
 			return;
 		}
+		
+		if (Input.IsActionPressed("Up") && _player.OnWall(Vector2.Down) && !_player.OnWall()) {
+			// it goes left or right if theres ground there
+			// if you hold the opposite direction, it cancels out the posChange
+			// if you hold the same direction, it boosts the posChange (more speed)
+			// TODO: think about whether the boosting is a good mechanic
+			
+			int posChange = (int) Input.GetAxis("Left", "Right");
+			if (_player.OnGround(Vector2.Left)) posChange--;
+			if (_player.OnGround(Vector2.Right)) posChange++;
+			
+			_player.MoveX(posChange);
+			
+			if (_player.OnGround()) {
+				_stateMachine.ChangeState<OnGround>();
+				return;
+			}
+		} 
 
 		if (!Input.IsActionPressed("Grab") || !_player.OnWall() || _player.Stamina <= 0) {
 			_stateMachine.ChangeState<Falling>();

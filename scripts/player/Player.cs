@@ -88,12 +88,24 @@ public partial class Player : Node2D {
 
 
 
-    public bool CheckCollision(Vector2 offset, string nodesGroup = "Tiles") => CheckCollision(offset, out _, nodesGroup);
-    public bool CheckCollision(float x, float y, string nodesGroup = "Tiles") => CheckCollision(x, y, out _, nodesGroup);
-    public bool CheckCollision(float x, float y, out List<Collider> collidingWith, string nodesGroup = "Tiles") =>
-        CheckCollision(new(x, y), out collidingWith, nodesGroup);
+    public bool CheckCollision(Vector2 offset, Vector2I? offset2 = null, string nodesGroup = "Tiles") => 
+        CheckCollision(offset, out _, offset2, nodesGroup);
+    
+    public bool CheckCollision(float x, float y, Vector2I? offset2 = null, string nodesGroup = "Tiles") =>
+        CheckCollision(x, y, out _, offset2, nodesGroup);
+    public bool CheckCollision(float x, float y, out List<Collider> collidingWith, Vector2I? offset2 = null, string nodesGroup = "Tiles") =>
+        CheckCollision(new(x, y), out collidingWith, offset2, nodesGroup);
 
-    public bool CheckCollision(Vector2 offset, out List<Collider> collidingWith, string nodesGroup = "Tiles") {
+    public bool CheckCollision(
+            Vector2 offset,
+            out List<Collider> collidingWith,
+            Vector2I? offset2 = null,
+            string nodesGroup = "Tiles"
+    ) {
+        if (offset2 == null) {
+            offset2 = Vector2I.Zero;
+        }
+        
         Vector2 oldPos = Pos.Vec;
         Pos.Vec += offset;
         
@@ -101,7 +113,7 @@ public partial class Player : Node2D {
         collidingWith = new();
 
         foreach (Collider tile in GetTree().GetNodesInGroup(nodesGroup)) {
-            if (Collider.Intersects(tile, 0, 0)) {
+            if (Collider.Intersects(tile, offset2.Value.X, offset2.Value.Y)) {
                 colliding = true;
                 collidingWith.Add(tile);
             }
@@ -111,48 +123,24 @@ public partial class Player : Node2D {
         return colliding;
     }
     
-    // TODO: plan to remove/replace
-    public bool TestXThenYCollision(int offsetX, int offsetY) {
-        float ogX = Pos.x;
-        float ogY = Pos.y;
 
-        if (MoveX(offsetX)) {
-            return true;
-        }
-
-        bool result = CheckCollision(0, offsetY);
-
-        Pos.x = ogX;
-        Pos.y = ogY;
-
-        return result;
-    }
-
-    // TODO: plan to remove/replace
-    public bool TestYThenXCollision(int offsetY, int offsetX) {
-        float ogX = Pos.x;
-        float ogY = Pos.y;
-
-        if (MoveY(offsetY)) {
-            return true;
-        }
-
-        bool result = CheckCollision(offsetX, 0);
-
-        Pos.x = ogX;
-        Pos.y = ogY;
-
-        return result;
-    }
-
-
-    public bool InTile(string nodesGroup = "Tiles") => CheckCollision(0, 0, nodesGroup);
+    public bool InTile(string nodesGroup = "Tiles") => CheckCollision(0, 0, nodesGroup: nodesGroup);
+    
     public bool OnGround() => CheckCollision(0, 1) && !InTile();
     public bool OnCeiling() => CheckCollision(0, -1) && !InTile();
     public bool OnLeftWall() => CheckCollision(-1, 0) && !InTile();
     public bool OnRightWall() => CheckCollision(1, 0) && !InTile();
+    ///////////////////////////////////////////////////////////////
+    public bool OnGround(Vector2 offset) => CheckCollision(offset, new(0, 1)) && !InTile();
+    public bool OnCeiling(Vector2 offset) => CheckCollision(offset, new(0, -1)) && !InTile();
+    public bool OnLeftWall(Vector2 offset) => CheckCollision(offset, new(-1, 0)) && !InTile();
+    public bool OnRightWall(Vector2 offset) => CheckCollision(offset, new(1, 0)) && !InTile();
+    
     public bool OnWall() => OnLeftWall() || OnRightWall();
     public bool OnSurface() => (OnGround() || OnCeiling() || OnWall()) && !InTile();
+    ////////////////////////////////////////////////////////////////////////////////
+    public bool OnWall(Vector2 offset) => OnLeftWall(offset) || OnRightWall(offset);
+    public bool OnSurface(Vector2 offset) => (OnGround(offset) || OnCeiling(offset) || OnWall(offset)) && !InTile();
 
     public int GetWallNormal() {
         int normal = 0;
