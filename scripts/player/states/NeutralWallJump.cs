@@ -41,7 +41,7 @@ public partial class NeutralWallJump : PlayerState {
         _player.TimeSinceJump += delta;
     }
     
-    public override void Update_StateTransitions() {
+    public override void Update_StateTransitions(float _) {
         if (CommonInAirTransitions()) return;
 
         if (Input.IsActionPressed("FastFall")) {

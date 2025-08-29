@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://cytkcimw3jjv1"]
+
+[ext_resource type="TileSet" uid="uid://f33clev1ktek" path="res://resources/MainTileset.tres" id="1_c2281"]
+[ext_resource type="Script" uid="uid://cx1si1mbng6mg" path="res://scripts/TileMapLevelEditor.cs" id="1_df33y"]
+
+[node name="TileMapLevelEditor" type="TileMapLayer"]
+tile_set = ExtResource("1_c2281")
+script = ExtResource("1_df33y")

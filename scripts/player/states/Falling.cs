@@ -50,7 +50,7 @@ public partial class Falling : PlayerState {
         _player.Vel.Y = MathF.Min(_player.Vel.Y + gravity * delta, terminalVelocity);
     }
     
-    public override void Update_StateTransitions() {
+    public override void Update_StateTransitions(float _) {
         if (CommonInAirTransitions()) return;
 
         if (Input.IsActionPressed("FastFall")) {

@@ -18,7 +18,7 @@ public partial class Hanging : PlayerState {
         _player.Stamina -= staminaCost * delta;
     }
     
-    public override void Update_StateTransitions() {
+    public override void Update_StateTransitions(float _) {
         if (_player.OnWall() && Input.GetAxis("Up", "Down") != 0 && Input.IsActionPressed("Grab")) {
 			_stateMachine.ChangeState<Climbing>();
 			return;

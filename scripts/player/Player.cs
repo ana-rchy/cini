@@ -128,21 +128,33 @@ public partial class Player : Node2D {
 
     public bool InTile(string nodesGroup = "Tiles") => CheckCollision(0, 0, nodesGroup: nodesGroup);
     
-    public bool OnGround() => CheckCollision(0, 1) && !InTile();
-    public bool OnCeiling() => CheckCollision(0, -1) && !InTile();
-    public bool OnLeftWall() => CheckCollision(-1, 0) && !InTile();
-    public bool OnRightWall() => CheckCollision(1, 0) && !InTile();
-    ///////////////////////////////////////////////////////////////
     public bool OnGround(Vector2 offset) => CheckCollision(offset, new(0, 1)) && !InTile();
     public bool OnCeiling(Vector2 offset) => CheckCollision(offset, new(0, -1)) && !InTile();
     public bool OnLeftWall(Vector2 offset) => CheckCollision(offset, new(-1, 0)) && !InTile();
     public bool OnRightWall(Vector2 offset) => CheckCollision(offset, new(1, 0)) && !InTile();
+    ///////////////////////////////////////////////////////////////////////////
+    public bool OnGround(float x, float y) => OnGround(new(x, y)) && !InTile();
+    public bool OnCeiling(float x, float y) => OnCeiling(new(x, y)) && !InTile();
+    public bool OnLeftWall(float x, float y) => OnLeftWall(new(x, y)) && !InTile();
+    public bool OnRightWall(float x, float y) => OnRightWall(new(x, y)) && !InTile();
+    /////////////////////////////////////////
+    public bool OnGround() => OnGround(0, 0);
+    public bool OnCeiling() => OnCeiling(0, 0);
+    public bool OnLeftWall() => OnLeftWall(0, 0);
+    public bool OnRightWall() => OnRightWall(0, 0);
     
-    public bool OnWall() => OnLeftWall() || OnRightWall();
-    public bool OnSurface() => (OnGround() || OnCeiling() || OnWall()) && !InTile();
-    ////////////////////////////////////////////////////////////////////////////////
     public bool OnWall(Vector2 offset) => OnLeftWall(offset) || OnRightWall(offset);
+    public bool OnWallSide(float dir, Vector2 offset) { if (dir == -1) return OnLeftWall(offset); return OnRightWall(offset); }
     public bool OnSurface(Vector2 offset) => (OnGround(offset) || OnCeiling(offset) || OnWall(offset)) && !InTile();
+    //////////////////////////////////////////////////////////
+    public bool OnWall(float x, float y) => OnWall(new(x, y));
+    public bool OnWallSide(float dir, float x, float y) => OnWallSide(dir, new(x, y));
+    public bool OnSurface(float x, float y) => OnSurface(new(x, y));
+    /////////////////////////////////////
+    public bool OnWall() => OnWall(0, 0);
+    public bool OnWallSide(float dir) => OnWallSide(dir, 0, 0);
+    public bool OnSurface() => OnSurface(0, 0);
+    
 
     public int GetWallNormal() {
         int normal = 0;

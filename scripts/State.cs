@@ -15,6 +15,6 @@ public partial class State : Node {
     public virtual bool EarlyExitStateTransitions() { return false; } // shortcuts to other states, useful in edge cases
     public virtual void Enter() {} // runs once when changing to the state
     public virtual void Update(float delta) {} // runs every StateMachine's _PhysicsProcess()
-    public virtual void Update_StateTransitions() {} // extra region to store conditions for switching states
+    public virtual void Update_StateTransitions(float delta) {} // extra region to store conditions for switching states
     public virtual void Exit() {} // runs once after switching out the state
 }

@@ -36,7 +36,7 @@ public partial class Dash : PlayerState {
         _player.MoveAndSlide(_player.Vel * delta);
     }
     
-    public override void Update_StateTransitions() {
+    public override void Update_StateTransitions(float _) {
         if (_dashTimer.IsStopped()) {
             _stateMachine.ChangeState<Falling>();
             return;

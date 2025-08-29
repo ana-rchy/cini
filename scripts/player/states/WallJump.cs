@@ -51,9 +51,10 @@ public partial class WallJump : PlayerState {
         _player.TimeSinceJump += delta;
     }
     
-    public override void Update_StateTransitions() {
+    public override void Update_StateTransitions(float _) {
         if (CommonInAirTransitions()) return;
 
+        // end of walljump
         if (_pushoffTimer.IsStopped()) {
             _stateMachine.ChangeState<Falling>();
             return;

@@ -26,7 +26,7 @@ public partial class CoyoteTime : PlayerState {
         HorizontalMovement(_player.MovementSpeed, _player.FramesToMaxSpeed, delta);
     }
     
-    public override void Update_StateTransitions() {
+    public override void Update_StateTransitions(float _) {
         if (_player.OnGround()) {
             _stateMachine.ChangeState<OnGround>();
             return;

@@ -6,8 +6,7 @@ public partial class ClimbJump : PlayerState {
 
 
     public override bool Prereqs() =>
-        _player.OnWall() && _inputBuffer.ShouldJump() && _player.Stamina >= 0 &&
-        Input.GetAxis("Left", "Right") != _player.GetWallNormal();
+        _player.OnWall() && _inputBuffer.ShouldJump() && _player.Stamina >= 0;
 
     public override void Enter() {
         _player.Vel.X = 0;
@@ -27,6 +26,7 @@ public partial class ClimbJump : PlayerState {
         _player.TimeSinceJump = 0;
         _player.Stamina -= _player.ClimbJumpStaminaCost;
 
+        // prevent jump being activated again in another state
         _inputBuffer.StopJumpBufferTimer();
     }
 
@@ -43,12 +43,13 @@ public partial class ClimbJump : PlayerState {
         _player.TimeSinceJump += delta;
     }
 
-    public override void Update_StateTransitions() {
+    public override void Update_StateTransitions(float _) {
         if (!Input.IsActionPressed("Jump")) {
             _stateMachine.ChangeState<ClimbShortJump>();
             return;
         }
 
+        // what to do at end of climbjump
         if (_player.Vel.Y >= 0) {
             if (_player.OnWall() && Input.IsActionPressed("Grab")) {
                 _stateMachine.ChangeState<Climbing>();

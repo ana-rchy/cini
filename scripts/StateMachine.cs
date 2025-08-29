@@ -19,7 +19,7 @@ public partial class StateMachine : Node {
 
     public override void _PhysicsProcess(double delta) {
         CurrentState.Update((float) delta);
-        CurrentState.Update_StateTransitions();
+        CurrentState.Update_StateTransitions((float) delta);
         
         // flushing all the state change log msgs after exiting a 'parent' ChangeState()
         string logMsg = "";
