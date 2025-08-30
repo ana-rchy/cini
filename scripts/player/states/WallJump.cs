@@ -10,6 +10,9 @@ public partial class WallJump : PlayerState {
         base._Ready();
         
         Logging.Assert(_pushoffTimer is Timer, $"'{GetParent().Name}/{Name}' is missing '{nameof(_pushoffTimer)}'");
+        
+        // prevent jump being activated again in another state
+        _inputBuffer.StopJumpBufferTimer();
     }
     
     public override bool Prereqs() =>

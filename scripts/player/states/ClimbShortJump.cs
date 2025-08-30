@@ -10,15 +10,15 @@ public partial class ClimbShortJump : PlayerState {
     
     public override void Enter() {
         _player.Vel.Y = GetJumpVelocity(
-                _player.MovementSpeed,
-                _player.ShortJumpHeight,
-                _player.ShortJumpRiseDistance
+            _player.MovementSpeed,
+            _player.ShortJumpHeight,
+            _player.ShortJumpRiseDistance
         );
         
         _gravity = GetGravity(
-                _player.MovementSpeed,
-                _player.ShortJumpHeight,
-                _player.ShortJumpRiseDistance
+            _player.MovementSpeed,
+            _player.ShortJumpHeight,
+            _player.ShortJumpRiseDistance
         );
         
         // reference same line in ShortJump for explanation

@@ -6,10 +6,6 @@ public static class Physics {
     public static bool HorizontalMovement(float movementSpeed, float framesToMaxSpeed, float delta, Player player) {
         player.Vel.X = GetMovementXVel(movementSpeed, framesToMaxSpeed, player.Vel.X, delta);
         
-        if (Mathf.Sign(player.Vel.X) == -player.GetWallNormal()) {
-            player.Vel.X = 0;
-        }
-        
         return player.MoveX(player.Vel.X * delta);
     }
     

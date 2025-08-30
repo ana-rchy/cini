@@ -21,9 +21,9 @@ public partial class Falling : PlayerState {
 
     public override void Enter() {
         _gravity = GetGravity(
-                _player.MovementSpeed,
-                _player.JumpHeight,
-                _player.JumpFallDistance
+            _player.MovementSpeed,
+            _player.JumpHeight,
+            _player.JumpFallDistance
         );
     }
     

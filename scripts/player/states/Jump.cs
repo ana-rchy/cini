@@ -10,18 +10,21 @@ public partial class Jump : PlayerState {
 
     public override void Enter() {
         _player.Vel.Y = GetJumpVelocity(
-                _player.MovementSpeed,
-                _player.JumpHeight,
-                _player.JumpRiseDistance
+            _player.MovementSpeed,
+            _player.JumpHeight,
+            _player.JumpRiseDistance
         );
         
         _gravity = GetGravity(
-                _player.MovementSpeed,
-                _player.JumpHeight,
-                _player.JumpRiseDistance
+            _player.MovementSpeed,
+            _player.JumpHeight,
+            _player.JumpRiseDistance
         );
 
         _player.TimeSinceJump = 0;
+        
+        // prevent jump being activated again in another state
+        _inputBuffer.StopJumpBufferTimer();
     }
     
 

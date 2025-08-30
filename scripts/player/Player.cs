@@ -172,13 +172,21 @@ public partial class Player : Node2D {
     public bool MoveX(float x) => MoveAndStop(x, 0);
     public bool MoveY(float y) => MoveAndStop(0, y);
     
-    public bool MoveAndStop(Vector2 vec) {
+    public bool MoveAndStop(Vector2 vec, bool affectVelocity = true) {
         Vector2 normalized = vec.Normalized();
         float magnitude = vec.Length();
         int steps = (int) magnitude;
 
         for (int i = 1; i <= steps; i++) {
             if (CheckCollision(normalized * i)) {
+                // only affect x or y velocity, if only those are being changed
+                if (affectVelocity && vec.X != 0) {
+                    Vel.X = 0;
+                }
+                if (affectVelocity && vec.Y != 0) {
+                    Vel.Y = 0;
+                }
+                
                 return true;
             }
 
@@ -189,6 +197,13 @@ public partial class Player : Node2D {
         Vector2 vecRemainder = vec - (normalized * steps);
 
         if (CheckCollision(vecRemainder)) {
+            if (affectVelocity && vec.X != 0) {
+                Vel.X = 0;
+            }
+            if (affectVelocity && vec.Y != 0) {
+                Vel.Y = 0;
+            }
+            
             return true;
         }
 

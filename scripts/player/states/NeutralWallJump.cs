@@ -12,18 +12,21 @@ public partial class NeutralWallJump : PlayerState {
         _player.Vel.X = _player.NeutralWallJumpPushoffSpeed * _player.GetWallNormal();
         
         _player.Vel.Y = GetJumpVelocity(
-                _player.MovementSpeed,
-                _player.NeutralWallJumpHeight,
-                _player.NeutralWallJumpRiseDistance
+            _player.MovementSpeed,
+            _player.NeutralWallJumpHeight,
+            _player.NeutralWallJumpRiseDistance
         );
         
         _gravity = GetGravity(
-                _player.MovementSpeed,
-                _player.WallJumpHeight,
-                _player.NeutralWallJumpRiseDistance
+            _player.MovementSpeed,
+            _player.WallJumpHeight,
+            _player.NeutralWallJumpRiseDistance
         );
 
         _player.TimeSinceJump = 0;
+        
+        // prevent jump being activated again in another state
+        _inputBuffer.StopJumpBufferTimer();
     }
     
 

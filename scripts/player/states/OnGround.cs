@@ -24,7 +24,6 @@ public partial class OnGround : PlayerState {
 
         if (_inputBuffer.ShouldJump()) {
             _stateMachine.ChangeState<Jump>();
-            _inputBuffer.StopJumpBufferTimer();
             return;
         }
 
