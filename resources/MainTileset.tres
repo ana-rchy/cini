@@ -1,7 +1,7 @@
 [gd_resource type="TileSet" load_steps=9 format=3 uid="uid://f33clev1ktek"]
 
 [ext_resource type="PackedScene" uid="uid://dvdbwv2a6mvx8" path="res://scenes/tiles/Tile.tscn" id="1_12nti"]
-[ext_resource type="Texture2D" uid="uid://dye3nfp225tho" path="res://sprites/tilesheet.png" id="1_hkb82"]
+[ext_resource type="Texture2D" uid="uid://dye3nfp225tho" path="res://sprites/Tilesheet.png" id="1_hkb82"]
 [ext_resource type="PackedScene" uid="uid://7jehqn0j5jbd" path="res://scenes/tiles/spikes/SpikesDown.tscn" id="2_ah2l8"]
 [ext_resource type="PackedScene" uid="uid://chbafsn1dl8p3" path="res://scenes/tiles/spikes/SpikesUp.tscn" id="2_ujvqo"]
 [ext_resource type="PackedScene" uid="uid://d06f8v6im24nc" path="res://scenes/Player.tscn" id="3_ubdmv"]

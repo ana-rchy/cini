@@ -33,6 +33,32 @@ public partial class PixelCamera : Camera2D {
     }
     
     public override void _Process(double delta) {
+        // forces camera to move if player moves outside the outer bounds, so the player stays within them //
+        //
+        // x/yForceMoved is used so camera-player desync doesnt occur -
+        // no smoothing if already moving to keep the player in-bounds
+        bool xForceMoved, yForceMoved;
+        xForceMoved = yForceMoved = false;
+        
+        float leftDiff = Mathf.Min(_playerCollider.Left - _outerBoundsTL.X, 0);
+        float rightDiff = Mathf.Max(_playerCollider.Right - _outerBoundsBR.X, 0);
+        float upDiff = Mathf.Min(_playerCollider.Top - _outerBoundsTL.Y, 0);
+        float downDiff = Mathf.Max(_playerCollider.Bottom - _outerBoundsBR.Y, 0);
+        
+        float xDiff = leftDiff + rightDiff;
+        float yDiff = upDiff + downDiff;
+        
+        if (xDiff != 0) {
+            _pos.x += xDiff;
+            xForceMoved = true;
+        }
+        if (yDiff != 0) {
+            _pos.y += yDiff;
+            yForceMoved = true;
+        }
+        
+        
+    
         // smooth interpolating (determined by curve) when between inner and outer bounds //
         float[] weightsLRUD = new float[] { // left, right, up, down
             Mathf.InverseLerp(_innerBoundsTL.X, _outerBoundsTL.X, _playerCollider.Left),
@@ -51,22 +77,15 @@ public partial class PixelCamera : Camera2D {
         xWeight = _cameraSpeedCurve.Sample(xWeight);
         yWeight = _cameraSpeedCurve.Sample(yWeight);
         
-        _pos.x = Mathf.Lerp(_pos.x, _playerCollider.Centre.X, xWeight * (float) delta);
-        _pos.y = Mathf.Lerp(_pos.y, _playerCollider.Centre.Y, yWeight * (float) delta);
-
+        xWeight = Mathf.Clamp(xWeight, _cameraSpeedCurve.MinDomain, _cameraSpeedCurve.MaxDomain);
+        yWeight = Mathf.Clamp(yWeight, _cameraSpeedCurve.MinDomain, _cameraSpeedCurve.MaxDomain);
         
-        
-        // forces camera to move if player moves outside the outer bounds, so the player stays within them //
-        float leftDiff = Mathf.Min(_playerCollider.Left - _outerBoundsTL.X, 0);
-        float rightDiff = Mathf.Max(_playerCollider.Right - _outerBoundsBR.X, 0);
-        float upDiff = Mathf.Min(_playerCollider.Top - _outerBoundsTL.Y, 0);
-        float downDiff = Mathf.Max(_playerCollider.Bottom - _outerBoundsBR.Y, 0);
-        
-        float xDiff = leftDiff + rightDiff;
-        float yDiff = upDiff + downDiff;
-        
-        _pos.x += xDiff;
-        _pos.y += yDiff;
+        if (!xForceMoved) {
+            _pos.x = Mathf.Lerp(_pos.x, _playerCollider.Centre.X, xWeight * (float) delta);
+        }
+        if (!yForceMoved) {
+            _pos.y = Mathf.Lerp(_pos.y, _playerCollider.Centre.Y, yWeight * (float) delta);
+        }
     }
     
     

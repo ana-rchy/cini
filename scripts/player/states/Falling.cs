@@ -41,7 +41,7 @@ public partial class Falling : PlayerState {
             terminalVelocity = _player.TerminalVelocity / _player.WallSlidingDivisor;
         }
 
-        HorizontalMovement(_player.MovementSpeed, _player.FramesToMaxSpeedInAir, delta);
+        BasicXMovement(_player.MovementSpeed, _player.FramesToMaxSpeedInAir, delta);
 
         float yAccel = GetVerletAccelTerm(gravity, delta);
         float yPosChange = MathF.Min(_player.Vel.Y * delta + yAccel, terminalVelocity * delta);

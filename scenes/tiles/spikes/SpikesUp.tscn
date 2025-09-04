@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://chbafsn1dl8p3"]
 
 [ext_resource type="PackedScene" uid="uid://b1g2kesfiwncp" path="res://scenes/Collider.tscn" id="1_uk17d"]
-[ext_resource type="Texture2D" uid="uid://cjau7ieb4pvj3" path="res://sprites/spikes.png" id="2_n1wj0"]
+[ext_resource type="Texture2D" uid="uid://cjau7ieb4pvj3" path="res://sprites/Spikes.png" id="2_n1wj0"]
 
 [node name="SpikesUp" type="Node2D"]
 

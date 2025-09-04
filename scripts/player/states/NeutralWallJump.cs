@@ -31,7 +31,7 @@ public partial class NeutralWallJump : PlayerState {
     
 
     public override void Update(float delta) {
-        HorizontalMovement(_player.MovementSpeed, _player.FramesToMaxSpeedInAir, delta);
+        BasicXMovement(_player.MovementSpeed, _player.FramesToMaxSpeedInAir, delta);
 
         float yAccel = GetVerletAccelTerm(_gravity, delta);
         float yPosChange = _player.Vel.Y * delta + yAccel;

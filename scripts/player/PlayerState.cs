@@ -19,8 +19,8 @@ public partial class PlayerState : State {
     
     
 
-    public bool HorizontalMovement(float movementSpeed, float framesToMaxSpeed, float delta) =>
-        PlayerStateUtils.Physics.HorizontalMovement(movementSpeed, framesToMaxSpeed, delta, _player);
+    public bool BasicXMovement(float movementSpeed, float framesToMaxSpeed, float delta) =>
+        PlayerStateUtils.Physics.BasicXMovement(movementSpeed, framesToMaxSpeed, delta, _player);
     public float GetJumpVelocity(float movementSpeed, float height, float distance) =>
         PlayerStateUtils.Physics.GetJumpVelocity(movementSpeed, height, distance);
     public float GetGravity(float movementSpeed, float height, float distance) =>

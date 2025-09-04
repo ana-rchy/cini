@@ -6,6 +6,7 @@ public partial class Player : Node2D {
     [Export] public float MovementSpeed;
     [Export] public float FramesToMaxSpeed;
     [Export] public float FramesToMaxSpeedInAir;
+    [Export] public Curve ReelbackLerpStrength;
 
     [ExportGroup("Jumping")]
     [Export] public float JumpHeight;

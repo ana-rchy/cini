@@ -19,12 +19,18 @@ public partial class Logging : Node {
     static Dictionary<LogCategory, Queue<String>> _logs = new();
     static Dictionary<LogCategory, FileAccess> _logFiles = new();
     
+    static string _logsPath = "user://logs";
+    
     
     public override void _Ready() {
-        DirAccess.MakeDirAbsolute("res://logs/");
+        if (OS.HasFeature("editor")) {
+            _logsPath = "res://logs";
+        }
+        
+        DirAccess.MakeDirAbsolute(_logsPath);
         
         foreach (LogCategory category in Enum.GetValues(typeof(LogCategory))) {
-            _logFiles[category] = FileAccess.Open($"res://logs/{category}.log", FileAccess.ModeFlags.Write);
+            _logFiles[category] = FileAccess.Open($"{_logsPath}/{category}.log", FileAccess.ModeFlags.Write);
             
             if (_logFiles[category] == null) {
                 GD.PrintErr(FileAccess.GetOpenError());
