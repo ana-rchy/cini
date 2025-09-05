@@ -33,10 +33,17 @@ public partial class Dash : PlayerState {
     
 
     public override void Update(float delta) {
+        Clip(_player.Vel * delta, _player.DashClipThreshold);
+        
         _player.MoveAndSlide(_player.Vel * delta);
     }
     
     public override void Update_StateTransitions(float _) {
+        if (_player.OnGround() && _inputBuffer.ShouldJump()) {
+            _stateMachine.ChangeState<Jump>();
+            return;
+        }
+        
         if (_dashTimer.IsStopped()) {
             _stateMachine.ChangeState<Falling>();
             return;
@@ -46,11 +53,5 @@ public partial class Dash : PlayerState {
 
     public override void Exit() {
         _playerSprite.SelfModulate = new(1, 1, 1);
-    }
-
-
-
-    void DashClip() {
-        // TODO: this
     }
 }

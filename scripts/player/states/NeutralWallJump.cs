@@ -35,11 +35,11 @@ public partial class NeutralWallJump : PlayerState {
 
         float yAccel = GetVerletAccelTerm(_gravity, delta);
         float yPosChange = _player.Vel.Y * delta + yAccel;
+        
+        Clip(0, yPosChange, _player.WallClipThreshold);
 
         _player.MoveY(yPosChange);
         _player.Vel.Y += _gravity * delta;
-
-        WallClip();
 
         _player.TimeSinceJump += delta;
     }

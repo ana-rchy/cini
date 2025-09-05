@@ -1,6 +1,5 @@
 using System;
 using Godot;
-using System.Diagnostics;
 
 public partial class PlayerState : State {
     protected Player _player;
@@ -18,7 +17,7 @@ public partial class PlayerState : State {
     }
     
     
-
+    
     public bool BasicXMovement(float movementSpeed, float framesToMaxSpeed, float delta) =>
         PlayerStateUtils.Physics.BasicXMovement(movementSpeed, framesToMaxSpeed, delta, _player);
     public float GetJumpVelocity(float movementSpeed, float height, float distance) =>
@@ -28,8 +27,10 @@ public partial class PlayerState : State {
     public float GetVerletAccelTerm(float accel, float delta) =>
         PlayerStateUtils.Physics.GetVerletAccelTerm(accel, delta);
 
-    public void WallClip() =>
-        PlayerStateUtils.QoL.WallClip(_player);
+    public void Clip(Vector2 posChange, int clipThreshold) =>
+        PlayerStateUtils.QoL.Clip(posChange, clipThreshold, _player);
+    public void Clip(float x, float y, int clipThreshold) =>
+        PlayerStateUtils.QoL.Clip(new(x, y), clipThreshold, _player);
    
     public bool CommonInAirTransitions() =>
         PlayerStateUtils.Transitions.CommonInAirTransitions(_player, _stateMachine, _inputBuffer);
