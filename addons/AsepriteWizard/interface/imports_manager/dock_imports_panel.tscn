@@ -76,6 +76,7 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="confirmation_warning" parent="MarginContainer/VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer" instance=ExtResource("3_2us73")]
+visible = false
 layout_mode = 2
 
 [connection signal="multi_selected" from="MarginContainer/VBoxContainer/HSplitContainer/tree" to="." method="_on_resource_tree_multi_selected"]

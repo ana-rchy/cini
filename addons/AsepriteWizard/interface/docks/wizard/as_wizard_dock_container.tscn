@@ -9,20 +9,24 @@
 offset_right = 281.0
 offset_bottom = 36.0
 tab_alignment = 2
+current_tab = 0
 use_hidden_tabs_for_min_size = true
 script = ExtResource("2")
 
 [node name="Import" parent="." instance=ExtResource("1")]
 layout_mode = 2
 tooltip_text = "SpriteFrames Importer"
+metadata/_tab_index = 0
 
 [node name="ImportedSpriteFrames" parent="." instance=ExtResource("3_25qb4")]
 visible = false
 layout_mode = 2
 metadata/_tab_name = "Imported Resources"
+metadata/_tab_index = 1
 
 [node name="History" parent="." instance=ExtResource("3")]
 visible = false
 layout_mode = 2
+metadata/_tab_index = 2
 
 [connection signal="tab_changed" from="." to="." method="_on_AsWizardDockContainer_tab_changed"]
