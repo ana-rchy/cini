@@ -5,10 +5,10 @@
 [node name="SpikesLeft" instance=ExtResource("1_cm23h")]
 
 [node name="Collider" parent="." index="0"]
-_x = 1
-_y = -4
-_width = 3
-_height = 8
+x = 1
+y = -4
+Width = 3
+Height = 8
 
 [node name="Sprite2D" parent="." index="1"]
 rotation = -1.5708

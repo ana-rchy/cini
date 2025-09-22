@@ -16,20 +16,45 @@ public partial class PixelCamera : Camera2D {
     [ExportGroup("node refs")]
     [Export] Collider _playerCollider;
     
-    Vector2PP _pos;
-    
     // top-left, bottom-right coords
-    Vector2I _innerBoundsTL => _pos.VecInt - (_innerBoundsWH / 2);
-    Vector2I _innerBoundsBR => _innerBoundsTL + _innerBoundsWH;
-    Vector2I _outerBoundsTL => _pos.VecInt - (_outerBoundsWH / 2);
+    Vector2I _outerBoundsTL => _posCentre.VecInt - (_outerBoundsWH / 2);
     Vector2I _outerBoundsBR => _outerBoundsTL + _outerBoundsWH;
+    /////////////////////////////////////////////////////////// 
+    Vector2I _innerBoundsTL => _posCentre.VecInt - (_innerBoundsWH / 2);
+    Vector2I _innerBoundsBR => _innerBoundsTL + _innerBoundsWH;
     
     
-    public override void _Ready() {
+    Room _currentRoom = null;
+    
+    Vector2I _size => (Vector2I) (GetViewport().GetVisibleRect().Size / Zoom);
+    
+    Vector2PP _posCentre;
+    Vector2 _posTopLeft {
+        get { return _posCentre.VecInt - (_size / 2); }
+        set { _posCentre.Vec = value + (_size / 2); }
+    }
+    Vector2 _posBottomRight {
+        get { return _posCentre.VecInt + (_size / 2); }
+        set { _posCentre.Vec = value - _size; }
+    }
+    
+    
+    
+    public override async void _Ready() {
         Logging.Assert(_playerCollider is Collider, $"'{GetParent().Name}/{Name}' is missing '{nameof(_playerCollider)}'");
         
-        _pos = new(this);
-        _pos.Vec = _playerCollider.Centre; 
+        AnchorMode = AnchorModeEnum.DragCenter;
+        
+        _posCentre = new(this);
+        _posCentre.Vec = _playerCollider.Centre;
+        
+        foreach (Room room in GetTree().GetNodesInGroup("Rooms")) {
+            await ToSignal(room, Room.SignalName.Ready);
+            
+            if (_playerCollider.Intersects(room.Collider)) {
+                _currentRoom = room;
+            }
+        }
     }
     
     public override void _Process(double delta) {
@@ -49,11 +74,11 @@ public partial class PixelCamera : Camera2D {
         float yDiff = upDiff + downDiff;
         
         if (xDiff != 0) {
-            _pos.x += xDiff;
+            _posCentre.x += xDiff;
             xForceMoved = true;
         }
         if (yDiff != 0) {
-            _pos.y += yDiff;
+            _posCentre.y += yDiff;
             yForceMoved = true;
         }
         
@@ -81,11 +106,37 @@ public partial class PixelCamera : Camera2D {
         yWeight = Mathf.Clamp(yWeight, _cameraSpeedCurve.MinDomain, _cameraSpeedCurve.MaxDomain);
         
         if (!xForceMoved) {
-            _pos.x = Mathf.Lerp(_pos.x, _playerCollider.Centre.X, xWeight * (float) delta);
+            _posCentre.x = Mathf.Lerp(_posCentre.x, _playerCollider.Centre.X, xWeight * (float) delta);
         }
         if (!yForceMoved) {
-            _pos.y = Mathf.Lerp(_pos.y, _playerCollider.Centre.Y, yWeight * (float) delta);
+            _posCentre.y = Mathf.Lerp(_posCentre.y, _playerCollider.Centre.Y, yWeight * (float) delta);
         }
+        
+        
+        
+        // force camera to stay within room bounds //
+        if (_currentRoom == null) {
+            return;
+        }
+        
+        _posCentre.x = Mathf.Clamp(
+            _posCentre.x,
+            _currentRoom.Collider.Left + (_size.X / 2),
+            _currentRoom.Collider.Right - (_size.X / 2)
+        );
+        
+        GD.Print($"{_currentRoom.Collider.Height}\t{Room.MinHeight}");
+        
+        if (_currentRoom.Collider.Height <= Room.MinHeight) {
+            _posTopLeft = new(_posTopLeft.X, _currentRoom.Collider.Top);
+            return;
+        }
+        
+        _posCentre.y = Mathf.Clamp(
+            _posCentre.y,
+            _currentRoom.Collider.Top + (_size.Y / 2),
+            _currentRoom.Collider.Bottom - (_size.Y / 2)
+        );
     }
     
     

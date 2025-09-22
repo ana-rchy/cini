@@ -6,9 +6,9 @@
 [node name="SpikesUp" type="Node2D"]
 
 [node name="Collider" parent="." groups=["Spikes"] instance=ExtResource("1_uk17d")]
-_x = -4
-_y = 1
-_height = 3
+x = -4
+y = 1
+Height = 3
 _colliderColor = Color(1, 0, 0, 0.501961)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
