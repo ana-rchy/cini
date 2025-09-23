@@ -6,8 +6,7 @@
 [node name="Tile" type="Node2D"]
 
 [node name="Collider" parent="." groups=["Tiles"] instance=ExtResource("1_h3aqd")]
-x = -4
-y = -4
+position = Vector2(-4, -4)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_lpyr5")

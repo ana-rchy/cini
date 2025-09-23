@@ -1,18 +1,12 @@
-[gd_scene load_steps=4 format=3 uid="uid://cvortclsyhwj0"]
+[gd_scene load_steps=3 format=3 uid="uid://cvortclsyhwj0"]
 
 [ext_resource type="Script" uid="uid://s0u7acwrn06u" path="res://scripts/Room.cs" id="1_llheb"]
-[ext_resource type="Script" uid="uid://cm1aectxdtldd" path="res://scripts/Collider.cs" id="2_liqgt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_liqgt"]
 resource_local_to_scene = true
 size = Vector2(320, 184)
 
-[node name="Room" type="CollisionShape2D" node_paths=PackedStringArray("Collider") groups=["Rooms"]]
+[node name="Room" type="CollisionShape2D" groups=["Rooms"]]
 shape = SubResource("RectangleShape2D_liqgt")
 disabled = true
 script = ExtResource("1_llheb")
-Collider = NodePath("Collider")
-
-[node name="Collider" type="Node2D" parent="."]
-visible = false
-script = ExtResource("2_liqgt")

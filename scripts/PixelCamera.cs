@@ -30,12 +30,12 @@ public partial class PixelCamera : Camera2D {
     
     Vector2PP _posCentre;
     Vector2 _posTopLeft {
-        get { return _posCentre.VecInt - (_size / 2); }
+        get { return _posCentre.Vec - (_size / 2); }
         set { _posCentre.Vec = value + (_size / 2); }
     }
     Vector2 _posBottomRight {
-        get { return _posCentre.VecInt + (_size / 2); }
-        set { _posCentre.Vec = value - _size; }
+        get { return _posCentre.Vec + (_size / 2); }
+        set { _posCentre.Vec = value - (_size / 2); }
     }
     
     
@@ -124,8 +124,6 @@ public partial class PixelCamera : Camera2D {
             _currentRoom.Collider.Left + (_size.X / 2),
             _currentRoom.Collider.Right - (_size.X / 2)
         );
-        
-        GD.Print($"{_currentRoom.Collider.Height}\t{Room.MinHeight}");
         
         if (_currentRoom.Collider.Height <= Room.MinHeight) {
             _posTopLeft = new(_posTopLeft.X, _currentRoom.Collider.Top);

@@ -3,30 +3,31 @@ using System;
 
 [Tool]
 public partial class Collider : Node2D {
-    [Export] public int x, y;
-    [Export] public int Width = 8;
-    [Export] public int Height = 8;
-
+    [Export] public Vector2I Size = new(8, 8);
     [Export] Color _colliderColor = new(0, 0, 1, 0.5f);
     
-    public int Left {
-        get { return (int) GlobalPosition.X + x; }
-        set { Width -= value - Left; x += value - Left; }
+    public Vector2PP Pos;
+    
+    public int Width {
+        get { return Size.X; }
+        set { Size = new(value, Size.Y); }
     }
-    public int Right {
-        get { return Left + Width; }
-        set { Width += value - Right; }
+    public int Height {
+        get { return Size.Y; }
+        set { Size = new(Size.X, value); }
     }
-    public int Top {
-        get { return (int) GlobalPosition.Y + y; }
-        set { Height -= value - Top; y += value - Top; }
-    }
-    public int Bottom {
-        get { return Top + Height; }
-        set { Height += value - Bottom; }
-    }
+    
+    public int Left => (int) GlobalPosition.X;
+    public int Right => Left + Width;
+    public int Top => (int) GlobalPosition.Y;
+    public int Bottom => Top + Height;
     public Vector2I Centre => new((Left + Right) / 2, (Top + Bottom) / 2);
+    
 
+    
+    public override void _Ready() {
+        Pos = new(this, Position);
+    }
     
     // doesnt draw otherwise fsr
     public override void _Process(double delta) {
@@ -35,7 +36,7 @@ public partial class Collider : Node2D {
     
     public override void _Draw() {
         if (Engine.IsEditorHint() || GetTree().DebugCollisionsHint) {
-            DrawRect(new(x, y, Width, Height), _colliderColor);
+            DrawRect(new(0, 0, Size.X, Size.Y), _colliderColor);
         }
     }
 

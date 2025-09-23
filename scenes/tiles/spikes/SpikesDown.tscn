@@ -5,7 +5,8 @@
 [node name="SpikesDown" instance=ExtResource("1_qw86v")]
 
 [node name="Collider" parent="." index="0"]
-y = -4
+position = Vector2(-4, -4)
+Size = Vector2i(8, 3)
 
 [node name="Sprite2D" parent="." index="1"]
 rotation = 3.1415927

@@ -79,8 +79,7 @@ StateMachine = NodePath("StateMachine")
 InputBuffer = NodePath("InputBuffer")
 
 [node name="Collider" parent="." instance=ExtResource("1_p0vlq")]
-x = -4
-y = -4
+position = Vector2(-4, -4)
 _colliderColor = Color(0.34, 1, 0.494, 0.501961)
 
 [node name="Sprite" type="Sprite2D" parent="."]
