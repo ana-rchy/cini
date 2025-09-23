@@ -26,8 +26,6 @@ public partial class Respawn : PlayerState {
         _player.Stamina = _player.TotalStamina;
         _player.DashCharges = _player.DashChargeTotal;
 
-        _camera._Ready();
-
         _stateMachine.ChangeState(_player.SpawnState.Name);
     }
 

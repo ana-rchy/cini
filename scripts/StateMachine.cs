@@ -41,7 +41,7 @@ public partial class StateMachine : Node {
             return;
         }
         
-        var newState = GetNode<PlayerState>(newStateName);
+        var newState = GetNode<State>(newStateName);
         if (!newState.Prereqs()) {
             string currentStateName = $"{CurrentState.GetType()}";
             
@@ -53,7 +53,7 @@ public partial class StateMachine : Node {
         _stateChangesExecuted.Enqueue(newStateName);
         CurrentState.Exit();
         
-        CurrentState = GetNode<PlayerState>(newStateName);
+        CurrentState = newState;
         if (!CurrentState.EarlyExitStateTransitions()) {
             CurrentState.Enter();
         }

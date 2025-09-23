@@ -14,7 +14,7 @@ tile_map_data = PackedByteArray("AAAAAAkAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAAsAAAAAAAA
 [node name="Rooms" type="Node2D" parent="."]
 
 [node name="Room" parent="Rooms" instance=ExtResource("2_w20ko")]
-position = Vector2(176.5, 12)
+position = Vector2(-73, 263)
 shape = SubResource("RectangleShape2D_w20ko")
 
 [node name="Node2D" type="Node2D" parent="."]

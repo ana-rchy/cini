@@ -1,10 +1,10 @@
-[gd_scene load_steps=27 format=3 uid="uid://d06f8v6im24nc"]
+[gd_scene load_steps=31 format=3 uid="uid://d06f8v6im24nc"]
 
 [ext_resource type="Script" uid="uid://cky84lfdw6dyy" path="res://scripts/player/Player.cs" id="1_3li8b"]
 [ext_resource type="PackedScene" uid="uid://b1g2kesfiwncp" path="res://scenes/Collider.tscn" id="1_p0vlq"]
 [ext_resource type="Texture2D" uid="uid://cb7xdxayr7x1y" path="res://sprites/Player.png" id="2_v6fml"]
 [ext_resource type="Shader" uid="uid://cf7q2oly8fvyg" path="res://scripts/shaders/ScreenColorBlend.gdshader" id="3_b8lor"]
-[ext_resource type="Script" uid="uid://s3cki24oc7as" path="res://scripts/PixelCamera.cs" id="4_61ith"]
+[ext_resource type="Script" uid="uid://s3cki24oc7as" path="res://scripts/camera/PixelCamera.cs" id="4_61ith"]
 [ext_resource type="Texture2D" uid="uid://xark4lo436bi" path="res://sprites/PlayerMonochrome.png" id="4_b8lor"]
 [ext_resource type="Script" uid="uid://mbrva57nh2kk" path="res://scripts/player/InputBuffer.cs" id="4_p7iby"]
 [ext_resource type="Script" uid="uid://b0u3di0y246hq" path="res://scripts/player/states/OnGround.cs" id="5_70d11"]
@@ -13,9 +13,14 @@
 [ext_resource type="Script" uid="uid://7pvw87j2k50d" path="res://scripts/player/PlayerStateMachine.cs" id="6_ebwui"]
 [ext_resource type="Script" uid="uid://bj5hy85tc125w" path="res://scripts/player/states/FastFall.cs" id="7_cw2d6"]
 [ext_resource type="Script" uid="uid://5pebk6twe5xc" path="res://scripts/player/states/Respawn.cs" id="7_ebwui"]
+[ext_resource type="Curve" uid="uid://cindcs3pskjey" path="res://resources/PixelCameraSpeedCurve.tres" id="7_fgkxt"]
+[ext_resource type="Script" uid="uid://dvrv6o5xs1y8k" path="res://scripts/StateMachine.cs" id="7_p07f3"]
+[ext_resource type="Curve" uid="uid://dxphycb00fkd2" path="res://resources/PixelCameraRoomTransitionCurve.tres" id="8_1jpwa"]
 [ext_resource type="Script" uid="uid://dxn1m3ne6yt5b" path="res://scripts/player/states/Jump.cs" id="8_khinc"]
+[ext_resource type="Script" uid="uid://byocilwgeba3u" path="res://scripts/camera/states/CameraFollowPlayer.cs" id="8_viqgg"]
 [ext_resource type="Script" uid="uid://bgn2356cdvwif" path="res://scripts/player/states/ShortJump.cs" id="9_6eyey"]
 [ext_resource type="Script" uid="uid://bb4il1c4ej8lm" path="res://scripts/player/states/DebugState.cs" id="9_bruh7"]
+[ext_resource type="Script" uid="uid://bkokdhnuygbyb" path="res://scripts/camera/states/CameraInRoomTransition.cs" id="10_xsi7p"]
 [ext_resource type="Script" uid="uid://bt2djn6ayvvlb" path="res://scripts/player/states/WallJump.cs" id="11_o4126"]
 [ext_resource type="Script" uid="uid://kgf17c5kv7oh" path="res://scripts/player/states/NeutralWallJump.cs" id="12_lkdrv"]
 [ext_resource type="Script" uid="uid://cea6x4ib3544u" path="res://scripts/player/states/Climbing.cs" id="14_0rnld"]
@@ -32,10 +37,6 @@ point_count = 2
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_b8lor"]
 shader = ExtResource("3_b8lor")
 shader_parameter/color = Color(0.0980392, 0, 0.6, 1)
-
-[sub_resource type="Curve" id="Curve_61ith"]
-_data = [Vector2(0, 0), 0.0, 3.22, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
-point_count = 2
 
 [node name="Player" type="Node2D" node_paths=PackedStringArray("SpawnState", "Collider", "StateMachine", "InputBuffer")]
 script = ExtResource("1_3li8b")
@@ -62,6 +63,7 @@ NeutralWallJumpRiseDistance = 17.0
 NeutralWallJumpPushoffSpeed = 65.0
 TotalStamina = 8.0
 ClimbingSpeed = 25.0
+GrabbingStaminaCost = 1.0
 ClimbingStaminaCost = 1.5
 WallSlidingDivisor = 2.4
 ClimbJumpStaminaCost = 2.0
@@ -90,13 +92,24 @@ visible = false
 material = SubResource("ShaderMaterial_b8lor")
 texture = ExtResource("4_b8lor")
 
-[node name="PixelCamera" type="Camera2D" parent="." node_paths=PackedStringArray("_playerCollider")]
+[node name="PixelCamera" type="Camera2D" parent="." node_paths=PackedStringArray("PlayerCollider")]
 top_level = true
 script = ExtResource("4_61ith")
 _innerBoundsWH = Vector2i(24, 24)
 _outerBoundsWH = Vector2i(128, 96)
-_cameraSpeedCurve = SubResource("Curve_61ith")
-_playerCollider = NodePath("../Collider")
+CameraSpeedCurve = ExtResource("7_fgkxt")
+CameraRoomTransitionCurve = ExtResource("8_1jpwa")
+PlayerCollider = NodePath("../Collider")
+
+[node name="StateMachine" type="Node" parent="PixelCamera" node_paths=PackedStringArray("CurrentState")]
+script = ExtResource("7_p07f3")
+CurrentState = NodePath("CameraFollowPlayer")
+
+[node name="CameraFollowPlayer" type="Node" parent="PixelCamera/StateMachine"]
+script = ExtResource("8_viqgg")
+
+[node name="CameraInRoomTransition" type="Node" parent="PixelCamera/StateMachine"]
+script = ExtResource("10_xsi7p")
 
 [node name="InputBuffer" type="Node" parent="." node_paths=PackedStringArray("_jumpBufferTimer")]
 script = ExtResource("4_p7iby")
