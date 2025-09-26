@@ -45,7 +45,6 @@ public static class Physics {
             
             // do reelback thingy
             newXVel = Mathf.Lerp(newXVel, 0, reelbackLerpStrength.Sample(Mathf.Abs(newXVel)) * delta);
-            
         }
         
         return newXVel;
@@ -53,14 +52,22 @@ public static class Physics {
     
     
     
-    public static float GetJumpVelocity(float movementSpeed, float height, float distance) {
+    public static float GetJumpVelocityWithTime(float height, float time) {
+        return (-2 * height) / time;
+    }
+    
+    public static float GetJumpVelocityWithDistance(float movementSpeed, float height, float distance) {
         float velocity = -2 * height * movementSpeed;
         velocity /= distance;
         
         return velocity;
     }
     
-    public static float GetGravity(float movementSpeed, float height, float distance) {
+    public static float GetGravityWithTime(float height, float time) {
+       return (2 * height) / (time * time); 
+    }
+    
+    public static float GetGravityWithDistance(float movementSpeed, float height, float distance) {
         float gravity = 2 * height * Mathf.Pow(movementSpeed, 2);
         gravity /= MathF.Pow(distance, 2);
         

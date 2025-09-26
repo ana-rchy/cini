@@ -2,13 +2,15 @@ using Godot;
 using System;
 
 public partial class CoyoteTime : PlayerState {
-    [Export] Timer _timer;
+    Timer _timer;
     
 
     public override void _Ready() {
         base._Ready();
         
-        Logging.Assert(_timer is Timer, $"'{GetParent().Name}/{Name}' is missing '{nameof(_timer)}'");
+        _timer = new();
+        _timer.OneShot = true;
+        AddChild(_timer);
     }
     
     public override bool Prereqs() {
@@ -17,7 +19,6 @@ public partial class CoyoteTime : PlayerState {
     }
     
     public override void Enter() {
-        _timer.OneShot = true;
         _timer.Start(_player.CoyoteTime);
     }
     

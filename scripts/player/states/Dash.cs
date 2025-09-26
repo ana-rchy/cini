@@ -2,17 +2,19 @@ using System;
 using Godot;
 
 public partial class Dash : PlayerState {
-    [Export] Timer _dashTimer;
     [Export] Sprite2D _playerSprite;
+    Timer _dashTimer;
     
 
     public override void _Ready() {
         base._Ready();
         
         string assertMsg(object obj) => $"'{GetParent().Name}/{Name}' is missing '{nameof(obj)}'";
-        
-        Logging.Assert(_dashTimer is Timer, assertMsg(_dashTimer));
         Logging.Assert(_playerSprite is Sprite2D, assertMsg(_playerSprite));
+        
+        _dashTimer = new();
+        _dashTimer.OneShot = true;
+        AddChild(_dashTimer);
     }
     
     public override bool Prereqs() =>
@@ -22,9 +24,7 @@ public partial class Dash : PlayerState {
     public override void Enter() {
         _player.Vel = Input.GetVector("Left", "Right", "Up", "Down") * _player.DashSpeed;
 
-        _dashTimer.WaitTime = _player.DashLength;
-        _dashTimer.OneShot = true;
-        _dashTimer.Start();
+        _dashTimer.Start(_player.DashLength);
 
         _player.DashCharges--;
         
@@ -39,6 +39,11 @@ public partial class Dash : PlayerState {
     }
     
     public override void Update_StateTransitions(float _) {
+        if (_player.Vel.Normalized() == Vector2.Up && _player.OnWall() && _inputBuffer.ShouldJump()) {
+            _stateMachine.ChangeState<WallBounce>();
+            return;
+        }
+        
         if (_player.OnGround() && _inputBuffer.ShouldJump()) {
             _stateMachine.ChangeState<Jump>();
             return;

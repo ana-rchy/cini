@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://d06f8v6im24nc"]
+[gd_scene load_steps=32 format=3 uid="uid://d06f8v6im24nc"]
 
 [ext_resource type="Script" uid="uid://cky84lfdw6dyy" path="res://scripts/player/Player.cs" id="1_3li8b"]
 [ext_resource type="PackedScene" uid="uid://b1g2kesfiwncp" path="res://scenes/Collider.tscn" id="1_p0vlq"]
@@ -28,6 +28,7 @@
 [ext_resource type="Script" uid="uid://c2n8f7k88fxdx" path="res://scripts/player/states/Dash.cs" id="16_jfpux"]
 [ext_resource type="Script" uid="uid://gwya0owgpoq2" path="res://scripts/player/states/ClimbJump.cs" id="17_sfy4j"]
 [ext_resource type="Script" uid="uid://c0jsqkwsgj1hn" path="res://scripts/player/states/ClimbShortJump.cs" id="18_gv3ic"]
+[ext_resource type="Script" uid="uid://wct8a42pbw2y" path="res://scripts/player/states/WallBounce.cs" id="23_pfeki"]
 
 [sub_resource type="Curve" id="Curve_6e537"]
 _limits = [0.0, 1.0, 65.0, 500.0]
@@ -55,12 +56,15 @@ TerminalVelocity = 70.0
 FastFallTerminalVelocity = 120.0
 FastFallGravityMultiplier = 1.0
 WallJumpHeight = 17.0
-WallJumpRiseDistance = 17.0
+WallJumpTime = 0.25
 WallJumpPushoffSpeed = 65.0
-WallJumpPushoffTime = 0.12
+WallJumpPushoffTime = 0.19
 NeutralWallJumpHeight = 17.0
-NeutralWallJumpRiseDistance = 17.0
-NeutralWallJumpPushoffSpeed = 65.0
+NeutralWallJumpTime = 0.25
+NeutralWallJumpPushoffSpeed = 80.0
+WallBounceTime = 0.5
+WallBouncePushoffSpeed = 100.0
+WallBouncePushoffTime = 0.05
 TotalStamina = 8.0
 ClimbingSpeed = 25.0
 GrabbingStaminaCost = 1.0
@@ -123,19 +127,14 @@ one_shot = true
 script = ExtResource("6_ebwui")
 CurrentState = NodePath("Respawn")
 
-[node name="Respawn" type="Node" parent="StateMachine" node_paths=PackedStringArray("_camera")]
+[node name="Respawn" type="Node" parent="StateMachine"]
 script = ExtResource("7_ebwui")
-_camera = NodePath("../../PixelCamera")
 
 [node name="OnGround" type="Node" parent="StateMachine"]
 script = ExtResource("5_70d11")
 
-[node name="CoyoteTime" type="Node" parent="StateMachine" node_paths=PackedStringArray("_timer")]
+[node name="CoyoteTime" type="Node" parent="StateMachine"]
 script = ExtResource("6_d3wef")
-_timer = NodePath("Timer")
-
-[node name="Timer" type="Timer" parent="StateMachine/CoyoteTime"]
-one_shot = true
 
 [node name="Falling" type="Node" parent="StateMachine"]
 script = ExtResource("6_70d11")
@@ -149,15 +148,14 @@ script = ExtResource("8_khinc")
 [node name="ShortJump" type="Node" parent="StateMachine"]
 script = ExtResource("9_6eyey")
 
-[node name="WallJump" type="Node" parent="StateMachine" node_paths=PackedStringArray("_pushoffTimer")]
+[node name="WallJump" type="Node" parent="StateMachine"]
 script = ExtResource("11_o4126")
-_pushoffTimer = NodePath("PushoffTimer")
-
-[node name="PushoffTimer" type="Timer" parent="StateMachine/WallJump"]
-one_shot = true
 
 [node name="NeutralWallJump" type="Node" parent="StateMachine"]
 script = ExtResource("12_lkdrv")
+
+[node name="WallBounce" type="Node" parent="StateMachine"]
+script = ExtResource("23_pfeki")
 
 [node name="Climbing" type="Node" parent="StateMachine"]
 script = ExtResource("14_0rnld")
@@ -171,13 +169,9 @@ script = ExtResource("18_gv3ic")
 [node name="Hanging" type="Node" parent="StateMachine"]
 script = ExtResource("15_srp4u")
 
-[node name="Dash" type="Node" parent="StateMachine" node_paths=PackedStringArray("_dashTimer", "_playerSprite")]
+[node name="Dash" type="Node" parent="StateMachine" node_paths=PackedStringArray("_playerSprite")]
 script = ExtResource("16_jfpux")
-_dashTimer = NodePath("DashLength")
 _playerSprite = NodePath("../../Sprite")
-
-[node name="DashLength" type="Timer" parent="StateMachine/Dash"]
-one_shot = true
 
 [node name="DebugState" type="Node" parent="StateMachine"]
 script = ExtResource("9_bruh7")

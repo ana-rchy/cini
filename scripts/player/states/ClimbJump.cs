@@ -11,17 +11,8 @@ public partial class ClimbJump : PlayerState {
     public override void Enter() {
         _player.Vel.X = 0;
 
-        _player.Vel.Y = GetJumpVelocity(
-            _player.MovementSpeed,
-            _player.WallJumpHeight,
-            _player.WallJumpRiseDistance
-        );
-
-        _gravity = GetGravity(
-            _player.MovementSpeed,
-            _player.WallJumpHeight,
-            _player.WallJumpRiseDistance
-        );
+        _player.Vel.Y = GetJumpVelocityWithTime(_player.WallJumpHeight, _player.WallJumpTime);
+        _gravity = GetGravityWithTime(_player.WallJumpHeight, _player.WallJumpTime);
 
         _player.TimeSinceJump = 0;
         _player.Stamina -= _player.ClimbJumpStaminaCost;

@@ -10,13 +10,13 @@ public partial class Jump : PlayerState {
         _inputBuffer.ShouldJump();
 
     public override void Enter() {
-        _player.Vel.Y = GetJumpVelocity(
+        _player.Vel.Y = GetJumpVelocityWithDistance(
             _player.MovementSpeed,
             _player.JumpHeight,
             _player.JumpRiseDistance
         );
         
-        _gravity = GetGravity(
+        _gravity = GetGravityWithDistance(
             _player.MovementSpeed,
             _player.JumpHeight,
             _player.JumpRiseDistance

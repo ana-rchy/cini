@@ -25,13 +25,17 @@ public partial class Player : Node2D {
 
     [ExportGroup("Wall Jumping")]
     [Export] public float WallJumpHeight;
-    [Export] public float WallJumpRiseDistance;
+    [Export] public float WallJumpTime;
     [Export] public float WallJumpPushoffSpeed;
     [Export] public float WallJumpPushoffTime;
     [ExportGroup("Wall Jumping/Neutral Wall Jumping")]
     [Export] public float NeutralWallJumpHeight;
-    [Export] public float NeutralWallJumpRiseDistance;
+    [Export] public float NeutralWallJumpTime;
     [Export] public float NeutralWallJumpPushoffSpeed;
+    [ExportGroup("Wall Jumping/Wall Bouncing")]
+    [Export] public float WallBounceTime;
+    [Export] public float WallBouncePushoffSpeed;
+    [Export] public float WallBouncePushoffTime;
 
     [ExportGroup("Climbing")]
     [Export] public float TotalStamina;

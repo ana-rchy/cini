@@ -2,14 +2,16 @@ using Godot;
 using System;
 
 public partial class WallJump : PlayerState {
-    [Export] Timer _pushoffTimer;
+    Timer _pushoffTimer;
     float _gravity;
 
 
     public override void _Ready() {
         base._Ready();
         
-        Logging.Assert(_pushoffTimer is Timer, $"'{GetParent().Name}/{Name}' is missing '{nameof(_pushoffTimer)}'");
+        _pushoffTimer = new();
+        _pushoffTimer.OneShot = true;
+        AddChild(_pushoffTimer);
         
         // prevent jump being activated again in another state
         _inputBuffer.StopJumpBufferTimer();
@@ -21,27 +23,21 @@ public partial class WallJump : PlayerState {
     public override void Enter() {
         _player.Vel.X = _player.WallJumpPushoffSpeed * _player.GetWallNormal();
         
-        _player.Vel.Y = GetJumpVelocity(
-                _player.MovementSpeed,
-                _player.WallJumpHeight,
-                _player.WallJumpRiseDistance
-        );
-        
-        _gravity = GetGravity(
-                _player.MovementSpeed,
-                _player.WallJumpHeight,
-                _player.WallJumpRiseDistance
-        );
+        _player.Vel.Y = GetJumpVelocityWithTime(_player.WallJumpHeight, _player.WallJumpTime);
+        _gravity = GetGravityWithTime(_player.WallJumpHeight, _player.WallJumpTime);
 
         _player.TimeSinceJump = 0;
 
-        _pushoffTimer.OneShot = true;
         _pushoffTimer.Start(_player.WallJumpPushoffTime);
     }
     
 
     public override void Update(float delta) {
-        _player.MoveX(_player.Vel.X * delta);
+        if (!_pushoffTimer.IsStopped()) {
+            _player.MoveX(_player.Vel.X * delta);
+        } else {
+            BasicXMovement(_player.MovementSpeed, _player.FramesToMaxSpeedInAir, delta);
+        }
 
         float yAccel = GetVerletAccelTerm(_gravity, delta);
         float yPosChange = _player.Vel.Y * delta + yAccel;
@@ -57,8 +53,7 @@ public partial class WallJump : PlayerState {
     public override void Update_StateTransitions(float _) {
         if (CommonInAirTransitions()) return;
 
-        // end of walljump
-        if (_pushoffTimer.IsStopped()) {
+        if (_player.Vel.Y >= 0) {
             _stateMachine.ChangeState<Falling>();
             return;
         }

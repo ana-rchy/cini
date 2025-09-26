@@ -20,10 +20,17 @@ public partial class PlayerState : State {
     
     public bool BasicXMovement(float movementSpeed, float framesToMaxSpeed, float delta) =>
         PlayerStateUtils.Physics.BasicXMovement(movementSpeed, framesToMaxSpeed, delta, _player);
-    public float GetJumpVelocity(float movementSpeed, float height, float distance) =>
-        PlayerStateUtils.Physics.GetJumpVelocity(movementSpeed, height, distance);
-    public float GetGravity(float movementSpeed, float height, float distance) =>
-        PlayerStateUtils.Physics.GetGravity(movementSpeed, height, distance);
+    /////////////////////////////////////////////////////////////////////////////////////////////
+    public float GetJumpVelocityWithTime(float height, float time) =>
+        PlayerStateUtils.Physics.GetJumpVelocityWithTime(height, time);
+    public float GetJumpVelocityWithDistance(float movementSpeed, float height, float distance) =>
+        PlayerStateUtils.Physics.GetJumpVelocityWithDistance(movementSpeed, height, distance);
+    ////////////////////////////////////////////////////////////
+    public float GetGravityWithTime(float height, float time) =>
+        PlayerStateUtils.Physics.GetGravityWithTime(height, time);
+    public float GetGravityWithDistance(float movementSpeed, float height, float distance) =>
+        PlayerStateUtils.Physics.GetGravityWithDistance(movementSpeed, height, distance);
+    ////////////////////////////////////////////////////////////
     public float GetVerletAccelTerm(float accel, float delta) =>
         PlayerStateUtils.Physics.GetVerletAccelTerm(accel, delta);
 

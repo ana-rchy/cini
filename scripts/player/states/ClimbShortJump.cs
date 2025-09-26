@@ -9,13 +9,13 @@ public partial class ClimbShortJump : PlayerState {
         !Input.IsActionPressed("Jump");
     
     public override void Enter() {
-        _player.Vel.Y = GetJumpVelocity(
+        _player.Vel.Y = GetJumpVelocityWithDistance(
             _player.MovementSpeed,
             _player.ShortJumpHeight,
             _player.ShortJumpRiseDistance
         );
         
-        _gravity = GetGravity(
+        _gravity = GetGravityWithDistance(
             _player.MovementSpeed,
             _player.ShortJumpHeight,
             _player.ShortJumpRiseDistance
