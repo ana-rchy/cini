@@ -50,6 +50,13 @@ public partial class CameraInRoomTransition : PixelCameraState {
             _stateMachine.ChangeState<CameraFollowPlayer>();
             return;
         }
+        
+        foreach (Room newRoom in GetTree().GetNodesInGroup("Rooms")) {
+            if (newRoom != _nextRoom && _camera.PlayerCollider.Intersects(newRoom.Collider)) {
+                _stateMachine.ChangeState<CameraInRoomTransition>(forceReEnter: true);
+                return;
+            }
+        }
     }
     
     
