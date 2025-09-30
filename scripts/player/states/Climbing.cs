@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Generic;
 using Godot;
 
 public partial class Climbing : PlayerState {
@@ -15,24 +15,32 @@ public partial class Climbing : PlayerState {
 		float yPosChange = _player.Vel.Y * delta;
 		
 		// stop player at last wall pixel going up
-		while (!_player.OnWall(0, yPosChange) && yPosChange < 0) {
+		while (
+			!_player.TestMove(new List<Vector2>() { new(0, yPosChange), new(-_player.GetWallNormal(), 0) })
+			&& yPosChange < 0
+		) {
+			// need to use min/max so yPosChange doesnt go above/under 0
 			yPosChange = Mathf.Min(yPosChange + 1, 0);
 		}
 		
 		// stop player at last wall pixel going down
-		while (!_player.OnWall(0, yPosChange) && yPosChange > 0) {
+		while (
+			!_player.TestMove(new List<Vector2>() { new(0, yPosChange), new(-_player.GetWallNormal(), 0) })
+			&& yPosChange > 0
+		) {
 			yPosChange = Mathf.Max(yPosChange - 1, 0);
 		}
 		
 		_player.MoveY(yPosChange);
+		
 		
 		float staminaCost = _player.Vel.Y == 0 ? _player.GrabbingStaminaCost : _player.ClimbingStaminaCost;
 		_player.Stamina -= staminaCost * delta;
 	}
 	
 	public override void Update_StateTransitions(float delta) {
-		int xDir = (int) Input.GetAxis("Left", "Right");
-		int yDir = (int) Input.GetAxis("Up", "Down");
+		int xInput = (int) Input.GetAxis("Left", "Right");
+		int yInput = (int) Input.GetAxis("Up", "Down");
 		
 		
 		if (Input.IsActionJustPressed("Dash")) {
@@ -41,14 +49,14 @@ public partial class Climbing : PlayerState {
 		}
 		
 		// quick switch to ceiling hanging
-		if (_player.OnCeiling() && xDir != 0 && Input.IsActionPressed("Grab")) {
+		if (_player.OnCeiling() && xInput != 0 && Input.IsActionPressed("Grab")) {
 			_stateMachine.ChangeState<Hanging>();
 			return;
 		}
 		
 		// wall-based jumps
 		if (_inputBuffer.ShouldJump()) {
-			if (xDir != 0 && xDir == _player.GetWallNormal()) {
+			if (xInput != 0 && xInput == _player.GetWallNormal()) {
 				_stateMachine.ChangeState<WallJump>();
 			} else {
 				_stateMachine.ChangeState<ClimbJump>();
@@ -58,11 +66,14 @@ public partial class Climbing : PlayerState {
 		}
 		
 		// ledge climbing + ceiling-ledge unclimbing (???)
-		if (xDir != 0 && yDir != 0 && _player.OnWallSide(xDir) && !_player.OnWallSide(xDir, 0, yDir)) {
-			_player.MoveY(yDir);
-			_player.MoveX(xDir);
+		if (
+			xInput != 0 && yInput != 0 && _player.OnWallSide(xInput) &&
+			!_player.TestMove(new List<Vector2>() { new(0, yInput), new(xInput, 0) })
+		) {
+			_player.MoveY(yInput);
+			_player.MoveX(xInput);
 			
-			if (yDir == -1) {
+			if (yInput == -1) {
 				_stateMachine.ChangeState<OnGround>();
 			} else {
 				_stateMachine.ChangeState<Hanging>();

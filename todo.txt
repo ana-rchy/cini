@@ -1,1 +1,13 @@
-- room transitions
+- ground bounce
+- super dash refill
+- wavedash
+- allow for dash actions for a few frames after dashing
+
+done:
+- fix down dash clip thing
+- more fall speed
+- optimization (gave nodes group a cache)
+- small refactor around collision checking
+- walljump distance leniency
+- wallbounce distance leniency
+- fix jump buffer not clearing after WallJump

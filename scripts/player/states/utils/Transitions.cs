@@ -10,12 +10,16 @@ public static class Transitions {
             return true;
         }
 
-        if (player.OnWall() && inputBuffer.ShouldJump() && Input.GetAxis("Left", "Right") != 0) {
+        if (player.OnWall(player.WallJumpLeniency) && inputBuffer.ShouldJump()
+            && Input.GetAxis("Left", "Right") != 0
+        ) {
             stateMachine.ChangeState<WallJump>();
             return true;
         }
 
-        if (player.OnWall() && inputBuffer.ShouldJump() && Input.GetAxis("Left", "Right") == 0) {
+        if (player.OnWall(player.WallJumpLeniency) && inputBuffer.ShouldJump()
+            && Input.GetAxis("Left", "Right") == 0
+        ) {
             stateMachine.ChangeState<NeutralWallJump>();
             return true;
         }

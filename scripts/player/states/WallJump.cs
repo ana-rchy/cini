@@ -12,23 +12,26 @@ public partial class WallJump : PlayerState {
         _pushoffTimer = new();
         _pushoffTimer.OneShot = true;
         AddChild(_pushoffTimer);
-        
-        // prevent jump being activated again in another state
-        _inputBuffer.StopJumpBufferTimer();
     }
     
-    public override bool Prereqs() =>
-        _player.OnWall() && _inputBuffer.ShouldJump() && Input.GetAxis("Left", "Right") != 0;
+    public override bool Prereqs() => 
+        _inputBuffer.ShouldJump() && Input.GetAxis("Left", "Right") != 0
+        && (
+            _player.OnWall()
+            || (_player.OnWall(_player.WallJumpLeniency) && _player.GetWallNormal(_player.WallJumpLeniency) != 0)
+        );
 
     public override void Enter() {
-        _player.Vel.X = _player.WallJumpPushoffSpeed * _player.GetWallNormal();
+        _player.Vel.X = _player.WallJumpPushoffSpeed * _player.GetWallNormal(_player.WallJumpLeniency);
         
         _player.Vel.Y = GetJumpVelocityWithTime(_player.WallJumpHeight, _player.WallJumpTime);
         _gravity = GetGravityWithTime(_player.WallJumpHeight, _player.WallJumpTime);
 
         _player.TimeSinceJump = 0;
-
         _pushoffTimer.Start(_player.WallJumpPushoffTime);
+        
+        // prevent jump being activated again in another state
+        _inputBuffer.StopJumpBufferTimer();
     }
     
 

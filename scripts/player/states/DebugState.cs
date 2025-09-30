@@ -1,9 +1,8 @@
-using System;
 using Godot;
 
 // plan to remove
 public partial class DebugState : PlayerState {
-    float speed = 1.5f;
+    float speed = 1f;
     
     public override void Update(float delta) {
         if (Input.IsActionJustPressed("Left")) {

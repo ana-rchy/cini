@@ -24,6 +24,7 @@ public partial class Player : Node2D {
     [Export] public float FastFallGravityMultiplier;
 
     [ExportGroup("Wall Jumping")]
+    [Export] public float WallJumpLeniency = 1;
     [Export] public float WallJumpHeight;
     [Export] public float WallJumpTime;
     [Export] public float WallJumpPushoffSpeed;
@@ -33,6 +34,7 @@ public partial class Player : Node2D {
     [Export] public float NeutralWallJumpTime;
     [Export] public float NeutralWallJumpPushoffSpeed;
     [ExportGroup("Wall Jumping/Wall Bouncing")]
+    [Export] public float WallBounceLeniency = 2;
     [Export] public float WallBounceTime;
     [Export] public float WallBouncePushoffSpeed;
     [Export] public float WallBouncePushoffTime;
@@ -95,95 +97,65 @@ public partial class Player : Node2D {
 
 
 
-    public bool CheckCollision(Vector2 offset, Vector2I? offset2 = null, string nodesGroup = "Tiles") => 
-        CheckCollision(offset, out _, offset2, nodesGroup);
+    public bool CheckCollision(Vector2 offset, Vector2? pos = null, string nodesGroup = "Tiles") => 
+        CheckCollision(offset, out _, pos, nodesGroup);
+    public bool CheckCollision(float x, float y, Vector2? pos = null, string nodesGroup = "Tiles") =>
+        CheckCollision(x, y, out _, pos, nodesGroup);
     
-    public bool CheckCollision(float x, float y, Vector2I? offset2 = null, string nodesGroup = "Tiles") =>
-        CheckCollision(x, y, out _, offset2, nodesGroup);
-    public bool CheckCollision(float x, float y, out List<Collider> collidingWith, Vector2I? offset2 = null, string nodesGroup = "Tiles") =>
-        CheckCollision(new(x, y), out collidingWith, offset2, nodesGroup);
+    public bool CheckCollision(
+        float x, float y, out List<Collider> collidingWith,
+        Vector2? pos = null, string nodesGroup = "Tiles"
+    ) =>
+        CheckCollision(new(x, y), out collidingWith, pos, nodesGroup);
 
     public bool CheckCollision(
             Vector2 offset,
             out List<Collider> collidingWith,
-            Vector2I? offset2 = null,
+            Vector2? pos = null,
             string nodesGroup = "Tiles"
     ) {
-        if (offset2 == null) {
-            offset2 = Vector2I.Zero;
-        }
+        Vector2 ogPos = Pos.Vec;
         
-        Vector2 oldPos = Pos.Vec;
+        if (pos != null) {
+            Pos.Vec = (Vector2) pos;
+        }
         Pos.Vec += offset;
         
         bool colliding = false;
         collidingWith = new();
 
-        foreach (Collider tile in GetTree().GetNodesInGroup(nodesGroup)) {
-            if (Collider.Intersects(tile, offset2.Value.X, offset2.Value.Y)) {
+        // foreach (Collider tile in GetTree().GetNodesInGroup(nodesGroup)) {
+        foreach (Collider tile in NodesCache.Get(nodesGroup, GetTree())) {
+            if (Collider.Intersects(tile, 0, 0)) {
                 colliding = true;
                 collidingWith.Add(tile);
             }
         }
 
-        Pos.Vec = oldPos;
+        Pos.Vec = ogPos;
         return colliding;
     }
     
-
     public bool InTile(string nodesGroup = "Tiles") => CheckCollision(0, 0, nodesGroup: nodesGroup);
     
-    public bool OnGround(Vector2 offset) => CheckCollision(offset, new(0, 1)) && !InTile();
-    public bool OnCeiling(Vector2 offset) => CheckCollision(offset, new(0, -1)) && !InTile();
-    public bool OnLeftWall(Vector2 offset) => CheckCollision(offset, new(-1, 0)) && !InTile();
-    public bool OnRightWall(Vector2 offset) => CheckCollision(offset, new(1, 0)) && !InTile();
-    ///////////////////////////////////////////////////////////////////////////
-    public bool OnGround(float x, float y) => OnGround(new(x, y)) && !InTile();
-    public bool OnCeiling(float x, float y) => OnCeiling(new(x, y)) && !InTile();
-    public bool OnLeftWall(float x, float y) => OnLeftWall(new(x, y)) && !InTile();
-    public bool OnRightWall(float x, float y) => OnRightWall(new(x, y)) && !InTile();
-    /////////////////////////////////////////
-    public bool OnGround() => OnGround(0, 0);
-    public bool OnCeiling() => OnCeiling(0, 0);
-    public bool OnLeftWall() => OnLeftWall(0, 0);
-    public bool OnRightWall() => OnRightWall(0, 0);
-    
-    public bool OnWall(Vector2 offset) => OnLeftWall(offset) || OnRightWall(offset);
-    public bool OnWallSide(float dir, Vector2 offset) { if (dir == -1) return OnLeftWall(offset); return OnRightWall(offset); }
-    public bool OnSurface(Vector2 offset) => (OnGround(offset) || OnCeiling(offset) || OnWall(offset)) && !InTile();
-    //////////////////////////////////////////////////////////
-    public bool OnWall(float x, float y) => OnWall(new(x, y));
-    public bool OnWallSide(float dir, float x, float y) => OnWallSide(dir, new(x, y));
-    public bool OnSurface(float x, float y) => OnSurface(new(x, y));
-    /////////////////////////////////////
-    public bool OnWall() => OnWall(0, 0);
-    public bool OnWallSide(float dir) => OnWallSide(dir, 0, 0);
-    public bool OnSurface() => OnSurface(0, 0);
-    
-
-    public int GetWallNormal() {
-        int normal = 0;
-        normal += OnLeftWall() ? 1 : 0;
-        normal += OnRightWall() ? -1 : 0;
-        
-        return normal;
-    }
-
-
 
     
     public bool MoveAndStop(float x, float y) => MoveAndStop(new(x, y));
     public void MoveAndSlide(float x, float y) => MoveAndSlide(new(x, y));
     public bool MoveX(float x) => MoveAndStop(x, 0);
     public bool MoveY(float y) => MoveAndStop(0, y);
+    public bool TestMove(Vector2 vec) => TestMove(new List<Vector2>() { vec });
+    public bool TestMove(float x, float y) => TestMove(new Vector2(x, y));
+    public Vector2 TestMoveDistance(float x, float y) => TestMoveDistance(new(x, y));
     
     public bool MoveAndStop(Vector2 vec, bool affectVelocity = true) {
         Vector2 normalized = vec.Normalized();
         float magnitude = vec.Length();
         int steps = (int) magnitude;
-
+        
+        
         for (int i = 1; i <= steps; i++) {
-            if (CheckCollision(normalized * i)) {
+            if (CheckCollision(normalized)) {
                 // only affect x or y velocity, if only those are being changed
                 if (affectVelocity && vec.X != 0) {
                     Vel.X = 0;
@@ -194,13 +166,11 @@ public partial class Player : Node2D {
                 
                 return true;
             }
-
+            
             Pos.Vec += normalized;
         }
 
-
         Vector2 vecRemainder = vec - (normalized * steps);
-
         if (CheckCollision(vecRemainder)) {
             if (affectVelocity && vec.X != 0) {
                 Vel.X = 0;
@@ -211,9 +181,9 @@ public partial class Player : Node2D {
             
             return true;
         }
-
         Pos.Vec += vecRemainder;
-
+        
+        
         return false;
     }
 
@@ -221,26 +191,116 @@ public partial class Player : Node2D {
         Vector2 normalized = vec.Normalized();
         float magnitude = vec.Length();
         int steps = (int) magnitude;
+        
 
         for (int i = 1; i <= steps; i++) {
             if (!CheckCollision(normalized.X, 0)) {
                 Pos.x += normalized.X;
             }
-
             if (!CheckCollision(0, normalized.Y)) {
                 Pos.y += normalized.Y;
             }
         }
 
-
         Vector2 vecRemainder = vec - (normalized * steps);
-
         if (!CheckCollision(vecRemainder.X, 0)) {
             Pos.x += vecRemainder.X;
         }
-
         if (!CheckCollision(0, vecRemainder.Y)) {
             Pos.y += vecRemainder.Y;
         }
+    }
+    
+    public bool TestMove(List<Vector2> vecs) {
+        Vector2 pos = Pos.Vec;
+        
+        foreach (Vector2 vec in vecs) {
+            Vector2 normalized = vec.Normalized();
+            float magnitude = vec.Length();
+            int steps = (int) magnitude;
+            
+
+            for (int i = 1; i <= steps; i++) {
+                if (CheckCollision(normalized, pos: pos)) {
+                    return true;
+                }
+                
+                pos += normalized;
+            }
+            
+
+            Vector2 vecRemainder = vec - (normalized * steps);
+            if (vecRemainder != Vector2.Zero && CheckCollision(vecRemainder, pos: pos)) {
+                return true;
+            }
+            
+            pos += vecRemainder;
+        }
+        
+        return false;
+    }
+    
+    public Vector2 TestMoveDistance(Vector2 vec) {
+        Vector2 pos = Pos.Vec;
+        Vector2 distance = Vector2.Zero;
+        
+        Vector2 normalized = vec.Normalized();
+        float magnitude = vec.Length();
+        int steps = (int) magnitude;
+        
+
+        for (int i = 1; i <= steps; i++) {
+            if (CheckCollision(normalized, pos: pos)) {
+                return distance;
+            }
+            
+            pos += normalized;
+            distance += normalized;
+        }
+        
+
+        Vector2 vecRemainder = vec - (normalized * steps);
+        if (vecRemainder != Vector2.Zero && !CheckCollision(vecRemainder, pos: pos)) {
+            distance += vecRemainder;
+        }
+        
+        return distance;
+    }
+    
+    public bool OnGround(float leniencyDistance) => TestMove(Vector2.Down * leniencyDistance) && !InTile();
+    public bool OnCeiling(float leniencyDistance) => TestMove(Vector2.Up * leniencyDistance) && !InTile();
+    public bool OnLeftWall(float leniencyDistance) => TestMove(Vector2.Left * leniencyDistance) && !InTile();
+    public bool OnRightWall(float leniencyDistance) => TestMove(Vector2.Right * leniencyDistance) && !InTile();
+    //////////////////////////////////////
+    public bool OnGround() => OnGround(1);
+    public bool OnCeiling() => OnCeiling(1);
+    public bool OnLeftWall() => OnLeftWall(1);
+    public bool OnRightWall() => OnRightWall(1);
+    
+    public bool OnSurface(float leniency) => (OnGround(leniency) || OnCeiling(leniency) || OnWall(leniency)) && !InTile();
+    public bool OnWall(float leniency) => OnLeftWall(leniency) || OnRightWall(leniency);
+    public bool OnWallSide(float dir, float leniency) {
+        if (dir == -1) {
+            return OnLeftWall(leniency);
+        }
+        return OnRightWall(leniency);
+    }
+    ////////////////////////////////////////
+    public bool OnSurface() => OnSurface(1);
+    public bool OnWall() => OnWall(1);
+    public bool OnWallSide(float dir) => OnWallSide(dir, 1);
+    
+    public int GetWallNormal() => GetWallNormal(1);
+    public int GetWallNormal(float leniency) {
+        float leftDistance = TestMoveDistance(-leniency, 0).Abs().X;
+        float rightDistance = TestMoveDistance(leniency, 0).Abs().X;
+        
+        if (leftDistance < rightDistance) {
+            return 1;
+        } else if (rightDistance < leftDistance) {
+            return -1;
+        }
+        
+        return 0;
     }
 }

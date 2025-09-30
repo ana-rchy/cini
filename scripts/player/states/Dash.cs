@@ -33,13 +33,17 @@ public partial class Dash : PlayerState {
     
 
     public override void Update(float delta) {
-        Clip(_player.Vel * delta, _player.DashClipThreshold);
+        if (_player.Vel.Normalized() != Vector2.Down) {
+            Clip(_player.Vel * delta, _player.DashClipThreshold);
+        }
         
         _player.MoveAndSlide(_player.Vel * delta);
     }
     
     public override void Update_StateTransitions(float _) {
-        if (_player.Vel.Normalized() == Vector2.Up && _player.OnWall() && _inputBuffer.ShouldJump()) {
+        if (_player.Vel.Normalized() == Vector2.Up && _inputBuffer.ShouldJump()
+            && _player.OnWall(_player.WallBounceLeniency)
+        ) {
             _stateMachine.ChangeState<WallBounce>();
             return;
         }

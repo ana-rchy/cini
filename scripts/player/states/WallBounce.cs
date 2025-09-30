@@ -14,14 +14,23 @@ public partial class WallBounce : PlayerState {
         AddChild(_pushoffTimer);
     }
     
+    public override bool Prereqs() =>
+        _inputBuffer.ShouldJump()
+        && (
+            _player.OnWall()
+            || (_player.OnWall(_player.WallBounceLeniency) && _player.GetWallNormal(_player.WallBounceLeniency) != 0)
+        );
+    
     public override void Enter() {
-        _player.Vel.X = _player.WallBouncePushoffSpeed * _player.GetWallNormal();
+        _player.Vel.X = _player.WallBouncePushoffSpeed * _player.GetWallNormal(_player.WallBounceLeniency);
         
         _gravity = -_player.Vel.Y / _player.WallBounceTime;
         
         _player.TimeSinceJump = 0;
-
         _pushoffTimer.Start(_player.WallBouncePushoffTime);
+        
+        // prevent jump being activated again in another state
+        _inputBuffer.StopJumpBufferTimer();
     }
     
     
