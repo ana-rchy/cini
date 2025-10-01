@@ -2,7 +2,9 @@ using System;
 using Godot;
 
 public partial class WallBounce : PlayerState {
+    [ExportGroup("node refs")]
     [Export] Timer _postDashWallbounceLeniencyTimer;
+    
     Timer _pushoffTimer;
     float _gravity;
     

@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cky84lfdw6dyy" path="res://scripts/player/Player.cs" id="1_3li8b"]
 [ext_resource type="PackedScene" uid="uid://b1g2kesfiwncp" path="res://scenes/Collider.tscn" id="1_p0vlq"]
+[ext_resource type="Curve" uid="uid://ca2rjf7g3tyuq" path="res://resources/curves/ReelbackLerpStrengthCurve.tres" id="2_axnmu"]
 [ext_resource type="Texture2D" uid="uid://cb7xdxayr7x1y" path="res://sprites/Player.png" id="2_v6fml"]
 [ext_resource type="Shader" uid="uid://cf7q2oly8fvyg" path="res://scripts/shaders/ScreenColorBlend.gdshader" id="3_b8lor"]
 [ext_resource type="Script" uid="uid://s3cki24oc7as" path="res://scripts/camera/PixelCamera.cs" id="4_61ith"]
@@ -13,9 +14,9 @@
 [ext_resource type="Script" uid="uid://7pvw87j2k50d" path="res://scripts/player/PlayerStateMachine.cs" id="6_ebwui"]
 [ext_resource type="Script" uid="uid://bj5hy85tc125w" path="res://scripts/player/states/FastFall.cs" id="7_cw2d6"]
 [ext_resource type="Script" uid="uid://5pebk6twe5xc" path="res://scripts/player/states/Respawn.cs" id="7_ebwui"]
-[ext_resource type="Curve" uid="uid://cindcs3pskjey" path="res://resources/PixelCameraSpeedCurve.tres" id="7_fgkxt"]
+[ext_resource type="Curve" uid="uid://cindcs3pskjey" path="res://resources/curves/PixelCameraSpeedCurve.tres" id="7_fgkxt"]
 [ext_resource type="Script" uid="uid://dvrv6o5xs1y8k" path="res://scripts/StateMachine.cs" id="7_p07f3"]
-[ext_resource type="Curve" uid="uid://dxphycb00fkd2" path="res://resources/PixelCameraRoomTransitionCurve.tres" id="8_1jpwa"]
+[ext_resource type="Curve" uid="uid://dxphycb00fkd2" path="res://resources/curves/PixelCameraRoomTransitionCurve.tres" id="8_1jpwa"]
 [ext_resource type="Script" uid="uid://dxn1m3ne6yt5b" path="res://scripts/player/states/Jump.cs" id="8_khinc"]
 [ext_resource type="Script" uid="uid://byocilwgeba3u" path="res://scripts/camera/states/CameraFollowPlayer.cs" id="8_viqgg"]
 [ext_resource type="Script" uid="uid://bgn2356cdvwif" path="res://scripts/player/states/ShortJump.cs" id="9_6eyey"]
@@ -30,59 +31,14 @@
 [ext_resource type="Script" uid="uid://c0jsqkwsgj1hn" path="res://scripts/player/states/ClimbShortJump.cs" id="18_gv3ic"]
 [ext_resource type="Script" uid="uid://wct8a42pbw2y" path="res://scripts/player/states/WallBounce.cs" id="23_pfeki"]
 
-[sub_resource type="Curve" id="Curve_6e537"]
-_limits = [0.0, 1.0, 65.0, 500.0]
-_data = [Vector2(65, 0.2), 0.0, 0.00628133, 0, 0, Vector2(500, 1), 0.0, 0.0, 0, 0]
-point_count = 2
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_b8lor"]
 shader = ExtResource("3_b8lor")
 shader_parameter/color = Color(0.0980392, 0, 0.6, 1)
 
 [node name="Player" type="Node2D" node_paths=PackedStringArray("SpawnState", "Collider", "StateMachine", "InputBuffer")]
 script = ExtResource("1_3li8b")
-MovementSpeed = 65.0
-FramesToMaxSpeed = 5.0
-FramesToMaxSpeedInAir = 8.0
-ReelbackLerpStrength = SubResource("Curve_6e537")
-JumpHeight = 18.0
-JumpRiseDistance = 18.0
-JumpFallDistance = 12.0
-JumpBufferTime = 0.15
-CoyoteTime = 0.06
-ShortJumpHeight = 6.0
-ShortJumpRiseDistance = 6.0
-TerminalVelocity = 80.0
-FastFallTerminalVelocity = 120.0
-FastFallGravityMultiplier = 1.0
-WallJumpDistanceLeniency = 2.0
-WallJumpHeight = 17.0
-WallJumpTime = 0.25
-WallJumpPushoffSpeed = 65.0
-WallJumpPushoffTime = 0.19
-NeutralWallJumpHeight = 17.0
-NeutralWallJumpTime = 0.25
-NeutralWallJumpPushoffSpeed = 80.0
-WallBounceDistanceLeniency = 4.0
-WallBounceTimeLeniencyInFrames = 30.0
-WallBounceTime = 0.5
-WallBouncePushoffSpeed = 100.0
-WallBouncePushoffTime = 0.05
-TotalStamina = 8.0
-ClimbingSpeed = 25.0
-GrabbingStaminaCost = 1.0
-ClimbingStaminaCost = 1.5
-WallSlidingDivisor = 2.4
-ClimbJumpStaminaCost = 2.0
-HangingMoveSpeed = 20.0
-HangingStaminaCost = 1.25
-HangingMoveStaminaCost = 1.5
-DashDistance = 30.0
-DashLength = 0.2
-DashChargeTotal = 2
+ReelbackLerpStrength = ExtResource("2_axnmu")
 SpawnState = NodePath("StateMachine/Falling")
-WallClipThreshold = 3
-DashClipThreshold = 3
 Collider = NodePath("Collider")
 StateMachine = NodePath("StateMachine")
 InputBuffer = NodePath("InputBuffer")
@@ -102,8 +58,6 @@ texture = ExtResource("4_b8lor")
 [node name="PixelCamera" type="Camera2D" parent="." node_paths=PackedStringArray("PlayerCollider")]
 top_level = true
 script = ExtResource("4_61ith")
-_innerBoundsWH = Vector2i(24, 24)
-_outerBoundsWH = Vector2i(128, 96)
 CameraSpeedCurve = ExtResource("7_fgkxt")
 CameraRoomTransitionCurve = ExtResource("8_1jpwa")
 PlayerCollider = NodePath("../Collider")
@@ -118,13 +72,9 @@ script = ExtResource("8_viqgg")
 [node name="CameraInRoomTransition" type="Node" parent="PixelCamera/StateMachine"]
 script = ExtResource("10_xsi7p")
 
-[node name="InputBuffer" type="Node" parent="." node_paths=PackedStringArray("_jumpBufferTimer")]
+[node name="InputBuffer" type="Node" parent="." node_paths=PackedStringArray("_player")]
 script = ExtResource("4_p7iby")
-_jumpBufferTime = 0.15
-_jumpBufferTimer = NodePath("JumpBufferTimer")
-
-[node name="JumpBufferTimer" type="Timer" parent="InputBuffer"]
-one_shot = true
+_player = NodePath("..")
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("CurrentState")]
 script = ExtResource("6_ebwui")

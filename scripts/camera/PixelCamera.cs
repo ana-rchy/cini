@@ -8,7 +8,8 @@ using System.Diagnostics;
 // it could be when it tries to print about smth that isnt available in editor
 // [Tool]
 public partial class PixelCamera : Camera2D {
-    [Export] Vector2I _innerBoundsWH, _outerBoundsWH; // width, height
+    [Export] Vector2I _innerBoundsWH = new(24, 24); // width, height
+    [Export] Vector2I _outerBoundsWH = new(128, 96);
     [Export] Color _innerBoundsColor = new(0, 1, 0, 0.8f);
     [Export] Color _outerBoundsColor = new(1, 0, 0, 0.8f);
     [Export] public Curve CameraSpeedCurve { get; private set; }

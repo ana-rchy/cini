@@ -2,8 +2,10 @@ using System;
 using Godot;
 
 public partial class Dash : PlayerState {
+    [ExportGroup("node refs")]
     [Export] Sprite2D _playerSprite;
     [Export] Timer _postDashWallbounceLeniencyTimer;
+    
     Timer _dashTimer;
     
 

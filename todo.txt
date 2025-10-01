@@ -2,8 +2,6 @@
 - super dash refill
 - wavedash
 - integrate custom player coloring
-- put default player export values into the player script
 
 done:
-- allow for wallbounce for a few frames after dashing
-- allow for clipping when moving upwards in falling state
+- put default player export values into the player script
