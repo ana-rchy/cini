@@ -1,7 +1,10 @@
 - ground bounce
+- wall sliding
 - super dash refill
 - wavedash
-- integrate custom player coloring
+
+later but not rn:
+- improve player coloring system
 
 done:
-- put default player export values into the player script
+- integrated custom player coloring with dash changing ur color

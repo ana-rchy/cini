@@ -33,7 +33,7 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_b8lor"]
 shader = ExtResource("3_b8lor")
-shader_parameter/color = Color(0.0980392, 0, 0.6, 1)
+shader_parameter/color = Color(0, 0.57000005, 0.6, 1)
 
 [node name="Player" type="Node2D" node_paths=PackedStringArray("SpawnState", "Collider", "StateMachine", "InputBuffer")]
 script = ExtResource("1_3li8b")
@@ -48,10 +48,10 @@ position = Vector2(-4, -4)
 _colliderColor = Color(0.34, 1, 0.494, 0.501961)
 
 [node name="Sprite" type="Sprite2D" parent="."]
+visible = false
 texture = ExtResource("2_v6fml")
 
 [node name="SpriteRecolorable" type="Sprite2D" parent="."]
-visible = false
 material = SubResource("ShaderMaterial_b8lor")
 texture = ExtResource("4_b8lor")
 
@@ -127,7 +127,7 @@ script = ExtResource("15_srp4u")
 
 [node name="Dash" type="Node" parent="StateMachine" node_paths=PackedStringArray("_playerSprite", "_postDashWallbounceLeniencyTimer")]
 script = ExtResource("16_jfpux")
-_playerSprite = NodePath("../../Sprite")
+_playerSprite = NodePath("../../SpriteRecolorable")
 _postDashWallbounceLeniencyTimer = NodePath("../WallBounce/PostDashWallbounceLeniency")
 
 [node name="DebugState" type="Node" parent="StateMachine"]

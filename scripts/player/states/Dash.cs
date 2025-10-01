@@ -7,6 +7,7 @@ public partial class Dash : PlayerState {
     [Export] Timer _postDashWallbounceLeniencyTimer;
     
     Timer _dashTimer;
+    ShaderMaterial _spriteShader;
     
 
     public override void _Ready() {
@@ -27,12 +28,12 @@ public partial class Dash : PlayerState {
     
     public override void Enter() {
         _player.Vel = Input.GetVector("Left", "Right", "Up", "Down") * _player.DashSpeed;
-
         _dashTimer.Start(_player.DashLength);
-
         _player.DashCharges--;
         
-        _playerSprite.SelfModulate = new(1, 0, 1); // TODO: make a better coloring system for slimes
+        _spriteShader = (ShaderMaterial) _playerSprite.Material;
+        Color spriteColor = (Color) _spriteShader.GetShaderParameter("color");
+        _spriteShader.SetShaderParameter("color", spriteColor.Inverted());
     }
     
 
@@ -65,7 +66,8 @@ public partial class Dash : PlayerState {
     
 
     public override void Exit() {
-        _playerSprite.SelfModulate = new(1, 1, 1);
+        Color spriteColor = (Color) _spriteShader.GetShaderParameter("color");
+        _spriteShader.SetShaderParameter("color", spriteColor.Inverted());
         
         if (_player.Vel.Normalized() == Vector2.Up) {
             _postDashWallbounceLeniencyTimer.Start(_player.WallBounceTimeLeniencyInFrames / 60);
