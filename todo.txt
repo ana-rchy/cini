@@ -1,10 +1,10 @@
-- ground bounce
 - wall sliding
 - super dash refill
 - wavedash
+- make jump > short jump transition smoother/better
 
 later but not rn:
 - improve player coloring system
 
 done:
-- integrated custom player coloring with dash changing ur color
+- ground bounce

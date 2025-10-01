@@ -8,6 +8,7 @@ public partial class Dash : PlayerState {
     
     Timer _dashTimer;
     ShaderMaterial _spriteShader;
+    bool _enteredOnGround;
     
 
     public override void _Ready() {
@@ -34,6 +35,8 @@ public partial class Dash : PlayerState {
         _spriteShader = (ShaderMaterial) _playerSprite.Material;
         Color spriteColor = (Color) _spriteShader.GetShaderParameter("color");
         _spriteShader.SetShaderParameter("color", spriteColor.Inverted());
+        
+        _enteredOnGround = _player.OnGround();
     }
     
 
@@ -46,10 +49,17 @@ public partial class Dash : PlayerState {
     }
     
     public override void Update_StateTransitions(float _) {
-        if (_player.Vel.Normalized() == Vector2.Up && _inputBuffer.ShouldJump()
-            && _player.OnWall(_player.WallBounceDistanceLeniency)
+        if (_player.OnWall(_player.WallBounceDistanceLeniency) && _inputBuffer.ShouldJump()
+            && _player.Vel.Normalized() == Vector2.Up
         ) {
             _stateMachine.ChangeState<WallBounce>();
+            return;
+        }
+        
+        if (_player.OnGround() && _inputBuffer.ShouldJump()
+            && _player.Vel.Normalized() == Vector2.Down && !_enteredOnGround
+        ) {
+            _stateMachine.ChangeState<Bounce>();
             return;
         }
         

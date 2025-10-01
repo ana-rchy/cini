@@ -1,6 +1,5 @@
 using Godot;
 using System;
-using QoL = PlayerStateUtils.QoL;
 
 public partial class Jump : PlayerState {
     float _gravity;

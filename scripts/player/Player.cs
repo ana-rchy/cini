@@ -17,6 +17,9 @@ public partial class Player : Node2D {
     [ExportGroup("Jumping/Short Jumping")]
     [Export] public float ShortJumpHeight = 6;
     [Export] public float ShortJumpRiseDistance = 6;
+    [ExportGroup("Jumping/Ground Bouncing")]
+    [Export] public float BounceHeight = 50;
+    [Export] public float BounceRiseDistance = 36;
 
     [ExportGroup("Falling")]
     [Export] public float TerminalVelocity = 80;

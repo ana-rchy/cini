@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://d06f8v6im24nc"]
+[gd_scene load_steps=33 format=3 uid="uid://d06f8v6im24nc"]
 
 [ext_resource type="Script" uid="uid://cky84lfdw6dyy" path="res://scripts/player/Player.cs" id="1_3li8b"]
 [ext_resource type="PackedScene" uid="uid://b1g2kesfiwncp" path="res://scenes/Collider.tscn" id="1_p0vlq"]
@@ -29,6 +29,7 @@
 [ext_resource type="Script" uid="uid://c2n8f7k88fxdx" path="res://scripts/player/states/Dash.cs" id="16_jfpux"]
 [ext_resource type="Script" uid="uid://gwya0owgpoq2" path="res://scripts/player/states/ClimbJump.cs" id="17_sfy4j"]
 [ext_resource type="Script" uid="uid://c0jsqkwsgj1hn" path="res://scripts/player/states/ClimbShortJump.cs" id="18_gv3ic"]
+[ext_resource type="Script" uid="uid://bk4ci5nnjtprn" path="res://scripts/player/states/Bounce.cs" id="22_fvsjc"]
 [ext_resource type="Script" uid="uid://wct8a42pbw2y" path="res://scripts/player/states/WallBounce.cs" id="23_pfeki"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_b8lor"]
@@ -100,6 +101,9 @@ script = ExtResource("8_khinc")
 
 [node name="ShortJump" type="Node" parent="StateMachine"]
 script = ExtResource("9_6eyey")
+
+[node name="Bounce" type="Node" parent="StateMachine"]
+script = ExtResource("22_fvsjc")
 
 [node name="WallJump" type="Node" parent="StateMachine"]
 script = ExtResource("11_o4126")
