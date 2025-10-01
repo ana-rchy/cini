@@ -24,7 +24,7 @@ public partial class Player : Node2D {
     [Export] public float FastFallGravityMultiplier;
 
     [ExportGroup("Wall Jumping")]
-    [Export] public float WallJumpLeniency = 1;
+    [Export] public float WallJumpDistanceLeniency = 1;
     [Export] public float WallJumpHeight;
     [Export] public float WallJumpTime;
     [Export] public float WallJumpPushoffSpeed;
@@ -34,7 +34,8 @@ public partial class Player : Node2D {
     [Export] public float NeutralWallJumpTime;
     [Export] public float NeutralWallJumpPushoffSpeed;
     [ExportGroup("Wall Jumping/Wall Bouncing")]
-    [Export] public float WallBounceLeniency = 2;
+    [Export] public float WallBounceDistanceLeniency = 2;
+    [Export] public float WallBounceTimeLeniencyInFrames;
     [Export] public float WallBounceTime;
     [Export] public float WallBouncePushoffSpeed;
     [Export] public float WallBouncePushoffTime;

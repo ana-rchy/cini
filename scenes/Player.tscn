@@ -55,7 +55,7 @@ ShortJumpRiseDistance = 6.0
 TerminalVelocity = 80.0
 FastFallTerminalVelocity = 120.0
 FastFallGravityMultiplier = 1.0
-WallJumpLeniency = 2.0
+WallJumpDistanceLeniency = 2.0
 WallJumpHeight = 17.0
 WallJumpTime = 0.25
 WallJumpPushoffSpeed = 65.0
@@ -63,7 +63,8 @@ WallJumpPushoffTime = 0.19
 NeutralWallJumpHeight = 17.0
 NeutralWallJumpTime = 0.25
 NeutralWallJumpPushoffSpeed = 80.0
-WallBounceLeniency = 4.0
+WallBounceDistanceLeniency = 4.0
+WallBounceTimeLeniencyInFrames = 30.0
 WallBounceTime = 0.5
 WallBouncePushoffSpeed = 100.0
 WallBouncePushoffTime = 0.05
@@ -156,8 +157,11 @@ script = ExtResource("11_o4126")
 [node name="NeutralWallJump" type="Node" parent="StateMachine"]
 script = ExtResource("12_lkdrv")
 
-[node name="WallBounce" type="Node" parent="StateMachine"]
+[node name="WallBounce" type="Node" parent="StateMachine" node_paths=PackedStringArray("_postDashWallbounceLeniencyTimer")]
 script = ExtResource("23_pfeki")
+_postDashWallbounceLeniencyTimer = NodePath("PostDashWallbounceLeniency")
+
+[node name="PostDashWallbounceLeniency" type="Timer" parent="StateMachine/WallBounce"]
 
 [node name="Climbing" type="Node" parent="StateMachine"]
 script = ExtResource("14_0rnld")
@@ -171,9 +175,10 @@ script = ExtResource("18_gv3ic")
 [node name="Hanging" type="Node" parent="StateMachine"]
 script = ExtResource("15_srp4u")
 
-[node name="Dash" type="Node" parent="StateMachine" node_paths=PackedStringArray("_playerSprite")]
+[node name="Dash" type="Node" parent="StateMachine" node_paths=PackedStringArray("_playerSprite", "_postDashWallbounceLeniencyTimer")]
 script = ExtResource("16_jfpux")
 _playerSprite = NodePath("../../Sprite")
+_postDashWallbounceLeniencyTimer = NodePath("../WallBounce/PostDashWallbounceLeniency")
 
 [node name="DebugState" type="Node" parent="StateMachine"]
 script = ExtResource("9_bruh7")

@@ -9,11 +9,11 @@ public partial class NeutralWallJump : PlayerState {
         _inputBuffer.ShouldJump() && Input.GetAxis("Left", "Right") == 0
         && (
             _player.OnWall()
-            || (_player.OnWall(_player.WallJumpLeniency) && _player.GetWallNormal(_player.WallJumpLeniency) != 0)
+            || (_player.OnWall(_player.WallJumpDistanceLeniency) && _player.GetWallNormal(_player.WallJumpDistanceLeniency) != 0)
         );
     
     public override void Enter() {
-        _player.Vel.X = _player.NeutralWallJumpPushoffSpeed * _player.GetWallNormal(_player.WallJumpLeniency);
+        _player.Vel.X = _player.NeutralWallJumpPushoffSpeed * _player.GetWallNormal(_player.WallJumpDistanceLeniency);
         
         _player.Vel.Y = GetJumpVelocityWithTime(_player.NeutralWallJumpHeight, _player.NeutralWallJumpTime);
         _gravity = GetGravityWithTime(_player.NeutralWallJumpHeight, _player.NeutralWallJumpTime);

@@ -10,14 +10,14 @@ public static class Transitions {
             return true;
         }
 
-        if (player.OnWall(player.WallJumpLeniency) && inputBuffer.ShouldJump()
+        if (player.OnWall(player.WallJumpDistanceLeniency) && inputBuffer.ShouldJump()
             && Input.GetAxis("Left", "Right") != 0
         ) {
             stateMachine.ChangeState<WallJump>();
             return true;
         }
 
-        if (player.OnWall(player.WallJumpLeniency) && inputBuffer.ShouldJump()
+        if (player.OnWall(player.WallJumpDistanceLeniency) && inputBuffer.ShouldJump()
             && Input.GetAxis("Left", "Right") == 0
         ) {
             stateMachine.ChangeState<NeutralWallJump>();

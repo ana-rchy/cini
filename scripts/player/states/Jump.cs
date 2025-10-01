@@ -30,12 +30,12 @@ public partial class Jump : PlayerState {
     
 
     public override void Update(float delta) {
-        BasicXMovement(_player.MovementSpeed, _player.FramesToMaxSpeedInAir, delta);
-
         float yAccel = GetVerletAccelTerm(_gravity, delta);
         float yPosChange = _player.Vel.Y * delta + yAccel;
         
         Clip(0, yPosChange, _player.WallClipThreshold);
+        
+        BasicXMovement(_player.MovementSpeed, _player.FramesToMaxSpeedInAir, delta);
 
         _player.MoveY(yPosChange);
         _player.Vel.Y += _gravity * delta;

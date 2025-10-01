@@ -1,13 +1,9 @@
 - ground bounce
 - super dash refill
 - wavedash
-- allow for dash actions for a few frames after dashing
+- integrate custom player coloring
+- put default player export values into the player script
 
 done:
-- fix down dash clip thing
-- more fall speed
-- optimization (gave nodes group a cache)
-- small refactor around collision checking
-- walljump distance leniency
-- wallbounce distance leniency
-- fix jump buffer not clearing after WallJump
+- allow for wallbounce for a few frames after dashing
+- allow for clipping when moving upwards in falling state

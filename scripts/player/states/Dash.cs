@@ -3,6 +3,7 @@ using Godot;
 
 public partial class Dash : PlayerState {
     [Export] Sprite2D _playerSprite;
+    [Export] Timer _postDashWallbounceLeniencyTimer;
     Timer _dashTimer;
     
 
@@ -11,6 +12,7 @@ public partial class Dash : PlayerState {
         
         string assertMsg(object obj) => $"'{GetParent().Name}/{Name}' is missing '{nameof(obj)}'";
         Logging.Assert(_playerSprite is Sprite2D, assertMsg(_playerSprite));
+        Logging.Assert(_postDashWallbounceLeniencyTimer is Timer, assertMsg(_postDashWallbounceLeniencyTimer));
         
         _dashTimer = new();
         _dashTimer.OneShot = true;
@@ -42,7 +44,7 @@ public partial class Dash : PlayerState {
     
     public override void Update_StateTransitions(float _) {
         if (_player.Vel.Normalized() == Vector2.Up && _inputBuffer.ShouldJump()
-            && _player.OnWall(_player.WallBounceLeniency)
+            && _player.OnWall(_player.WallBounceDistanceLeniency)
         ) {
             _stateMachine.ChangeState<WallBounce>();
             return;
@@ -62,5 +64,9 @@ public partial class Dash : PlayerState {
 
     public override void Exit() {
         _playerSprite.SelfModulate = new(1, 1, 1);
+        
+        if (_player.Vel.Normalized() == Vector2.Up) {
+            _postDashWallbounceLeniencyTimer.Start(_player.WallBounceTimeLeniencyInFrames / 60);
+        }
     }
 }

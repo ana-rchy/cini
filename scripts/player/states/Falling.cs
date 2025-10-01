@@ -29,6 +29,10 @@ public partial class Falling : PlayerState {
     
 
     public override void Update(float delta) {
+        if (_player.Vel.Y < 0) {
+            Clip(_player.Vel * delta, _player.DashClipThreshold);
+        }
+        
         // wall sliding
         float gravity = _gravity;
         float terminalVelocity = _player.TerminalVelocity;
