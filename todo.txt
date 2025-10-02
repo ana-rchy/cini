@@ -1,10 +1,12 @@
-- wall sliding
 - super dash refill
 - wavedash
 - make jump > short jump transition smoother/better
+- think up of better name for "WallDashSlide"
+- reorganize player export variables
 
 later but not rn:
 - improve player coloring system
 
 done:
-- ground bounce
+- wall sliding
+- fixed weird NodesCache bug

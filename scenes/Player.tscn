@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://d06f8v6im24nc"]
+[gd_scene load_steps=34 format=3 uid="uid://d06f8v6im24nc"]
 
 [ext_resource type="Script" uid="uid://cky84lfdw6dyy" path="res://scripts/player/Player.cs" id="1_3li8b"]
 [ext_resource type="PackedScene" uid="uid://b1g2kesfiwncp" path="res://scenes/Collider.tscn" id="1_p0vlq"]
@@ -31,6 +31,7 @@
 [ext_resource type="Script" uid="uid://c0jsqkwsgj1hn" path="res://scripts/player/states/ClimbShortJump.cs" id="18_gv3ic"]
 [ext_resource type="Script" uid="uid://bk4ci5nnjtprn" path="res://scripts/player/states/Bounce.cs" id="22_fvsjc"]
 [ext_resource type="Script" uid="uid://wct8a42pbw2y" path="res://scripts/player/states/WallBounce.cs" id="23_pfeki"]
+[ext_resource type="Script" uid="uid://dl7wigjfa74bm" path="res://scripts/player/states/WallDashSlide.cs" id="26_hxdpb"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_b8lor"]
 shader = ExtResource("3_b8lor")
@@ -116,6 +117,9 @@ script = ExtResource("23_pfeki")
 _postDashWallbounceLeniencyTimer = NodePath("PostDashWallbounceLeniency")
 
 [node name="PostDashWallbounceLeniency" type="Timer" parent="StateMachine/WallBounce"]
+
+[node name="WallDashSlide" type="Node" parent="StateMachine"]
+script = ExtResource("26_hxdpb")
 
 [node name="Climbing" type="Node" parent="StateMachine"]
 script = ExtResource("14_0rnld")

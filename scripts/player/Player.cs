@@ -66,6 +66,8 @@ public partial class Player : Node2D {
     [Export] public PlayerState SpawnState;
     [Export] public int WallClipThreshold = 3;
     [Export] public int DashClipThreshold = 3;
+    [Export] public float WallDashSlidingGravity = 250;
+    [Export] public float WallDashSlidingWallbounceMinVel = 69;
 
     [ExportGroup("node refs")]
     [Export] public Collider Collider { get; private set; }
@@ -128,7 +130,6 @@ public partial class Player : Node2D {
         bool colliding = false;
         collidingWith = new();
 
-        // foreach (Collider tile in GetTree().GetNodesInGroup(nodesGroup)) {
         foreach (Collider tile in NodesCache.Get(nodesGroup, GetTree())) {
             if (Collider.Intersects(tile, 0, 0)) {
                 colliding = true;

@@ -36,11 +36,9 @@ public partial class Falling : PlayerState {
         // wall sliding
         float gravity = _gravity;
         float terminalVelocity = _player.TerminalVelocity;
+        float xInput = Input.GetAxis("Left", "Right");
 
-        if ((Input.IsActionPressed("Left") && _player.OnLeftWall()) ||
-            (Input.IsActionPressed("Right") && _player.OnRightWall())
-        ) {
-            // TODO: make the gravity wall up-sliding thingy into a proper feature
+        if (_player.OnWall() && xInput == -_player.GetWallNormal() && _player.Vel.Y > 0) {
             gravity = _gravity / _player.WallSlidingDivisor;
             terminalVelocity = _player.TerminalVelocity / _player.WallSlidingDivisor;
         }

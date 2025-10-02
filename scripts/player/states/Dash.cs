@@ -68,6 +68,15 @@ public partial class Dash : PlayerState {
             return;
         }
         
+        float xInput = Input.GetAxis("Left", "Right");
+        
+        if (_player.OnWall() && xInput == -_player.GetWallNormal() && _player.Vel.Y < 0
+            && _dashTimer.IsStopped()
+        ) {
+            _stateMachine.ChangeState<WallDashSlide>();
+            return;
+        }
+        
         if (_dashTimer.IsStopped()) {
             _stateMachine.ChangeState<Falling>();
             return;

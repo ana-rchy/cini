@@ -23,5 +23,10 @@ public partial class TileMapLevelEditor : TileMapLayer {
                 ((ITile) tile).ModifyTile(additionalData);
             }
         }
+        
+        // needed so that tiles placed after the player dont get not-added to the cache,
+        // which happens cause not all tiles are ready before the player Get's from the NodesCache
+        // (i assume _Ready is called in sequence of tile placement)
+        NodesCache.Update("Tiles", GetTree());
     }
 }

@@ -5,4 +5,6 @@
 
 [node name="TileMapLevelEditor" type="TileMapLayer"]
 tile_set = ExtResource("1_c2281")
+collision_enabled = false
+navigation_enabled = false
 script = ExtResource("1_df33y")

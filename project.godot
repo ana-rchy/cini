@@ -17,7 +17,6 @@ config/features=PackedStringArray("4.5", "C#", "GL Compatibility")
 [autoload]
 
 Logging="*res://scenes/Logging.tscn"
-NodesCache="*res://scripts/NodesCache.cs"
 
 [display]
 
