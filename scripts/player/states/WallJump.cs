@@ -1,9 +1,10 @@
+using System.Collections.Generic;
 using Godot;
-using System;
 
 public partial class WallJump : PlayerState {
     Timer _pushoffTimer;
-    float _gravity;
+    Vector2 _startingPos;
+    float _gravity, _timeSinceJump;
 
 
     public override void _Ready() {
@@ -21,14 +22,15 @@ public partial class WallJump : PlayerState {
             || (_player.OnWall(_player.WallJumpDistanceLeniency) && _player.GetWallNormal(_player.WallJumpDistanceLeniency) != 0)
         );
 
-    public override void Enter() {
+    public override void Enter(Dictionary<string, object> dict = null) {
         _player.Vel.X = _player.WallJumpPushoffSpeed * _player.GetWallNormal(_player.WallJumpDistanceLeniency);
         
         _player.Vel.Y = GetJumpVelocityWithTime(_player.WallJumpHeight, _player.WallJumpTime);
         _gravity = GetGravityWithTime(_player.WallJumpHeight, _player.WallJumpTime);
-
-        _player.TimeSinceJump = 0;
+        
         _pushoffTimer.Start(_player.WallJumpPushoffTime);
+        _startingPos = _player.Pos.Vec;
+        _timeSinceJump = 0;
         
         // prevent jump being activated again in another state
         _inputBuffer.StopJumpBufferTimer();
@@ -50,7 +52,7 @@ public partial class WallJump : PlayerState {
         _player.MoveY(yPosChange);
         _player.Vel.Y += _gravity * delta;
 
-        _player.TimeSinceJump += delta;
+        _timeSinceJump += delta;
     }
     
     public override void Update_StateTransitions(float _) {
@@ -62,7 +64,14 @@ public partial class WallJump : PlayerState {
         }
 
         if (!Input.IsActionPressed("Jump")) {
-            _stateMachine.ChangeState<ShortJump>();
+            float remainingHeight = Mathf.Abs((_startingPos.Y - _player.WallJumpHeight) - _player.Pos.y);
+            float remainingTime = _player.WallJumpTime - _timeSinceJump;
+            
+            _stateMachine.ChangeState<ShortJump>(dict: new() {
+                { "RemainingHeight", remainingHeight },
+                { "RemainingTime", remainingTime }
+            });
+            
             return;
         }
     }

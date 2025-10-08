@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Generic;
 using Godot;
 
 public partial class WallDashSlide : PlayerState {
@@ -10,7 +10,7 @@ public partial class WallDashSlide : PlayerState {
         && Input.GetAxis("Left", "Right") == -_player.GetWallNormal()
         && _player.Vel.Y < 0;
     
-    public override void Enter() {
+    public override void Enter(Dictionary<string, object> dict = null) {
         _gravity = _player.WallDashSlidingGravity;
     }
     

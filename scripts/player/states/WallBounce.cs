@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Generic;
 using Godot;
 
 public partial class WallBounce : PlayerState {
@@ -6,7 +6,8 @@ public partial class WallBounce : PlayerState {
     [Export] Timer _postDashWallbounceLeniencyTimer;
     
     Timer _pushoffTimer;
-    float _gravity;
+    Vector2 _startingPos, _startingVel;
+    float _gravity, _timeSinceJump;
     
     
     public override void _Ready() {
@@ -26,16 +27,21 @@ public partial class WallBounce : PlayerState {
         _inputBuffer.ShouldJump()
         && (
             _player.OnWall()
-            || (_player.OnWall(_player.WallBounceDistanceLeniency) && _player.GetWallNormal(_player.WallBounceDistanceLeniency) != 0)
+            || (
+                _player.OnWall(_player.WallBounceDistanceLeniency)
+                && _player.GetWallNormal(_player.WallBounceDistanceLeniency) != 0
+            )
         );
     
-    public override void Enter() {
+    public override void Enter(Dictionary<string, object> dict = null) {
         _player.Vel.X = _player.WallBouncePushoffSpeed * _player.GetWallNormal(_player.WallBounceDistanceLeniency);
         
         _gravity = -_player.Vel.Y / _player.WallBounceTime;
         
-        _player.TimeSinceJump = 0;
         _pushoffTimer.Start(_player.WallBouncePushoffTime);
+        _startingPos = _player.Pos.Vec;
+        _startingVel = _player.Vel;
+        _timeSinceJump = 0;
         
         // prevent jump being activated again in another state
         _inputBuffer.StopJumpBufferTimer();
@@ -57,11 +63,29 @@ public partial class WallBounce : PlayerState {
         _player.MoveY(yPosChange);
         _player.Vel.Y += _gravity * delta;
 
-        _player.TimeSinceJump += delta;
+        _timeSinceJump += delta;
     }
     
     public override void Update_StateTransitions(float _) {
         if (CommonInAirTransitions()) return;
+        
+        if (!Input.IsActionPressed("Jump")) {
+            // kinematic displacement formula
+            float maxHeight = _startingVel.Y * _player.WallBounceTime;
+            maxHeight += 0.5f * _gravity * Mathf.Pow(_player.WallBounceTime, 2);
+            
+            maxHeight = Mathf.Abs(maxHeight);
+            
+            float remainingHeight = Mathf.Abs((_startingPos.Y - maxHeight) - _player.Pos.y);
+            float remainingTime = _player.WallBounceTime - _timeSinceJump;
+            
+            _stateMachine.ChangeState<ShortJump>(dict: new() {
+                { "RemainingHeight", remainingHeight },
+                { "RemainingTime", remainingTime }
+            });
+            
+            return;
+        }
 
         if (_player.Vel.Y >= 0) {
             _stateMachine.ChangeState<Falling>();

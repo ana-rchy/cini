@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Generic;
 using Godot;
 
 public partial class CameraInRoomTransition : PixelCameraState {
@@ -16,7 +16,7 @@ public partial class CameraInRoomTransition : PixelCameraState {
         _transitionTime = _roomTransitionCurve.MaxDomain;
     }
     
-    public override void Enter() {
+    public override void Enter(Dictionary<string, object> dict = null) {
         _startPos = _camera.PosCentre.Vec;
         
         foreach (Room newRoom in GetTree().GetNodesInGroup("Rooms")) {

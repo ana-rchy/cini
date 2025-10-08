@@ -1,20 +1,23 @@
+using System.Collections.Generic;
 using Godot;
-using System;
 
 public partial class ClimbJump : PlayerState {
-    float _gravity;
+    Vector2 _startingPos;
+    float _gravity, _timeSinceJump;
 
 
     public override bool Prereqs() =>
         _player.OnWall() && _inputBuffer.ShouldJump() && _player.Stamina >= 0;
 
-    public override void Enter() {
+    public override void Enter(Dictionary<string, object> dict = null) {
         _player.Vel.X = 0;
 
         _player.Vel.Y = GetJumpVelocityWithTime(_player.WallJumpHeight, _player.WallJumpTime);
         _gravity = GetGravityWithTime(_player.WallJumpHeight, _player.WallJumpTime);
 
-        _player.TimeSinceJump = 0;
+        _startingPos = _player.Pos.Vec;
+        _timeSinceJump = 0;
+        
         _player.Stamina -= _player.ClimbJumpStaminaCost;
 
         // prevent jump being activated again in another state
@@ -31,27 +34,23 @@ public partial class ClimbJump : PlayerState {
         _player.MoveY(yPosChange);
         _player.Vel.Y += _gravity * delta;
 
-        _player.TimeSinceJump += delta;
+        _timeSinceJump += delta;
     }
 
     public override void Update_StateTransitions(float _) {
         if (!Input.IsActionPressed("Jump")) {
-            _stateMachine.ChangeState<ClimbShortJump>();
+            float remainingHeight = Mathf.Abs((_startingPos.Y - _player.WallJumpHeight) - _player.Pos.y);
+            float remainingTime = _player.WallJumpTime - _timeSinceJump;
+            
+            _stateMachine.ChangeState<ShortJump>(dict: new() {
+                { "RemainingHeight", remainingHeight },
+                { "RemainingTime", remainingTime }
+            });
+            
             return;
         }
 
-        // what to do at end of climbjump
-        if (_player.Vel.Y >= 0) {
-            if (_player.OnWall() && Input.IsActionPressed("Grab")) {
-                _stateMachine.ChangeState<Climbing>();
-            } else {
-                _stateMachine.ChangeState<Falling>();
-            }
-
-            return;
-        }
-
-        if (!_player.OnWall() || _player.Stamina <= 0) {
+        if (_player.Vel.Y >= 0 || _player.Stamina <= 0 || !_player.OnWall()) {
             _stateMachine.ChangeState<Falling>();
             return;
         }

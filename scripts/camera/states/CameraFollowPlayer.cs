@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Generic;
 using Godot;
 
 public partial class CameraFollowPlayer : PixelCameraState {
@@ -10,7 +10,7 @@ public partial class CameraFollowPlayer : PixelCameraState {
         _playerCollider = _camera.PlayerCollider;
     }
     
-    public override async void Enter() {
+    public override async void Enter(Dictionary<string, object> dict = null) {
         if (_playerCollider == null) {
             await ToSignal(_playerCollider, Collider.SignalName.Ready);
         }

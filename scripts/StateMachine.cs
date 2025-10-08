@@ -32,9 +32,10 @@ public partial class StateMachine : Node {
         }
     }
 
-    public void ChangeState<T>(bool forceReEnter = false) => ChangeState(typeof(T).ToString(), forceReEnter);
+    public void ChangeState<T>(Dictionary<string, object> dict = null, bool forceReEnter = false)
+        => ChangeState(typeof(T).ToString(), dict, forceReEnter);
     
-    public void ChangeState(string newStateName, bool forceReEnter = false) {
+    public void ChangeState(string newStateName, Dictionary<string, object> dict = null, bool forceReEnter = false) {
         Logging.Assert(HasNode(newStateName), $"'{GetParent().Name}/{Name}' doesn't have state '{newStateName}'");
         
         if (!forceReEnter && $"{CurrentState.GetType()}" == newStateName) {
@@ -55,7 +56,7 @@ public partial class StateMachine : Node {
         
         CurrentState = newState;
         if (!CurrentState.EarlyExitStateTransitions()) {
-            CurrentState.Enter();
+            CurrentState.Enter(dict);
         }
     }
 }

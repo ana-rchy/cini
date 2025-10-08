@@ -5,7 +5,7 @@ public partial class Climbing : PlayerState {
 	public override bool Prereqs() =>
 		Input.IsActionPressed("Grab") && _player.OnWall() && _player.Stamina > 0;
 
-	public override void Enter() {
+	public override void Enter(Dictionary<string, object> dict = null) {
 		_player.Vel = Vector2.Zero;
 	}
 	

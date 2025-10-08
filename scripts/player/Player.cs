@@ -17,6 +17,7 @@ public partial class Player : Node2D {
     [ExportGroup("Jumping/Short Jumping")]
     [Export] public float ShortJumpHeight = 6;
     [Export] public float ShortJumpRiseDistance = 6;
+    [Export] public float ShortJumpRemainingHeightDivisor = 2;
     [ExportGroup("Jumping/Ground Bouncing")]
     [Export] public float BounceHeight = 50;
     [Export] public float BounceRiseDistance = 36;
@@ -80,7 +81,6 @@ public partial class Player : Node2D {
     public Vector2PP Pos;
     public Vector2 Vel = Vector2.Zero;
     
-    public float TimeSinceJump = 0;
     public float Stamina;
     public int DashCharges = 0;
 

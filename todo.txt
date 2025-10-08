@@ -1,6 +1,5 @@
 - super dash refill
 - wavedash
-- make jump > short jump transition smoother/better
 - think up of better name for "WallDashSlide"
 - reorganize player export variables
 
@@ -8,5 +7,6 @@ later but not rn:
 - improve player coloring system
 
 done:
-- wall sliding
-- fixed weird NodesCache bug
+- add dictionary parameter to Enter to pass values between states
+- make '... > short jump' transitions smoother/better
+- add rudimentary ingame input overlay

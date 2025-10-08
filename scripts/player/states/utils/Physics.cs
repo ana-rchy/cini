@@ -57,10 +57,7 @@ public static class Physics {
     }
     
     public static float GetJumpVelocityWithDistance(float movementSpeed, float height, float distance) {
-        float velocity = -2 * height * movementSpeed;
-        velocity /= distance;
-        
-        return velocity;
+        return GetJumpVelocityWithTime(height, distance / movementSpeed);
     }
     
     public static float GetGravityWithTime(float height, float time) {
@@ -68,17 +65,14 @@ public static class Physics {
     }
     
     public static float GetGravityWithDistance(float movementSpeed, float height, float distance) {
-        float gravity = 2 * height * Mathf.Pow(movementSpeed, 2);
-        gravity /= MathF.Pow(distance, 2);
-        
-        return gravity;
+        return GetGravityWithTime(height, distance / movementSpeed);
     }
     
-    public static float GetVerletAccelTerm(float accel, float delta) {
-        // velocity verlet equation:
-        // pos += vel * dt + (0.5 * accel * dt^2)
+    public static float GetVerletAccelTerm(float accel, float deltaTime) {
+        // velocity verlet formula:
+        // pos += vel * dt + (0.5 * accel * dt^2) (same as kinematic displacement equation)
         // vel += acc * dt
-        return 0.5f * accel * delta * delta;
+        return 0.5f * accel * deltaTime * deltaTime;
     }
 }
 }

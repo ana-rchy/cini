@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Generic;
 using Godot;
 
 public partial class Dash : PlayerState {
@@ -27,7 +27,7 @@ public partial class Dash : PlayerState {
         Input.IsActionJustPressed("Dash") && _player.DashCharges > 0 &&
         Input.GetVector("Left", "Right", "Up", "Down") != Vector2.Zero;
     
-    public override void Enter() {
+    public override void Enter(Dictionary<string, object> dict = null) {
         _player.Vel = Input.GetVector("Left", "Right", "Up", "Down") * _player.DashSpeed;
         _dashTimer.Start(_player.DashLength);
         _player.DashCharges--;

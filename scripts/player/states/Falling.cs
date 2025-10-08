@@ -1,5 +1,6 @@
-using Godot;
 using System;
+using System.Collections.Generic;
+using Godot;
 
 public partial class Falling : PlayerState {
     float _gravity;
@@ -11,6 +12,11 @@ public partial class Falling : PlayerState {
             return true;
         }
         
+        if (_player.OnWall() && Input.IsActionPressed("Grab")) {
+            _stateMachine.ChangeState<Climbing>();
+            return true;
+        }
+        
         if (Input.IsActionPressed("FastFall")) {
             _stateMachine.ChangeState<FastFall>();
             return true;
@@ -19,7 +25,7 @@ public partial class Falling : PlayerState {
         return false;
     }
 
-    public override void Enter() {
+    public override void Enter(Dictionary<string, object> dict = null) {
         _gravity = GetGravityWithDistance(
             _player.MovementSpeed,
             _player.JumpHeight,

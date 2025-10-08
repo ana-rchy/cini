@@ -28,10 +28,10 @@
 [ext_resource type="Script" uid="uid://cogxbh0rnt3pn" path="res://scripts/player/states/Hanging.cs" id="15_srp4u"]
 [ext_resource type="Script" uid="uid://c2n8f7k88fxdx" path="res://scripts/player/states/Dash.cs" id="16_jfpux"]
 [ext_resource type="Script" uid="uid://gwya0owgpoq2" path="res://scripts/player/states/ClimbJump.cs" id="17_sfy4j"]
-[ext_resource type="Script" uid="uid://c0jsqkwsgj1hn" path="res://scripts/player/states/ClimbShortJump.cs" id="18_gv3ic"]
 [ext_resource type="Script" uid="uid://bk4ci5nnjtprn" path="res://scripts/player/states/Bounce.cs" id="22_fvsjc"]
 [ext_resource type="Script" uid="uid://wct8a42pbw2y" path="res://scripts/player/states/WallBounce.cs" id="23_pfeki"]
 [ext_resource type="Script" uid="uid://dl7wigjfa74bm" path="res://scripts/player/states/WallDashSlide.cs" id="26_hxdpb"]
+[ext_resource type="Script" uid="uid://ckg0kws7irlbc" path="res://scripts/InputOverlayKey.cs" id="32_hxdpb"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_b8lor"]
 shader = ExtResource("3_b8lor")
@@ -127,9 +127,6 @@ script = ExtResource("14_0rnld")
 [node name="ClimbJump" type="Node" parent="StateMachine"]
 script = ExtResource("17_sfy4j")
 
-[node name="ClimbShortJump" type="Node" parent="StateMachine"]
-script = ExtResource("18_gv3ic")
-
 [node name="Hanging" type="Node" parent="StateMachine"]
 script = ExtResource("15_srp4u")
 
@@ -140,5 +137,57 @@ _postDashWallbounceLeniencyTimer = NodePath("../WallBounce/PostDashWallbounceLen
 
 [node name="DebugState" type="Node" parent="StateMachine"]
 script = ExtResource("9_bruh7")
+
+[node name="InputOverlay" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="Right" type="ColorRect" parent="InputOverlay"]
+offset_left = 301.0
+offset_top = 158.0
+offset_right = 311.0
+offset_bottom = 168.0
+script = ExtResource("32_hxdpb")
+
+[node name="Down" type="ColorRect" parent="InputOverlay"]
+offset_left = 287.0
+offset_top = 158.0
+offset_right = 297.0
+offset_bottom = 168.0
+script = ExtResource("32_hxdpb")
+
+[node name="Up" type="ColorRect" parent="InputOverlay"]
+offset_left = 287.0
+offset_top = 145.0
+offset_right = 297.0
+offset_bottom = 155.0
+script = ExtResource("32_hxdpb")
+
+[node name="Left" type="ColorRect" parent="InputOverlay"]
+offset_left = 273.0
+offset_top = 158.0
+offset_right = 283.0
+offset_bottom = 168.0
+script = ExtResource("32_hxdpb")
+
+[node name="Jump" type="ColorRect" parent="InputOverlay"]
+offset_left = 240.0
+offset_top = 158.0
+offset_right = 250.0
+offset_bottom = 168.0
+script = ExtResource("32_hxdpb")
+
+[node name="Dash" type="ColorRect" parent="InputOverlay"]
+offset_left = 227.0
+offset_top = 158.0
+offset_right = 237.0
+offset_bottom = 168.0
+script = ExtResource("32_hxdpb")
+
+[node name="Grab" type="ColorRect" parent="InputOverlay"]
+offset_left = 214.0
+offset_top = 158.0
+offset_right = 224.0
+offset_bottom = 168.0
+script = ExtResource("32_hxdpb")
 
 [connection signal="ready" from="." to="StateMachine" method="_OnPlayerReady"]

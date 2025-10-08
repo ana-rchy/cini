@@ -1,6 +1,5 @@
 using Godot;
-using System;
-using System.Diagnostics;
+using System.Collections.Generic;
 
 public partial class Respawn : PlayerState {
     public override bool Prereqs() {
@@ -8,11 +7,10 @@ public partial class Respawn : PlayerState {
         return lastState is not Respawn;
     }
 
-    public override void Enter() {
+    public override void Enter(Dictionary<string, object> dict = null) {
         _player.Pos.Vec = _player.SpawnPosition;
         _player.Vel = Vector2.Zero;
 
-        _player.TimeSinceJump = 0;
         _player.Stamina = _player.TotalStamina;
         _player.DashCharges = _player.DashChargeTotal;
 

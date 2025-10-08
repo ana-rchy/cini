@@ -1,5 +1,5 @@
+using System.Collections.Generic;
 using Godot;
-using System;
 
 public partial class CoyoteTime : PlayerState {
     Timer _timer;
@@ -18,7 +18,7 @@ public partial class CoyoteTime : PlayerState {
         return lastState is OnGround;
     }
     
-    public override void Enter() {
+    public override void Enter(Dictionary<string, object> dict = null) {
         _timer.Start(_player.CoyoteTime);
     }
     

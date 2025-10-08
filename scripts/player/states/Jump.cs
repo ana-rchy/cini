@@ -1,14 +1,15 @@
+using System.Collections.Generic;
 using Godot;
-using System;
 
 public partial class Jump : PlayerState {
-    float _gravity;
+    Vector2 _startingPos;
+    float _gravity, _timeSinceJump;
     
     
     public override bool Prereqs() =>
         _inputBuffer.ShouldJump();
 
-    public override void Enter() {
+    public override void Enter(Dictionary<string, object> dict = null) {
         _player.Vel.Y = GetJumpVelocityWithDistance(
             _player.MovementSpeed,
             _player.JumpHeight,
@@ -20,8 +21,9 @@ public partial class Jump : PlayerState {
             _player.JumpHeight,
             _player.JumpRiseDistance
         );
-
-        _player.TimeSinceJump = 0;
+        
+        _startingPos = _player.Pos.Vec;
+        _timeSinceJump = 0;
         
         // prevent jump being activated again in another state
         _inputBuffer.StopJumpBufferTimer();
@@ -39,7 +41,7 @@ public partial class Jump : PlayerState {
         _player.MoveY(yPosChange);
         _player.Vel.Y += _gravity * delta;
 
-        _player.TimeSinceJump += delta;
+        _timeSinceJump += delta;
     }
     
     public override void Update_StateTransitions(float _) {
@@ -56,7 +58,15 @@ public partial class Jump : PlayerState {
         }
 
         if (!Input.IsActionPressed("Jump")) {
-            _stateMachine.ChangeState<ShortJump>();
+            float remainingHeight = Mathf.Abs((_startingPos.Y - _player.JumpHeight) - _player.Pos.y);
+            float totalJumpTime = _player.JumpRiseDistance / _player.MovementSpeed;
+            float remainingTime = totalJumpTime - _timeSinceJump;
+            
+            _stateMachine.ChangeState<ShortJump>(dict: new() {
+                { "RemainingHeight", remainingHeight },
+                { "RemainingTime", remainingTime }
+            });
+            
             return;
         }
     }

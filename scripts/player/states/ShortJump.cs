@@ -1,5 +1,5 @@
+using System.Collections.Generic;
 using Godot;
-using System;
 
 public partial class ShortJump : PlayerState {
     float _gravity;
@@ -8,28 +8,19 @@ public partial class ShortJump : PlayerState {
     public override bool Prereqs() =>
         !Input.IsActionPressed("Jump");
     
-    public override void Enter() {
-        _player.Vel.Y = GetJumpVelocityWithDistance(
-                _player.MovementSpeed,
-                _player.ShortJumpHeight,
-                _player.ShortJumpRiseDistance
-        );
+    public override void Enter(Dictionary<string, object> dict = null) {
+        string dictAssertMsg(string msg) => $"{nameof(ShortJump)} Enter's '{nameof(dict)}' {msg}";
+        Logging.Assert(dict != null, dictAssertMsg("cant be null"));
+        Logging.Assert(dict.ContainsKey("RemainingHeight"), dictAssertMsg("doesnt contain key 'RemainingHeight'"));
+        Logging.Assert(dict.ContainsKey("RemainingTime"), dictAssertMsg("doesnt contain key 'RemainingTime'"));
         
-        _gravity = GetGravityWithDistance(
-                _player.MovementSpeed,
-                _player.ShortJumpHeight,
-                _player.ShortJumpRiseDistance
-        );
+        float remainingHeight = (float) dict["RemainingHeight"];
+        float remainingTime = (float) dict["RemainingTime"];
         
-        // the principle is to convert the progress from a full jump into progress for a short jump
-        //
-        // progress in time and progress in distance are the same for the jump (assuming one direction is constantly held)
-        //
-        // so get the progress through the full jump as a float from 0-1, and lerp the velocity using that
-        // (the velocity graph is a linear line so it works perfectly)
-        float fullJumpProgress = (_player.TimeSinceJump * _player.MovementSpeed) / _player.JumpRiseDistance;
+        float targetHeight = remainingHeight / _player.ShortJumpRemainingHeightDivisor;
+        float targetTime = remainingTime / _player.ShortJumpRemainingHeightDivisor;
         
-        _player.Vel.Y = Mathf.Lerp(_player.Vel.Y, 0, fullJumpProgress);
+        _gravity = GetGravityWithTime(targetHeight, targetTime);
     }
     
 

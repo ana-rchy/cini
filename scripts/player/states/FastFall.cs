@@ -1,5 +1,6 @@
-using Godot;
 using System;
+using System.Collections.Generic;
+using Godot;
 
 public partial class FastFall : PlayerState {
     float _gravity;
@@ -17,7 +18,7 @@ public partial class FastFall : PlayerState {
         return false;
     }
 
-    public override void Enter() {
+    public override void Enter(Dictionary<string, object> dict = null) {
         _gravity = GetGravityWithDistance(
                 _player.MovementSpeed,
                 _player.JumpHeight,

@@ -1,11 +1,11 @@
-using System;
+using System.Collections.Generic;
 using Godot;
 
 public partial class OnGround : PlayerState {
     public override bool Prereqs() =>
         _player.OnGround();
 
-    public override void Enter() {
+    public override void Enter(Dictionary<string, object> dict = null) {
         _player.Vel.Y = 0;
         _player.Stamina = _player.TotalStamina;
         _player.DashCharges = _player.DashChargeTotal;

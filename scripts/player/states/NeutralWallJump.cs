@@ -1,8 +1,9 @@
+using System.Collections.Generic;
 using Godot;
-using System;
 
 public partial class NeutralWallJump : PlayerState {
-    float _gravity;
+    Vector2 _startingPos;
+    float _gravity, _timeSinceJump;
 
 
     public override bool Prereqs() => 
@@ -12,13 +13,14 @@ public partial class NeutralWallJump : PlayerState {
             || (_player.OnWall(_player.WallJumpDistanceLeniency) && _player.GetWallNormal(_player.WallJumpDistanceLeniency) != 0)
         );
     
-    public override void Enter() {
+    public override void Enter(Dictionary<string, object> dict = null) {
         _player.Vel.X = _player.NeutralWallJumpPushoffSpeed * _player.GetWallNormal(_player.WallJumpDistanceLeniency);
         
         _player.Vel.Y = GetJumpVelocityWithTime(_player.NeutralWallJumpHeight, _player.NeutralWallJumpTime);
         _gravity = GetGravityWithTime(_player.NeutralWallJumpHeight, _player.NeutralWallJumpTime);
 
-        _player.TimeSinceJump = 0;
+        _startingPos = _player.Pos.Vec;
+        _timeSinceJump = 0;
         
         // prevent jump being activated again in another state
         _inputBuffer.StopJumpBufferTimer();
@@ -36,7 +38,7 @@ public partial class NeutralWallJump : PlayerState {
         _player.MoveY(yPosChange);
         _player.Vel.Y += _gravity * delta;
 
-        _player.TimeSinceJump += delta;
+        _timeSinceJump += delta;
     }
     
     public override void Update_StateTransitions(float _) {
@@ -53,7 +55,14 @@ public partial class NeutralWallJump : PlayerState {
         }
 
         if (!Input.IsActionPressed("Jump")) {
-            _stateMachine.ChangeState<ShortJump>();
+            float remainingHeight = Mathf.Abs((_startingPos.Y - _player.NeutralWallJumpHeight) - _player.Pos.y);
+            float remainingTime = _player.NeutralWallJumpTime - _timeSinceJump;
+            
+            _stateMachine.ChangeState<ShortJump>(dict: new() {
+                { "RemainingHeight", remainingHeight },
+                { "RemainingTime", remainingTime }
+            });
+            
             return;
         }
     }
