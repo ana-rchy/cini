@@ -25,9 +25,10 @@ public partial class WallBounce : PlayerState {
     
     public override bool Prereqs() =>
         _inputBuffer.ShouldJump()
+        && _player.Vel.Abs().Y > _player.WallbounceMinimumSpeed
         && (
             _player.OnWall()
-            || (
+            || ( // close enough to *one* wall, but *not* close-enough-to-and-between *two* walls
                 _player.OnWall(_player.WallBounceDistanceLeniency)
                 && _player.GetWallNormal(_player.WallBounceDistanceLeniency) != 0
             )
@@ -101,6 +102,7 @@ public partial class WallBounce : PlayerState {
         
         if (_inputBuffer.ShouldJump() && _player.OnWall(_player.WallBounceDistanceLeniency)
             && !_postDashWallbounceLeniencyTimer.IsStopped()
+            && _player.Vel.Abs().Y > _player.WallbounceMinimumSpeed
         ) {
             _stateMachine.ChangeState<WallBounce>();              
         }

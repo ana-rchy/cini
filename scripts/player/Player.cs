@@ -40,6 +40,7 @@ public partial class Player : Node2D {
     [ExportGroup("Wall Jumping/Wall Bouncing")]
     [Export] public float WallBounceDistanceLeniency = 4;
     [Export] public float WallBounceTimeLeniencyInFrames = 5;
+    [Export] public float WallbounceMinimumSpeed = 69;
     [Export] public float WallBounceTime = 0.5f;
     [Export] public float WallBouncePushoffSpeed = 100;
     [Export] public float WallBouncePushoffTime = 0.05f;
@@ -68,7 +69,6 @@ public partial class Player : Node2D {
     [Export] public int WallClipThreshold = 3;
     [Export] public int DashClipThreshold = 3;
     [Export] public float WallDashSlidingGravity = 250;
-    [Export] public float WallDashSlidingWallbounceMinVel = 69;
 
     [ExportGroup("node refs")]
     [Export] public Collider Collider { get; private set; }

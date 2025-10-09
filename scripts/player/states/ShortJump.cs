@@ -20,6 +20,12 @@ public partial class ShortJump : PlayerState {
         float targetHeight = remainingHeight / _player.ShortJumpRemainingHeightDivisor;
         float targetTime = remainingTime / _player.ShortJumpRemainingHeightDivisor;
         
+        
+        if (targetHeight < 0.01 || targetTime < 0.01) { // prevent NaN/very large gravity values
+            _stateMachine.ChangeState<Falling>();
+            return;
+        }
+        
         _gravity = GetGravityWithTime(targetHeight, targetTime);
     }
     

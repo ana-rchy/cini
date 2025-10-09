@@ -7,6 +7,5 @@ later but not rn:
 - improve player coloring system
 
 done:
-- add dictionary parameter to Enter to pass values between states
-- make '... > short jump' transitions smoother/better
-- add rudimentary ingame input overlay
+- fix NaN/very high gravity on ShortJump bug
+- make wallbouncing always require a minimum y speed

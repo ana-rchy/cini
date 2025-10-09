@@ -32,7 +32,7 @@ public partial class WallDashSlide : PlayerState {
         }
         
         if (_inputBuffer.ShouldJump()) {
-            if (_player.Vel.Abs().Y > _player.WallDashSlidingWallbounceMinVel) {
+            if (_player.Vel.Abs().Y > _player.WallbounceMinimumSpeed) {
                 _stateMachine.ChangeState<WallBounce>();
                 return;
             }

@@ -11,6 +11,7 @@ public static class Transitions {
         }
 
         if (player.OnWall(player.WallJumpDistanceLeniency) && inputBuffer.ShouldJump()
+            && !(Input.IsActionPressed("Grab") && player.Stamina > 0) // dont walljump if holding grab and have stamina
             && Input.GetAxis("Left", "Right") != 0
         ) {
             stateMachine.ChangeState<WallJump>();
@@ -18,6 +19,7 @@ public static class Transitions {
         }
 
         if (player.OnWall(player.WallJumpDistanceLeniency) && inputBuffer.ShouldJump()
+            && !(Input.IsActionPressed("Grab") && player.Stamina > 0)
             && Input.GetAxis("Left", "Right") == 0
         ) {
             stateMachine.ChangeState<NeutralWallJump>();
