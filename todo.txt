@@ -3,12 +3,9 @@
 - universal coyote time (it doesnt work with dashing) (probs rename InputBuffer to LeniencyBuffer and use that)
 - different reelback strengths for on-ground and in-air (less slowdown in-air)
 - tweak player physics variables
-- fix free-camera jitter when player is at outer bounds
 
 later but not rn:
 - improve player coloring system
 
 done:
-- super dash refill (it just gives back dashes when jumping out of a dash)
-- remove Jump > FastFall transition
-- wavedash
+- fix free-camera jitter when player is at outer bounds (fixed regression that re-introduced this, happened when switching the camera to use a state machine, cause it was running stuff in _PhysicsProcess again rather than _Process)

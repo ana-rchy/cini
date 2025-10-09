@@ -19,11 +19,11 @@ public partial class PixelCamera : Camera2D {
     [Export] public Collider PlayerCollider { get; private set; }
     
     // top-left, bottom-right coords
-    public Vector2I OuterBoundsTL => PosCentre.VecInt - (_outerBoundsWH / 2);
-    public Vector2I OuterBoundsBR => OuterBoundsTL + _outerBoundsWH;
+    public Vector2 OuterBoundsTL => PosCentre.Vec - (_outerBoundsWH / 2);
+    public Vector2 OuterBoundsBR => OuterBoundsTL + _outerBoundsWH;
     ////////////////////////////////////////////////////////////////
-    public Vector2I InnerBoundsTL => PosCentre.VecInt - (_innerBoundsWH / 2);
-    public Vector2I InnerBoundsBR => InnerBoundsTL + _innerBoundsWH;
+    public Vector2 InnerBoundsTL => PosCentre.Vec - (_innerBoundsWH / 2);
+    public Vector2 InnerBoundsBR => InnerBoundsTL + _innerBoundsWH;
     
     
     public Room CurrentRoom = null;
@@ -48,7 +48,7 @@ public partial class PixelCamera : Camera2D {
     }
     
     public override void _Draw() {
-        if (Engine.IsEditorHint()) {
+        // if (Engine.IsEditorHint()) {
             Vector2I innerVec = _innerBoundsWH;
             Rect2 innerRect = new(-innerVec.X / 2, -innerVec.Y / 2, innerVec.X, innerVec.Y);
             DrawRect(innerRect, _innerBoundsColor, filled: false);
@@ -56,6 +56,6 @@ public partial class PixelCamera : Camera2D {
             Vector2I outerVec = _outerBoundsWH;
             Rect2 outerRect = new(-outerVec.X / 2, -outerVec.Y / 2, outerVec.X, outerVec.Y);
             DrawRect(outerRect, _outerBoundsColor, filled: false);
-        }
+        // }
     }
 }

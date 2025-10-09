@@ -15,12 +15,12 @@
 [ext_resource type="Script" uid="uid://bj5hy85tc125w" path="res://scripts/player/states/FastFall.cs" id="7_cw2d6"]
 [ext_resource type="Script" uid="uid://5pebk6twe5xc" path="res://scripts/player/states/Respawn.cs" id="7_ebwui"]
 [ext_resource type="Curve" uid="uid://cindcs3pskjey" path="res://resources/curves/PixelCameraSpeedCurve.tres" id="7_fgkxt"]
-[ext_resource type="Script" uid="uid://dvrv6o5xs1y8k" path="res://scripts/StateMachine.cs" id="7_p07f3"]
 [ext_resource type="Curve" uid="uid://dxphycb00fkd2" path="res://resources/curves/PixelCameraRoomTransitionCurve.tres" id="8_1jpwa"]
 [ext_resource type="Script" uid="uid://dxn1m3ne6yt5b" path="res://scripts/player/states/Jump.cs" id="8_khinc"]
 [ext_resource type="Script" uid="uid://byocilwgeba3u" path="res://scripts/camera/states/CameraFollowPlayer.cs" id="8_viqgg"]
 [ext_resource type="Script" uid="uid://bgn2356cdvwif" path="res://scripts/player/states/ShortJump.cs" id="9_6eyey"]
 [ext_resource type="Script" uid="uid://bb4il1c4ej8lm" path="res://scripts/player/states/DebugState.cs" id="9_bruh7"]
+[ext_resource type="Script" uid="uid://c615d0qhm573c" path="res://scripts/camera/PixelCameraStateMachine.cs" id="10_hxdpb"]
 [ext_resource type="Script" uid="uid://bkokdhnuygbyb" path="res://scripts/camera/states/CameraInRoomTransition.cs" id="10_xsi7p"]
 [ext_resource type="Script" uid="uid://bt2djn6ayvvlb" path="res://scripts/player/states/WallJump.cs" id="11_o4126"]
 [ext_resource type="Script" uid="uid://kgf17c5kv7oh" path="res://scripts/player/states/NeutralWallJump.cs" id="12_lkdrv"]
@@ -65,7 +65,7 @@ CameraRoomTransitionCurve = ExtResource("8_1jpwa")
 PlayerCollider = NodePath("../Collider")
 
 [node name="StateMachine" type="Node" parent="PixelCamera" node_paths=PackedStringArray("CurrentState")]
-script = ExtResource("7_p07f3")
+script = ExtResource("10_hxdpb")
 CurrentState = NodePath("CameraFollowPlayer")
 
 [node name="CameraFollowPlayer" type="Node" parent="PixelCamera/StateMachine"]
