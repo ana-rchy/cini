@@ -62,6 +62,7 @@ public partial class Player : Node2D {
     [Export] public float DashDistance = 30;
     [Export] public float DashLength = 0.2f;
     [Export] public int DashChargeTotal = 2;
+    [Export] public float WavedashSpeedMultiplier = 1.5f;
     public float DashSpeed => DashDistance / DashLength;
 
     [ExportGroup("Other")]

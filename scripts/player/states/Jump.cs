@@ -47,11 +47,6 @@ public partial class Jump : PlayerState {
     public override void Update_StateTransitions(float _) {
         if (CommonInAirTransitions()) return;
 
-        if (Input.IsActionPressed("FastFall")) {
-            _stateMachine.ChangeState<FastFall>();
-            return;
-        }
-
         if (_player.Vel.Y >= 0) {
             _stateMachine.ChangeState<Falling>();
             return;

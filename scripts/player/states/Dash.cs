@@ -28,15 +28,26 @@ public partial class Dash : PlayerState {
         Input.GetVector("Left", "Right", "Up", "Down") != Vector2.Zero;
     
     public override void Enter(Dictionary<string, object> dict = null) {
-        _player.Vel = Input.GetVector("Left", "Right", "Up", "Down") * _player.DashSpeed;
+        Vector2 inputVec = Input.GetVector("Left", "Right", "Up", "Down");
+        Vector2 basicDashVel = inputVec * _player.DashSpeed;
+        
+        // makes chained wavedashes go nyoom
+        if (_player.Vel.Abs().X > basicDashVel.Abs().X
+            && Mathf.Sign(inputVec.X) == Mathf.Sign(_player.Vel.X) && inputVec.Y > 0 // down-diagonal dash in the direction of velocity
+        ) {
+            // dont affect x velocity; i.e. preserve x speed
+            _player.Vel.Y = basicDashVel.Y;
+        } else {
+            _player.Vel = inputVec * _player.DashSpeed;
+        }
+        
+        _enteredOnGround = _player.OnGround();
         _dashTimer.Start(_player.DashLength);
         _player.DashCharges--;
         
         _spriteShader = (ShaderMaterial) _playerSprite.Material;
         Color spriteColor = (Color) _spriteShader.GetShaderParameter("color");
         _spriteShader.SetShaderParameter("color", spriteColor.Inverted());
-        
-        _enteredOnGround = _player.OnGround();
     }
     
 
@@ -63,7 +74,18 @@ public partial class Dash : PlayerState {
             return;
         }
         
+        if (_player.OnGround() && _inputBuffer.ShouldJump()
+            && !_enteredOnGround
+            && _player.Vel.X != 0 && _player.Vel.Y > 0 // down-diagonal dash
+        ) {
+            _player.DashCharges = _player.DashChargeTotal;
+            _player.Vel.X *= _player.WavedashSpeedMultiplier;
+            _stateMachine.ChangeState<Jump>();
+            return;
+        }
+        
         if (_player.OnGround() && _inputBuffer.ShouldJump()) {
+            _player.DashCharges = _player.DashChargeTotal;
             _stateMachine.ChangeState<Jump>();
             return;
         }

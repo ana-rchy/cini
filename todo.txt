@@ -1,11 +1,14 @@
-- super dash refill
-- wavedash
 - think up of better name for "WallDashSlide"
 - reorganize player export variables
+- universal coyote time (it doesnt work with dashing) (probs rename InputBuffer to LeniencyBuffer and use that)
+- different reelback strengths for on-ground and in-air (less slowdown in-air)
+- tweak player physics variables
+- fix free-camera jitter when player is at outer bounds
 
 later but not rn:
 - improve player coloring system
 
 done:
-- fix NaN/very high gravity on ShortJump bug
-- make wallbouncing always require a minimum y speed
+- super dash refill (it just gives back dashes when jumping out of a dash)
+- remove Jump > FastFall transition
+- wavedash
