@@ -3,54 +3,62 @@ using System.Collections.Generic;
 
 public partial class Player : Node2D {
     [ExportGroup("Horizontal Movement")]
-    [Export] public float MovementSpeed = 65;
+    [Export] public float MovementSpeed = 70;
     [Export] public float FramesToMaxSpeed = 5;
     [Export] public float FramesToMaxSpeedInAir = 8;
     [Export] public Curve ReelbackLerpStrength;
 
     [ExportGroup("Jumping")]
-    [Export] public float JumpHeight = 18;
-    [Export] public float JumpRiseDistance = 18;
-    [Export] public float JumpFallDistance = 12;
+    [Export] public float JumpHeight = 26;
+    [Export] public float JumpDistance = 26;
     [Export] public float JumpBufferTime = 0.15f;
-    [Export] public float CoyoteTime = 0.06f;
+    [Export] public float CoyoteTimeInFrames = 5;
+    [Export] public int JumpWallClipThreshold = 3;
+    public float JumpTime => JumpDistance / MovementSpeed;
     [ExportGroup("Jumping/Short Jumping")]
-    [Export] public float ShortJumpHeight = 6;
-    [Export] public float ShortJumpRiseDistance = 6;
     [Export] public float ShortJumpRemainingHeightDivisor = 2;
+    [Export] public float ShortJumpRemainingTimeDivisor = 2;
     [ExportGroup("Jumping/Ground Bouncing")]
-    [Export] public float BounceHeight = 50;
-    [Export] public float BounceRiseDistance = 36;
+    [Export] public float BounceHeight = 42;
+    [Export] public float BounceDistance = 40;
+    public float BounceTime => BounceDistance / MovementSpeed;
 
     [ExportGroup("Falling")]
-    [Export] public float TerminalVelocity = 80;
-    [Export] public float FastFallTerminalVelocity = 120;
+    [Export] public float FallDistance = 16;
+    [Export] public float TerminalVelocity = 100;
+    [Export] public float FastFallTerminalVelocity = 140;
     [Export] public float FastFallGravityMultiplier = 1;
+    public float FallTime => FallDistance / MovementSpeed;
 
     [ExportGroup("Wall Jumping")]
     [Export] public float WallJumpDistanceLeniency = 2;
-    [Export] public float WallJumpHeight = 17;
-    [Export] public float WallJumpTime = 0.25f;
-    [Export] public float WallJumpPushoffSpeed = 65;
-    [Export] public float WallJumpPushoffTime = 0.19f;
+    [Export] public float WallJumpHeight = 26;
+    [Export] public float WallJumpDistance = 26;
+    [Export] public float WallJumpMovementSpeed = 70;
+    [Export] public float WallJumpPushoffDistance = 16;
+    public float WallJumpTime => WallJumpDistance / WallJumpMovementSpeed;
+    public float WallJumpPushoffTime => WallJumpPushoffDistance / WallJumpMovementSpeed;
     [ExportGroup("Wall Jumping/Neutral Wall Jumping")]
-    [Export] public float NeutralWallJumpHeight = 17;
+    [Export] public float NeutralWallJumpHeight = 26;
     [Export] public float NeutralWallJumpTime = 0.25f;
-    [Export] public float NeutralWallJumpPushoffSpeed = 80;
+    [Export] public float NeutralWallJumpMovementSpeed = 70;
+    public float NeutralWallJumpDistance => NeutralWallJumpMovementSpeed * NeutralWallJumpTime;
     [ExportGroup("Wall Jumping/Wall Bouncing")]
     [Export] public float WallBounceDistanceLeniency = 4;
     [Export] public float WallBounceTimeLeniencyInFrames = 5;
     [Export] public float WallbounceMinimumSpeed = 69;
-    [Export] public float WallBounceTime = 0.5f;
-    [Export] public float WallBouncePushoffSpeed = 100;
-    [Export] public float WallBouncePushoffTime = 0.05f;
+    [Export] public float WallBounceDistance = 42;
+    [Export] public float WallBounceMovementSpeed = 80;
+    [Export] public float WallBouncePushoffDistance = 12;
+    public float WallBounceTime => WallBounceDistance / WallBounceMovementSpeed;
+    public float WallBouncePushoffTime => WallBouncePushoffDistance / WallBounceMovementSpeed;
 
     [ExportGroup("Climbing")]
     [Export] public float TotalStamina = 8;
     [Export] public float ClimbingSpeed = 25;
     [Export] public float GrabbingStaminaCost = 1;
     [Export] public float ClimbingStaminaCost = 1.5f;
-    [Export] public float WallSlidingDivisor = 2.4f;
+    [Export] public float WallGrippingSpeedDivisor = 2.4f;
     [ExportGroup("Climbing/Climb Jumping")]
     [Export] public float ClimbJumpStaminaCost = 2;
     [ExportGroup("Climbing/Hanging")]
@@ -59,17 +67,18 @@ public partial class Player : Node2D {
     [Export] public float HangingMoveStaminaCost = 1.5f;
 
     [ExportGroup("Dashing")]
-    [Export] public float DashDistance = 30;
-    [Export] public float DashLength = 0.2f;
+    [Export] public float DashDistance = 32;
+    [Export] public float DashLengthInFrames = 12;
     [Export] public int DashChargeTotal = 2;
-    [Export] public float WavedashSpeedMultiplier = 1.5f;
-    public float DashSpeed => DashDistance / DashLength;
+    [Export] public int DashWallClipThreshold = 3;
+    public float DashSpeed => DashDistance / (DashLengthInFrames / 60);
+    [ExportGroup("Dashing/Wall Sliding")]
+    [Export] public float WallSlidingGravity = 250;
+    [ExportGroup("Dashing/Wavedashing")]
+    [Export] public float WavedashSpeedMultiplier = 1.2f;
 
     [ExportGroup("Other")]
     [Export] public PlayerState SpawnState;
-    [Export] public int WallClipThreshold = 3;
-    [Export] public int DashClipThreshold = 3;
-    [Export] public float WallDashSlidingGravity = 250;
 
     [ExportGroup("node refs")]
     [Export] public Collider Collider { get; private set; }

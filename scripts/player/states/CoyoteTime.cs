@@ -19,7 +19,7 @@ public partial class CoyoteTime : PlayerState {
     }
     
     public override void Enter(Dictionary<string, object> dict = null) {
-        _timer.Start(_player.CoyoteTime);
+        _timer.Start(_player.CoyoteTimeInFrames / 60);
     }
     
 

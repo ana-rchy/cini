@@ -92,12 +92,8 @@ public partial class CameraFollowPlayer : PixelCameraState {
         float yDiff = upDiff + downDiff;
         
         if (xDiff != 0) {
-            float oldPos = _camera.PosCentre.x;
             _camera.PosCentre.x += xDiff;
-            float newPos = _camera.PosCentre.x;
             xForceMoved = true;
-            
-            GD.Print($"{oldPos}\t{newPos}");
         }
         if (yDiff != 0) {
             _camera.PosCentre.y += yDiff;

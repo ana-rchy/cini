@@ -23,10 +23,19 @@ public partial class WallJump : PlayerState {
         );
 
     public override void Enter(Dictionary<string, object> dict = null) {
-        _player.Vel.X = _player.WallJumpPushoffSpeed * _player.GetWallNormal(_player.WallJumpDistanceLeniency);
+        _player.Vel.X = _player.WallJumpMovementSpeed * _player.GetWallNormal(_player.WallJumpDistanceLeniency);
         
-        _player.Vel.Y = GetJumpVelocityWithTime(_player.WallJumpHeight, _player.WallJumpTime);
-        _gravity = GetGravityWithTime(_player.WallJumpHeight, _player.WallJumpTime);
+        _player.Vel.Y = GetJumpVelocityWithDistance(
+            _player.WallJumpHeight,
+            _player.WallJumpDistance,
+            _player.WallJumpMovementSpeed
+        );
+        
+        _gravity = GetGravityWithDistance(
+            _player.WallJumpHeight,
+            _player.WallJumpDistance,
+            _player.WallJumpMovementSpeed
+        );
         
         _pushoffTimer.Start(_player.WallJumpPushoffTime);
         _startingPos = _player.Pos.Vec;
@@ -41,13 +50,13 @@ public partial class WallJump : PlayerState {
         if (!_pushoffTimer.IsStopped()) {
             _player.MoveX(_player.Vel.X * delta);
         } else {
-            BasicXMovement(_player.MovementSpeed, _player.FramesToMaxSpeedInAir, delta);
+            BasicXMovement(_player.WallJumpMovementSpeed, _player.FramesToMaxSpeedInAir, delta);
         }
 
         float yAccel = GetVerletAccelTerm(_gravity, delta);
         float yPosChange = _player.Vel.Y * delta + yAccel;
         
-        Clip(0, yPosChange, _player.WallClipThreshold);
+        Clip(0, yPosChange, _player.JumpWallClipThreshold);
 
         _player.MoveY(yPosChange);
         _player.Vel.Y += _gravity * delta;

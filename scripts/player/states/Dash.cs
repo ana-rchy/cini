@@ -42,7 +42,7 @@ public partial class Dash : PlayerState {
         }
         
         _enteredOnGround = _player.OnGround();
-        _dashTimer.Start(_player.DashLength);
+        _dashTimer.Start(_player.DashLengthInFrames / 60);
         _player.DashCharges--;
         
         _spriteShader = (ShaderMaterial) _playerSprite.Material;
@@ -53,7 +53,7 @@ public partial class Dash : PlayerState {
 
     public override void Update(float delta) {
         if (_player.Vel.Normalized() != Vector2.Down) {
-            Clip(_player.Vel * delta, _player.DashClipThreshold);
+            Clip(_player.Vel * delta, _player.DashWallClipThreshold);
         }
         
         _player.MoveAndSlide(_player.Vel * delta);
@@ -80,7 +80,7 @@ public partial class Dash : PlayerState {
         ) {
             _player.DashCharges = _player.DashChargeTotal;
             _player.Vel.X *= _player.WavedashSpeedMultiplier;
-            _stateMachine.ChangeState<Jump>();
+            _stateMachine.ChangeState<Bounce>();
             return;
         }
         

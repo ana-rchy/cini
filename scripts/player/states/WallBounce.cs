@@ -35,9 +35,9 @@ public partial class WallBounce : PlayerState {
         );
     
     public override void Enter(Dictionary<string, object> dict = null) {
-        _player.Vel.X = _player.WallBouncePushoffSpeed * _player.GetWallNormal(_player.WallBounceDistanceLeniency);
+        _player.Vel.X = _player.WallBounceMovementSpeed * _player.GetWallNormal(_player.WallBounceDistanceLeniency);
         
-        _gravity = -_player.Vel.Y / _player.WallBounceTime;
+        _gravity = Mathf.Abs(_player.Vel.Y / _player.WallBounceTime);
         
         _pushoffTimer.Start(_player.WallBouncePushoffTime);
         _startingPos = _player.Pos.Vec;
@@ -53,13 +53,13 @@ public partial class WallBounce : PlayerState {
         if (!_pushoffTimer.IsStopped()) {
             _player.MoveX(_player.Vel.X * delta);
         } else {
-            BasicXMovement(_player.MovementSpeed, _player.FramesToMaxSpeedInAir, delta);
+            BasicXMovement(_player.WallBounceMovementSpeed, _player.FramesToMaxSpeedInAir, delta);
         }
 
         float yAccel = GetVerletAccelTerm(_gravity, delta);
         float yPosChange = _player.Vel.Y * delta + yAccel;
         
-        Clip(0, yPosChange, _player.WallClipThreshold);
+        Clip(0, yPosChange, _player.JumpWallClipThreshold);
 
         _player.MoveY(yPosChange);
         _player.Vel.Y += _gravity * delta;

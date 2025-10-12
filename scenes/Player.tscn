@@ -40,6 +40,7 @@ shader_parameter/color = Color(0, 0.57000005, 0.6, 1)
 [node name="Player" type="Node2D" node_paths=PackedStringArray("SpawnState", "Collider", "StateMachine", "InputBuffer")]
 script = ExtResource("1_3li8b")
 ReelbackLerpStrength = ExtResource("2_axnmu")
+BounceHeight = 58.0
 SpawnState = NodePath("StateMachine/Falling")
 Collider = NodePath("Collider")
 StateMachine = NodePath("StateMachine")

@@ -1,11 +1,12 @@
-- think up of better name for "WallDashSlide"
-- reorganize player export variables
 - universal coyote time (it doesnt work with dashing) (probs rename InputBuffer to LeniencyBuffer and use that)
-- different reelback strengths for on-ground and in-air (less slowdown in-air)
-- tweak player physics variables
+- balance wavedashing (require minimum off-ground height?)
+- reverse supers/wavedashes
+- bouncy wavedash (+ balance it)
 
 later but not rn:
 - improve player coloring system
 
 done:
-- fix free-camera jitter when player is at outer bounds (fixed regression that re-introduced this, happened when switching the camera to use a state machine, cause it was running stuff in _PhysicsProcess again rather than _Process)
+- reorganize player export variables
+- tweak player physics variables
+- think up of better name for "WallDashSlide"

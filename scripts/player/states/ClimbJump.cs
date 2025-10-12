@@ -50,7 +50,7 @@ public partial class ClimbJump : PlayerState {
             return;
         }
 
-        if (_player.Vel.Y >= 0 || _player.Stamina <= 0 || !_player.OnWall()) {
+        if (_player.Vel.Y >= 0 || _player.Stamina <= 0) {
             _stateMachine.ChangeState<Falling>();
             return;
         }

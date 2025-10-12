@@ -11,15 +11,15 @@ public partial class Bounce : PlayerState {
 
     public override void Enter(Dictionary<string, object> dict = null) {
         _player.Vel.Y = GetJumpVelocityWithDistance(
-            _player.MovementSpeed,
             _player.BounceHeight,
-            _player.BounceRiseDistance
+            _player.BounceDistance,
+            _player.MovementSpeed
         );
         
         _gravity = GetGravityWithDistance(
-            _player.MovementSpeed,
             _player.BounceHeight,
-            _player.BounceRiseDistance
+            _player.BounceDistance,
+            _player.MovementSpeed
         );
         
         _startingPos = _player.Pos.Vec;
@@ -36,7 +36,7 @@ public partial class Bounce : PlayerState {
         float yAccel = GetVerletAccelTerm(_gravity, delta);
         float yPosChange = _player.Vel.Y * delta + yAccel;
         
-        Clip(0, yPosChange, _player.WallClipThreshold);
+        Clip(0, yPosChange, _player.JumpWallClipThreshold);
         
         BasicXMovement(_player.MovementSpeed, _player.FramesToMaxSpeedInAir, delta);
 
@@ -56,8 +56,7 @@ public partial class Bounce : PlayerState {
 
         if (!Input.IsActionPressed("Jump")) {
             float remainingHeight = Mathf.Abs((_startingPos.Y - _player.BounceHeight) - _player.Pos.y);
-            float totalJumpTime = _player.BounceRiseDistance / _player.MovementSpeed;
-            float remainingTime = totalJumpTime - _timeSinceJump;
+            float remainingTime = _player.BounceTime - _timeSinceJump;
             
             _stateMachine.ChangeState<ShortJump>(dict: new() {
                 { "RemainingHeight", remainingHeight },

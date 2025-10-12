@@ -14,7 +14,7 @@ public partial class NeutralWallJump : PlayerState {
         );
     
     public override void Enter(Dictionary<string, object> dict = null) {
-        _player.Vel.X = _player.NeutralWallJumpPushoffSpeed * _player.GetWallNormal(_player.WallJumpDistanceLeniency);
+        _player.Vel.X = _player.NeutralWallJumpMovementSpeed * _player.GetWallNormal(_player.WallJumpDistanceLeniency);
         
         _player.Vel.Y = GetJumpVelocityWithTime(_player.NeutralWallJumpHeight, _player.NeutralWallJumpTime);
         _gravity = GetGravityWithTime(_player.NeutralWallJumpHeight, _player.NeutralWallJumpTime);
@@ -28,12 +28,12 @@ public partial class NeutralWallJump : PlayerState {
     
 
     public override void Update(float delta) {
-        BasicXMovement(_player.MovementSpeed, _player.FramesToMaxSpeedInAir, delta);
+        BasicXMovement(_player.NeutralWallJumpMovementSpeed, _player.FramesToMaxSpeedInAir, delta);
 
         float yAccel = GetVerletAccelTerm(_gravity, delta);
         float yPosChange = _player.Vel.Y * delta + yAccel;
         
-        Clip(0, yPosChange, _player.WallClipThreshold);
+        Clip(0, yPosChange, _player.JumpWallClipThreshold);
 
         _player.MoveY(yPosChange);
         _player.Vel.Y += _gravity * delta;

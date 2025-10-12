@@ -27,16 +27,16 @@ public partial class Falling : PlayerState {
 
     public override void Enter(Dictionary<string, object> dict = null) {
         _gravity = GetGravityWithDistance(
-            _player.MovementSpeed,
             _player.JumpHeight,
-            _player.JumpFallDistance
+            _player.FallDistance,
+            _player.MovementSpeed
         );
     }
     
 
     public override void Update(float delta) {
         if (_player.Vel.Y < 0) {
-            Clip(_player.Vel * delta, _player.DashClipThreshold);
+            Clip(_player.Vel * delta, _player.JumpWallClipThreshold);
         }
         
         // wall sliding
@@ -45,8 +45,8 @@ public partial class Falling : PlayerState {
         float xInput = Input.GetAxis("Left", "Right");
 
         if (_player.OnWall() && xInput == -_player.GetWallNormal() && _player.Vel.Y > 0) {
-            gravity = _gravity / _player.WallSlidingDivisor;
-            terminalVelocity = _player.TerminalVelocity / _player.WallSlidingDivisor;
+            gravity = _gravity / _player.WallGrippingSpeedDivisor;
+            terminalVelocity = _player.TerminalVelocity / _player.WallGrippingSpeedDivisor;
         }
 
         BasicXMovement(_player.MovementSpeed, _player.FramesToMaxSpeedInAir, delta);

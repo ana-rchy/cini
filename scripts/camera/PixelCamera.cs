@@ -48,7 +48,7 @@ public partial class PixelCamera : Camera2D {
     }
     
     public override void _Draw() {
-        // if (Engine.IsEditorHint()) {
+        if (Engine.IsEditorHint()) {
             Vector2I innerVec = _innerBoundsWH;
             Rect2 innerRect = new(-innerVec.X / 2, -innerVec.Y / 2, innerVec.X, innerVec.Y);
             DrawRect(innerRect, _innerBoundsColor, filled: false);
@@ -56,6 +56,6 @@ public partial class PixelCamera : Camera2D {
             Vector2I outerVec = _outerBoundsWH;
             Rect2 outerRect = new(-outerVec.X / 2, -outerVec.Y / 2, outerVec.X, outerVec.Y);
             DrawRect(outerRect, _outerBoundsColor, filled: false);
-        // }
+        }
     }
 }

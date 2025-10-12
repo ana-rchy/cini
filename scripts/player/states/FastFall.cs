@@ -20,9 +20,9 @@ public partial class FastFall : PlayerState {
 
     public override void Enter(Dictionary<string, object> dict = null) {
         _gravity = GetGravityWithDistance(
-                _player.MovementSpeed,
-                _player.JumpHeight,
-                _player.JumpFallDistance
+            _player.JumpHeight,
+            _player.FallDistance,
+            _player.MovementSpeed
         );
         
         _gravity *= _player.FastFallGravityMultiplier;

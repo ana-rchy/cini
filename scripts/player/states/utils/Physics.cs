@@ -56,16 +56,8 @@ public static class Physics {
         return (-2 * height) / time;
     }
     
-    public static float GetJumpVelocityWithDistance(float movementSpeed, float height, float distance) {
-        return GetJumpVelocityWithTime(height, distance / movementSpeed);
-    }
-    
     public static float GetGravityWithTime(float height, float time) {
        return (2 * height) / (time * time); 
-    }
-    
-    public static float GetGravityWithDistance(float movementSpeed, float height, float distance) {
-        return GetGravityWithTime(height, distance / movementSpeed);
     }
     
     public static float GetVerletAccelTerm(float accel, float deltaTime) {

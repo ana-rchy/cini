@@ -11,7 +11,7 @@ public partial class WallDashSlide : PlayerState {
         && _player.Vel.Y < 0;
     
     public override void Enter(Dictionary<string, object> dict = null) {
-        _gravity = _player.WallDashSlidingGravity;
+        _gravity = _player.WallSlidingGravity;
     }
     
     

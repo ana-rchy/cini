@@ -18,7 +18,7 @@ public partial class ShortJump : PlayerState {
         float remainingTime = (float) dict["RemainingTime"];
         
         float targetHeight = remainingHeight / _player.ShortJumpRemainingHeightDivisor;
-        float targetTime = remainingTime / _player.ShortJumpRemainingHeightDivisor;
+        float targetTime = remainingTime / _player.ShortJumpRemainingTimeDivisor;
         
         
         if (targetHeight < 0.01 || targetTime < 0.01) { // prevent NaN/very large gravity values
@@ -36,7 +36,7 @@ public partial class ShortJump : PlayerState {
         float yAccel = GetVerletAccelTerm(_gravity, delta);
         float yPosChange = _player.Vel.Y * delta + yAccel;
 
-        Clip(0, yPosChange, _player.WallClipThreshold);
+        Clip(0, yPosChange, _player.JumpWallClipThreshold);
         
         _player.MoveY(yPosChange);
         _player.Vel.Y += _gravity * delta;
