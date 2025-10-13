@@ -40,11 +40,11 @@ public partial class ClimbJump : PlayerState {
     public override void Update_StateTransitions(float _) {
         if (!Input.IsActionPressed("Jump")) {
             float remainingHeight = Mathf.Abs((_startingPos.Y - _player.WallJumpHeight) - _player.Pos.y);
-            float remainingTime = _player.WallJumpTime - _timeSinceJump;
+            float remainingDistance = Mathf.Abs(_player.WallJumpDistance - (_player.MovementSpeed * _timeSinceJump));
             
             _stateMachine.ChangeState<ShortJump>(dict: new() {
                 { "RemainingHeight", remainingHeight },
-                { "RemainingTime", remainingTime }
+                { "RemainingDistance", remainingDistance }
             });
             
             return;

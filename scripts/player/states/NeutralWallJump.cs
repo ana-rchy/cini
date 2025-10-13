@@ -56,14 +56,17 @@ public partial class NeutralWallJump : PlayerState {
 
         if (!Input.IsActionPressed("Jump")) {
             float remainingHeight = Mathf.Abs((_startingPos.Y - _player.NeutralWallJumpHeight) - _player.Pos.y);
-            float remainingTime = _player.NeutralWallJumpTime - _timeSinceJump;
+            float remainingDistance =
+                Mathf.Abs(_player.NeutralWallJumpDistance - (_player.NeutralWallJumpMovementSpeed * _timeSinceJump));
             
             _stateMachine.ChangeState<ShortJump>(dict: new() {
                 { "RemainingHeight", remainingHeight },
-                { "RemainingTime", remainingTime }
+                { "RemainingDistance", remainingDistance },
+                { "MovementSpeed", _player.NeutralWallJumpMovementSpeed }
             });
             
             return;
         }
+
     }
 }

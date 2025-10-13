@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Godot;
 
 public partial class ShortJump : PlayerState {
-    float _gravity;
+    float _gravity, _movementSpeed;
     
 
     public override bool Prereqs() =>
@@ -12,26 +12,22 @@ public partial class ShortJump : PlayerState {
         string dictAssertMsg(string msg) => $"{nameof(ShortJump)} Enter's '{nameof(dict)}' {msg}";
         Logging.Assert(dict != null, dictAssertMsg("cant be null"));
         Logging.Assert(dict.ContainsKey("RemainingHeight"), dictAssertMsg("doesnt contain key 'RemainingHeight'"));
-        Logging.Assert(dict.ContainsKey("RemainingTime"), dictAssertMsg("doesnt contain key 'RemainingTime'"));
+        Logging.Assert(dict.ContainsKey("RemainingDistance"), dictAssertMsg("doesnt contain key 'RemainingDistance'"));
         
         float remainingHeight = (float) dict["RemainingHeight"];
-        float remainingTime = (float) dict["RemainingTime"];
+        float remainingDistance = (float) dict["RemainingDistance"];
+        _movementSpeed = (float) dict.GetValueOrDefault("MovementSpeed", _player.MovementSpeed);
         
         float targetHeight = remainingHeight / _player.ShortJumpRemainingHeightDivisor;
-        float targetTime = remainingTime / _player.ShortJumpRemainingTimeDivisor;
+        float targetDistance = remainingDistance / _player.ShortJumpRemainingDistanceDivisor;
         
-        
-        if (targetHeight < 0.01 || targetTime < 0.01) { // prevent NaN/very large gravity values
-            _stateMachine.ChangeState<Falling>();
-            return;
-        }
-        
-        _gravity = GetGravityWithTime(targetHeight, targetTime);
+        _gravity = GetGravityWithDistance(targetHeight, targetDistance, _movementSpeed);
+        GD.Print($"{_gravity}\n{targetHeight}\t{targetDistance}\t{_movementSpeed}");
     }
     
 
     public override void Update(float delta) {
-        BasicXMovement(_player.MovementSpeed, _player.FramesToMaxSpeedInAir, delta);
+        BasicXMovement(_movementSpeed, _player.FramesToMaxSpeedInAir, delta);
 
         float yAccel = GetVerletAccelTerm(_gravity, delta);
         float yPosChange = _player.Vel.Y * delta + yAccel;

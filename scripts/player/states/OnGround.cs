@@ -17,7 +17,7 @@ public partial class OnGround : PlayerState {
 
     public override void Enter(Dictionary<string, object> dict = null) {
         if (dict != null && dict.ContainsKey("RemainingCoyoteTime")) {
-            _coyoteTimer.Start((float) dict["RemainingCoyoteTime"]);
+            _coyoteTimer.Start((double) dict["RemainingCoyoteTime"]);
         }
         
         _player.Vel.Y = 0;

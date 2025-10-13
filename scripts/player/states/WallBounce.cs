@@ -73,15 +73,18 @@ public partial class WallBounce : PlayerState {
             // kinematic displacement formula
             float maxHeight = _startingVel.Y * _player.WallBounceTime;
             maxHeight += 0.5f * _gravity * Mathf.Pow(_player.WallBounceTime, 2);
-            
+            //
             maxHeight = Mathf.Abs(maxHeight);
             
+            float maxDistance = _player.WallBounceMovementSpeed * _player.WallBounceTime;
+            
             float remainingHeight = Mathf.Abs((_startingPos.Y - maxHeight) - _player.Pos.y);
-            float remainingTime = _player.WallBounceTime - _timeSinceJump;
+            float remainingDistance = Mathf.Abs(maxDistance - (_player.WallBounceMovementSpeed * _timeSinceJump));
             
             _stateMachine.ChangeState<ShortJump>(dict: new() {
                 { "RemainingHeight", remainingHeight },
-                { "RemainingTime", remainingTime }
+                { "RemainingDistance", remainingDistance },
+                { "MovementSpeed", _player.WallBounceMovementSpeed }
             });
             
             return;

@@ -17,9 +17,9 @@ public partial class Player : Node2D {
     public float JumpTime => JumpDistance / MovementSpeed;
     [ExportGroup("Jumping/Short Jumping")]
     [Export] public float ShortJumpRemainingHeightDivisor = 2;
-    [Export] public float ShortJumpRemainingTimeDivisor = 2;
+    [Export] public float ShortJumpRemainingDistanceDivisor = 2;
     [ExportGroup("Jumping/Ground Bouncing")]
-    [Export] public float BounceHeight = 42;
+    [Export] public float BounceHeight = 50;
     [Export] public float BounceDistance = 40;
     public float BounceTime => BounceDistance / MovementSpeed;
 

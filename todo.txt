@@ -1,9 +1,12 @@
 - balance wavedashing (require minimum off-ground height?)
 - reverse supers/wavedashes
 - bouncy wavedash (+ balance it)
+- buffer dash inputs
+- allow for dashing when not inputting direction (using last-inputted cardinal direction)
+- make bouncing give back dashes again
 
 later but not rn:
 - improve player coloring system
 
 done:
-- replace states' _Ready with Init function
+- hopefully fixed the fucking high gravity in ShortJump bug by using better maths
