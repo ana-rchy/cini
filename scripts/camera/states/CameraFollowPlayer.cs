@@ -5,10 +5,10 @@ public partial class CameraFollowPlayer : PixelCameraState {
     Collider _playerCollider;
     
     
-    public override void _Ready() {
-        base._Ready();
+    public override void Init() {
         _playerCollider = _camera.PlayerCollider;
     }
+    
     
     public override async void Enter(Dictionary<string, object> dict = null) {
         if (_playerCollider == null) {

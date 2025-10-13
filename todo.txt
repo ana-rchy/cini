@@ -6,6 +6,4 @@ later but not rn:
 - improve player coloring system
 
 done:
-- consolidate Bounce state into Jump
-- actually rename WallDashSlide to WallSlide
-- universal coyote time (i just use a timer wherever its needed lol) (i removed the CoyoteTime state now)
+- replace states' _Ready with Init function

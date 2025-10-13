@@ -11,9 +11,7 @@ public partial class Dash : PlayerState {
     bool _enteredOnGround;
     
 
-    public override void _Ready() {
-        base._Ready();
-        
+    public override void Init() {
         string assertMsg(object obj) => $"'{GetParent().Name}/{Name}' is missing '{nameof(obj)}'";
         Logging.Assert(_playerSprite is Sprite2D, assertMsg(_playerSprite));
         Logging.Assert(_postDashWallbounceLeniencyTimer is Timer, assertMsg(_postDashWallbounceLeniencyTimer));
@@ -26,6 +24,7 @@ public partial class Dash : PlayerState {
         _coyoteTimer.OneShot = true;
         AddChild(_coyoteTimer);
     }
+    
     
     public override bool Prereqs() =>
         Input.IsActionJustPressed("Dash") && _player.DashCharges > 0 &&
@@ -71,14 +70,6 @@ public partial class Dash : PlayerState {
         }
         
         
-        // super
-        if ((_player.OnGround() || !_coyoteTimer.IsStopped()) && _inputBuffer.ShouldJump()) {
-            _player.DashCharges = _player.DashChargeTotal;
-            _stateMachine.ChangeState<Jump>();
-            
-            return;
-        }
-        
         // bounce
         if (_player.OnGround() && _inputBuffer.ShouldJump()
             && _player.Vel.Normalized() == Vector2.Down && !_enteredOnGround
@@ -107,7 +98,15 @@ public partial class Dash : PlayerState {
             return;
         }
         
-         if (_player.OnWall(_player.WallBounceDistanceLeniency) && _inputBuffer.ShouldJump()
+        // super
+        if ((_player.OnGround() || !_coyoteTimer.IsStopped()) && _inputBuffer.ShouldJump()) {
+            _player.DashCharges = _player.DashChargeTotal;
+            _stateMachine.ChangeState<Jump>();
+            
+            return;
+        }
+        
+        if (_player.OnWall(_player.WallBounceDistanceLeniency) && _inputBuffer.ShouldJump()
             && _player.Vel.Normalized() == Vector2.Up
         ) {
             _stateMachine.ChangeState<WallBounce>();

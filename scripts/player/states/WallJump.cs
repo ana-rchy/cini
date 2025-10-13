@@ -7,13 +7,12 @@ public partial class WallJump : PlayerState {
     float _gravity, _timeSinceJump;
 
 
-    public override void _Ready() {
-        base._Ready();
-        
+    public override void Init() {
         _pushoffTimer = new();
         _pushoffTimer.OneShot = true;
         AddChild(_pushoffTimer);
     }
+    
     
     public override bool Prereqs() => 
         _inputBuffer.ShouldJump() && Input.GetAxis("Left", "Right") != 0

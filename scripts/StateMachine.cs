@@ -14,6 +14,7 @@ public partial class StateMachine : Node {
     public override void _Ready() {
         _stateChangesExecuted.Enqueue($"{CurrentState.GetType()}");
         
+        CurrentState.Init();
         CurrentState.Enter();
     }
 

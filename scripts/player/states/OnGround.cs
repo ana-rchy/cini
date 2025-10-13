@@ -5,13 +5,12 @@ public partial class OnGround : PlayerState {
     Timer _coyoteTimer;
     
     
-    public override void _Ready() {
-        base._Ready();
-        
+    public override void Init() {
         _coyoteTimer = new();
         _coyoteTimer.OneShot = true;
         AddChild(_coyoteTimer);
     }
+    
     
     public override bool Prereqs() =>
         _player.OnGround();

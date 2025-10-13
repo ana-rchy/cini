@@ -5,6 +5,8 @@ public partial class State : Node {
     protected StateMachine _stateMachine;
 
     public override void _Ready() {
+        Ready += Init;
+        
         Node parent = GetParent();
         Logging.Assert(parent is StateMachine, $"'{parent.Name}' is not a '{typeof(StateMachine)}'");
 
@@ -12,9 +14,10 @@ public partial class State : Node {
     }
     
 
+    public virtual void Init() {} // called by Ready signal, so you dont need to do base._Ready() in each state's _Ready
+    
     public virtual bool Prereqs() { return true; } // prerequisites to entering the state
     public virtual bool EarlyExitStateTransitions() { return false; } // shortcuts to other states, useful in edge cases
-    
     public virtual void Enter(Dictionary<string, object> dict = null) {} // runs once when changing to the state
         
     public virtual void Update(float delta) {} // runs every StateMachine's _PhysicsProcess()

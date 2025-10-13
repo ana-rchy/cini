@@ -9,12 +9,11 @@ public partial class CameraInRoomTransition : PixelCameraState {
     float _transitionTime, _timer = 0;
     
     
-    public override void _Ready() {
-        base._Ready();
-        
+    public override void Init() {
         _roomTransitionCurve = _camera.CameraRoomTransitionCurve;
         _transitionTime = _roomTransitionCurve.MaxDomain;
     }
+    
     
     public override void Enter(Dictionary<string, object> dict = null) {
         _startPos = _camera.PosCentre.Vec;

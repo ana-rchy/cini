@@ -10,9 +10,7 @@ public partial class WallBounce : PlayerState {
     float _gravity, _timeSinceJump;
     
     
-    public override void _Ready() {
-        base._Ready();
-        
+    public override void Init() {
         string assertMsg(object obj) => $"'{GetParent().Name}/{Name}' is missing '{nameof(obj)}'";
         Logging.Assert(_postDashWallbounceLeniencyTimer is Timer, assertMsg(_postDashWallbounceLeniencyTimer));
         
@@ -22,6 +20,7 @@ public partial class WallBounce : PlayerState {
         
         _postDashWallbounceLeniencyTimer.OneShot = true;
     }
+    
     
     public override bool Prereqs() =>
         _inputBuffer.ShouldJump()
