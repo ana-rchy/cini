@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Godot;
 
-public partial class WallDashSlide : PlayerState {
+public partial class WallSlide : PlayerState {
     float _gravity;
     
     

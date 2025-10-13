@@ -2,10 +2,25 @@ using System.Collections.Generic;
 using Godot;
 
 public partial class OnGround : PlayerState {
+    Timer _coyoteTimer;
+    
+    
+    public override void _Ready() {
+        base._Ready();
+        
+        _coyoteTimer = new();
+        _coyoteTimer.OneShot = true;
+        AddChild(_coyoteTimer);
+    }
+    
     public override bool Prereqs() =>
         _player.OnGround();
 
     public override void Enter(Dictionary<string, object> dict = null) {
+        if (dict != null && dict.ContainsKey("RemainingCoyoteTime")) {
+            _coyoteTimer.Start((float) dict["RemainingCoyoteTime"]);
+        }
+        
         _player.Vel.Y = 0;
         _player.Stamina = _player.TotalStamina;
         _player.DashCharges = _player.DashChargeTotal;
@@ -17,13 +32,18 @@ public partial class OnGround : PlayerState {
     }
     
     public override void Update_StateTransitions(float _) {
-        if (!_player.OnGround()) {
-            _stateMachine.ChangeState<CoyoteTime>();
+        if (_player.OnGround()) {
+            _coyoteTimer.Start(_player.CoyoteTimeInFrames / 60);
+        }
+        
+        
+        if (_inputBuffer.ShouldJump() && (_player.OnGround() || !_coyoteTimer.IsStopped())) {
+            _stateMachine.ChangeState<Jump>();
             return;
         }
-
-        if (_inputBuffer.ShouldJump()) {
-            _stateMachine.ChangeState<Jump>();
+        
+        if (!_player.OnGround() && _coyoteTimer.IsStopped()) {
+            _stateMachine.ChangeState<Falling>();
             return;
         }
 

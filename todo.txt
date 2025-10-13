@@ -1,4 +1,3 @@
-- universal coyote time (it doesnt work with dashing) (probs rename InputBuffer to LeniencyBuffer and use that)
 - balance wavedashing (require minimum off-ground height?)
 - reverse supers/wavedashes
 - bouncy wavedash (+ balance it)
@@ -7,6 +6,6 @@ later but not rn:
 - improve player coloring system
 
 done:
-- reorganize player export variables
-- tweak player physics variables
-- think up of better name for "WallDashSlide"
+- consolidate Bounce state into Jump
+- actually rename WallDashSlide to WallSlide
+- universal coyote time (i just use a timer wherever its needed lol) (i removed the CoyoteTime state now)

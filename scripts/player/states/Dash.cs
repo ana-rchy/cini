@@ -6,7 +6,7 @@ public partial class Dash : PlayerState {
     [Export] Sprite2D _playerSprite;
     [Export] Timer _postDashWallbounceLeniencyTimer;
     
-    Timer _dashTimer;
+    Timer _dashTimer, _coyoteTimer;
     ShaderMaterial _spriteShader;
     bool _enteredOnGround;
     
@@ -21,6 +21,10 @@ public partial class Dash : PlayerState {
         _dashTimer = new();
         _dashTimer.OneShot = true;
         AddChild(_dashTimer);
+        
+        _coyoteTimer = new();
+        _coyoteTimer.OneShot = true;
+        AddChild(_coyoteTimer);
     }
     
     public override bool Prereqs() =>
@@ -60,46 +64,73 @@ public partial class Dash : PlayerState {
     }
     
     public override void Update_StateTransitions(float _) {
-        if (_player.OnWall(_player.WallBounceDistanceLeniency) && _inputBuffer.ShouldJump()
-            && _player.Vel.Normalized() == Vector2.Up
-        ) {
-            _stateMachine.ChangeState<WallBounce>();
+        float xInput = Input.GetAxis("Left", "Right");
+        
+        if (_player.Vel.Y == 0 && _player.OnGround()) {
+            _coyoteTimer.Start(_player.CoyoteTimeInFrames / 60);
+        }
+        
+        
+        // super
+        if ((_player.OnGround() || !_coyoteTimer.IsStopped()) && _inputBuffer.ShouldJump()) {
+            _player.DashCharges = _player.DashChargeTotal;
+            _stateMachine.ChangeState<Jump>();
+            
             return;
         }
         
+        // bounce
         if (_player.OnGround() && _inputBuffer.ShouldJump()
             && _player.Vel.Normalized() == Vector2.Down && !_enteredOnGround
         ) {
-            _stateMachine.ChangeState<Bounce>();
+            _stateMachine.ChangeState<Jump>(dict: new() {
+                { "JumpHeight", _player.BounceHeight },
+                { "JumpDistance", _player.BounceDistance }
+            });
+            
             return;
         }
         
+        // wavedash/wavebounce
         if (_player.OnGround() && _inputBuffer.ShouldJump()
             && !_enteredOnGround
             && _player.Vel.X != 0 && _player.Vel.Y > 0 // down-diagonal dash
         ) {
             _player.DashCharges = _player.DashChargeTotal;
             _player.Vel.X *= _player.WavedashSpeedMultiplier;
-            _stateMachine.ChangeState<Bounce>();
+            
+            _stateMachine.ChangeState<Jump>(dict: new() {
+                { "JumpHeight", _player.BounceHeight },
+                { "JumpDistance", _player.BounceDistance }
+            });
+            
             return;
         }
         
-        if (_player.OnGround() && _inputBuffer.ShouldJump()) {
-            _player.DashCharges = _player.DashChargeTotal;
-            _stateMachine.ChangeState<Jump>();
+         if (_player.OnWall(_player.WallBounceDistanceLeniency) && _inputBuffer.ShouldJump()
+            && _player.Vel.Normalized() == Vector2.Up
+        ) {
+            _stateMachine.ChangeState<WallBounce>();
             return;
         }
-        
-        float xInput = Input.GetAxis("Left", "Right");
+
         
         if (_player.OnWall() && xInput == -_player.GetWallNormal() && _player.Vel.Y < 0
             && _dashTimer.IsStopped()
         ) {
-            _stateMachine.ChangeState<WallDashSlide>();
+            _stateMachine.ChangeState<WallSlide>();
             return;
         }
         
-        if (_dashTimer.IsStopped()) {
+        if (_dashTimer.IsStopped() && !_coyoteTimer.IsStopped()) {
+            _stateMachine.ChangeState<OnGround>(dict: new() {
+                { "RemainingCoyoteTime", _coyoteTimer.TimeLeft }     
+            });
+            
+            return;
+        }
+        
+        if (_dashTimer.IsStopped() && _coyoteTimer.IsStopped()) {
             _stateMachine.ChangeState<Falling>();
             return;
         }

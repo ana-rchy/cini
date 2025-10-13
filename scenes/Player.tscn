@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://d06f8v6im24nc"]
+[gd_scene load_steps=32 format=3 uid="uid://d06f8v6im24nc"]
 
 [ext_resource type="Script" uid="uid://cky84lfdw6dyy" path="res://scripts/player/Player.cs" id="1_3li8b"]
 [ext_resource type="PackedScene" uid="uid://b1g2kesfiwncp" path="res://scenes/Collider.tscn" id="1_p0vlq"]
@@ -10,7 +10,6 @@
 [ext_resource type="Script" uid="uid://mbrva57nh2kk" path="res://scripts/player/InputBuffer.cs" id="4_p7iby"]
 [ext_resource type="Script" uid="uid://b0u3di0y246hq" path="res://scripts/player/states/OnGround.cs" id="5_70d11"]
 [ext_resource type="Script" uid="uid://btbbwkiludhyk" path="res://scripts/player/states/Falling.cs" id="6_70d11"]
-[ext_resource type="Script" uid="uid://coxu850chd7bb" path="res://scripts/player/states/CoyoteTime.cs" id="6_d3wef"]
 [ext_resource type="Script" uid="uid://7pvw87j2k50d" path="res://scripts/player/PlayerStateMachine.cs" id="6_ebwui"]
 [ext_resource type="Script" uid="uid://bj5hy85tc125w" path="res://scripts/player/states/FastFall.cs" id="7_cw2d6"]
 [ext_resource type="Script" uid="uid://5pebk6twe5xc" path="res://scripts/player/states/Respawn.cs" id="7_ebwui"]
@@ -28,9 +27,8 @@
 [ext_resource type="Script" uid="uid://cogxbh0rnt3pn" path="res://scripts/player/states/Hanging.cs" id="15_srp4u"]
 [ext_resource type="Script" uid="uid://c2n8f7k88fxdx" path="res://scripts/player/states/Dash.cs" id="16_jfpux"]
 [ext_resource type="Script" uid="uid://gwya0owgpoq2" path="res://scripts/player/states/ClimbJump.cs" id="17_sfy4j"]
-[ext_resource type="Script" uid="uid://bk4ci5nnjtprn" path="res://scripts/player/states/Bounce.cs" id="22_fvsjc"]
 [ext_resource type="Script" uid="uid://wct8a42pbw2y" path="res://scripts/player/states/WallBounce.cs" id="23_pfeki"]
-[ext_resource type="Script" uid="uid://dl7wigjfa74bm" path="res://scripts/player/states/WallDashSlide.cs" id="26_hxdpb"]
+[ext_resource type="Script" uid="uid://dl7wigjfa74bm" path="res://scripts/player/states/WallSlide.cs" id="24_axnmu"]
 [ext_resource type="Script" uid="uid://ckg0kws7irlbc" path="res://scripts/InputOverlayKey.cs" id="32_hxdpb"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_b8lor"]
@@ -89,9 +87,6 @@ script = ExtResource("7_ebwui")
 [node name="OnGround" type="Node" parent="StateMachine"]
 script = ExtResource("5_70d11")
 
-[node name="CoyoteTime" type="Node" parent="StateMachine"]
-script = ExtResource("6_d3wef")
-
 [node name="Falling" type="Node" parent="StateMachine"]
 script = ExtResource("6_70d11")
 
@@ -103,9 +98,6 @@ script = ExtResource("8_khinc")
 
 [node name="ShortJump" type="Node" parent="StateMachine"]
 script = ExtResource("9_6eyey")
-
-[node name="Bounce" type="Node" parent="StateMachine"]
-script = ExtResource("22_fvsjc")
 
 [node name="WallJump" type="Node" parent="StateMachine"]
 script = ExtResource("11_o4126")
@@ -119,8 +111,8 @@ _postDashWallbounceLeniencyTimer = NodePath("PostDashWallbounceLeniency")
 
 [node name="PostDashWallbounceLeniency" type="Timer" parent="StateMachine/WallBounce"]
 
-[node name="WallDashSlide" type="Node" parent="StateMachine"]
-script = ExtResource("26_hxdpb")
+[node name="WallSlide" type="Node" parent="StateMachine"]
+script = ExtResource("24_axnmu")
 
 [node name="Climbing" type="Node" parent="StateMachine"]
 script = ExtResource("14_0rnld")
