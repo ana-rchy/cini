@@ -43,7 +43,7 @@ public partial class Climbing : PlayerState {
 		int yInput = (int) Input.GetAxis("Up", "Down");
 		
 		
-		if (Input.IsActionJustPressed("Dash")) {
+		if (_inputBuffer.ShouldDash()) {
 			_stateMachine.ChangeState<Dash>();
 			return;
 		}

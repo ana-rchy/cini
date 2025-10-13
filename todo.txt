@@ -1,12 +1,13 @@
 - balance wavedashing (require minimum off-ground height?)
 - reverse supers/wavedashes
 - bouncy wavedash (+ balance it)
-- buffer dash inputs
-- allow for dashing when not inputting direction (using last-inputted cardinal direction)
-- make bouncing give back dashes again
 
 later but not rn:
 - improve player coloring system
 
 done:
-- hopefully fixed the fucking high gravity in ShortJump bug by using better maths
+- make bouncing give back dashes again
+- buffer dash inputs
+- patch being able to slowly climb with normal wall jumps
+- make neutrals better
+- allow for dashing when not inputting direction (using last-inputted cardinal direction)

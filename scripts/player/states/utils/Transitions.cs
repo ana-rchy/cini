@@ -26,7 +26,7 @@ public static class Transitions {
             return true;
         }
 
-        if (Input.IsActionJustPressed("Dash")) {
+        if (inputBuffer.ShouldDash()) {
             stateMachine.ChangeState<Dash>();
             return true;
         }

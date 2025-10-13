@@ -51,7 +51,7 @@ public partial class OnGround : PlayerState {
             return;
         }
 
-        if (Input.IsActionJustPressed("Dash")) {
+        if (_inputBuffer.ShouldDash()) {
             _stateMachine.ChangeState<Dash>();
             return;
         }

@@ -14,7 +14,7 @@ public partial class NeutralWallJump : PlayerState {
         );
     
     public override void Enter(Dictionary<string, object> dict = null) {
-        _player.Vel.X = _player.NeutralWallJumpMovementSpeed * _player.GetWallNormal(_player.WallJumpDistanceLeniency);
+        _player.Vel.X = _player.NeutralWallJumpPushoffSpeed * _player.GetWallNormal(_player.WallJumpDistanceLeniency);
         
         _player.Vel.Y = GetJumpVelocityWithTime(_player.NeutralWallJumpHeight, _player.NeutralWallJumpTime);
         _gravity = GetGravityWithTime(_player.NeutralWallJumpHeight, _player.NeutralWallJumpTime);

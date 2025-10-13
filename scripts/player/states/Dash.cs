@@ -10,6 +10,8 @@ public partial class Dash : PlayerState {
     ShaderMaterial _spriteShader;
     bool _enteredOnGround;
     
+    Vector2 _lastInputtedCardinalDir;
+    
 
     public override void Init() {
         string assertMsg(object obj) => $"'{GetParent().Name}/{Name}' is missing '{nameof(obj)}'";
@@ -27,11 +29,16 @@ public partial class Dash : PlayerState {
     
     
     public override bool Prereqs() =>
-        Input.IsActionJustPressed("Dash") && _player.DashCharges > 0 &&
-        Input.GetVector("Left", "Right", "Up", "Down") != Vector2.Zero;
+        _inputBuffer.ShouldDash() && _player.DashCharges > 0;
     
     public override void Enter(Dictionary<string, object> dict = null) {
         Vector2 inputVec = Input.GetVector("Left", "Right", "Up", "Down");
+        if (inputVec == Vector2.Zero && _lastInputtedCardinalDir != null) {
+            inputVec = _lastInputtedCardinalDir;
+        } else if (inputVec == Vector2.Zero) {
+            inputVec = Vector2.Right;
+        }
+        
         Vector2 basicDashVel = inputVec * _player.DashSpeed;
         
         // makes chained wavedashes go nyoom
@@ -74,6 +81,8 @@ public partial class Dash : PlayerState {
         if (_player.OnGround() && _inputBuffer.ShouldJump()
             && _player.Vel.Normalized() == Vector2.Down && !_enteredOnGround
         ) {
+            _player.DashCharges = _player.DashChargeTotal;
+            
             _stateMachine.ChangeState<Jump>(dict: new() {
                 { "JumpHeight", _player.BounceHeight },
                 { "JumpDistance", _player.BounceDistance }
@@ -132,6 +141,15 @@ public partial class Dash : PlayerState {
         if (_dashTimer.IsStopped() && _coyoteTimer.IsStopped()) {
             _stateMachine.ChangeState<Falling>();
             return;
+        }
+    }
+    
+    
+    public override void _PhysicsProcess(double _) {
+        Vector2 inputVec = Input.GetVector("Left", "Right", "Up", "Down");
+        
+        if (inputVec.X != 0 ^ inputVec.Y != 0) {
+            _lastInputtedCardinalDir = inputVec;
         }
     }
     

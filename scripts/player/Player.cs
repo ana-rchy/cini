@@ -9,9 +9,9 @@ public partial class Player : Node2D {
     [Export] public Curve ReelbackLerpStrength;
 
     [ExportGroup("Jumping")]
+    [Export] public float JumpBufferTime = 0.15f;
     [Export] public float JumpHeight = 26;
     [Export] public float JumpDistance = 26;
-    [Export] public float JumpBufferTime = 0.15f;
     [Export] public float CoyoteTimeInFrames = 5;
     [Export] public int JumpWallClipThreshold = 3;
     public float JumpTime => JumpDistance / MovementSpeed;
@@ -35,13 +35,14 @@ public partial class Player : Node2D {
     [Export] public float WallJumpHeight = 26;
     [Export] public float WallJumpDistance = 26;
     [Export] public float WallJumpMovementSpeed = 70;
-    [Export] public float WallJumpPushoffDistance = 16;
+    [Export] public float WallJumpPushoffDistance = 18;
     public float WallJumpTime => WallJumpDistance / WallJumpMovementSpeed;
     public float WallJumpPushoffTime => WallJumpPushoffDistance / WallJumpMovementSpeed;
     [ExportGroup("Wall Jumping/Neutral Wall Jumping")]
     [Export] public float NeutralWallJumpHeight = 26;
-    [Export] public float NeutralWallJumpTime = 0.25f;
+    [Export] public float NeutralWallJumpTime = 0.32f;
     [Export] public float NeutralWallJumpMovementSpeed = 70;
+    [Export] public float NeutralWallJumpPushoffSpeed = 100;
     public float NeutralWallJumpDistance => NeutralWallJumpMovementSpeed * NeutralWallJumpTime;
     [ExportGroup("Wall Jumping/Wall Bouncing")]
     [Export] public float WallBounceDistanceLeniency = 4;
@@ -67,6 +68,7 @@ public partial class Player : Node2D {
     [Export] public float HangingMoveStaminaCost = 1.5f;
 
     [ExportGroup("Dashing")]
+    [Export] public float DashBufferTime = 0.15f;
     [Export] public float DashDistance = 32;
     [Export] public float DashLengthInFrames = 12;
     [Export] public int DashChargeTotal = 2;

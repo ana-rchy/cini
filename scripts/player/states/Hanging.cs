@@ -20,9 +20,9 @@ public partial class Hanging : PlayerState {
     
     public override void Update_StateTransitions(float _) {
         if (_player.OnWall() && Input.GetAxis("Up", "Down") != 0 && Input.IsActionPressed("Grab")) {
-			_stateMachine.ChangeState<Climbing>();
-			return;
-		}
+            _stateMachine.ChangeState<Climbing>();
+            return;
+        }
         
         if (Input.IsActionJustPressed("Jump")) {
             _player.MoveY(1);
@@ -30,7 +30,7 @@ public partial class Hanging : PlayerState {
             return;
         }
 
-        if (Input.IsActionJustPressed("Dash")) {
+        if (_inputBuffer.ShouldDash()) {
             _stateMachine.ChangeState<Dash>();
             return;
         }
