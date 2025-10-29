@@ -1,4 +1,4 @@
-- balance wavedashing (require minimum off-ground height?)
+- require minimum wavebounce height?
 - reverse supers/wavedashes
 - bouncy wavedash (+ balance it)
 
@@ -6,8 +6,5 @@ later but not rn:
 - improve player coloring system
 
 done:
-- make bouncing give back dashes again
-- buffer dash inputs
-- patch being able to slowly climb with normal wall jumps
-- make neutrals better
-- allow for dashing when not inputting direction (using last-inputted cardinal direction)
+- fix dash buffer leading to auto-dashing after jumping
+- do the same fix on other states (remove using buffer where its not needed)

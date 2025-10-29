@@ -138,6 +138,10 @@ public partial class Dash : PlayerState {
             return;
         }
         
+        if (Input.IsActionPressed("Grab") && _player.OnWall() && _player.Stamina > 0) {
+            _stateMachine.ChangeState<Climbing>();
+        }
+        
         if (_dashTimer.IsStopped() && _coyoteTimer.IsStopped()) {
             _stateMachine.ChangeState<Falling>();
             return;

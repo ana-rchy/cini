@@ -30,7 +30,7 @@ public partial class Hanging : PlayerState {
             return;
         }
 
-        if (_inputBuffer.ShouldDash()) {
+        if (Input.IsActionJustPressed("Dash")) {
             _stateMachine.ChangeState<Dash>();
             return;
         }
