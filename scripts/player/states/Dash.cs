@@ -96,12 +96,16 @@ public partial class Dash : PlayerState {
             && !_enteredOnGround
             && _player.Vel.X != 0 && _player.Vel.Y > 0 // down-diagonal dash
         ) {
+            if (Mathf.Sign(_player.Vel.X) == -Input.GetAxis("Left", "Right")) {
+                _player.Vel.X *= -1;
+            }
+            
             _player.DashCharges = _player.DashChargeTotal;
             _player.Vel.X *= _player.WavedashSpeedMultiplier;
             
             _stateMachine.ChangeState<Jump>(dict: new() {
-                { "JumpHeight", _player.BounceHeight },
-                { "JumpDistance", _player.BounceDistance }
+                { "JumpHeight", _player.WavedashJumpHeight },
+                { "JumpDistance", _player.WavedashJumpDistance }
             });
             
             return;
@@ -109,6 +113,10 @@ public partial class Dash : PlayerState {
         
         // super
         if ((_player.OnGround() || !_coyoteTimer.IsStopped()) && _inputBuffer.ShouldJump()) {
+            if (Mathf.Sign(_player.Vel.X) == -Input.GetAxis("Left", "Right")) {
+                _player.Vel.X *= -1;
+            }
+            
             _player.DashCharges = _player.DashChargeTotal;
             _stateMachine.ChangeState<Jump>();
             

@@ -1,10 +1,8 @@
-- require minimum wavebounce height?
-- reverse supers/wavedashes
-- bouncy wavedash (+ balance it)
+- uhhh idk
 
 later but not rn:
 - improve player coloring system
 
 done:
-- fix dash buffer leading to auto-dashing after jumping
-- do the same fix on other states (remove using buffer where its not needed)
+- reverse supers/wavedashes
+- lessen wavebounce height (compared to regular bouncing)

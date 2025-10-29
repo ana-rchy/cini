@@ -77,6 +77,8 @@ public partial class Player : Node2D {
     [ExportGroup("Dashing/Wall Sliding")]
     [Export] public float WallSlidingGravity = 250;
     [ExportGroup("Dashing/Wavedashing")]
+    [Export] public float WavedashJumpHeight = 35;
+    [Export] public float WavedashJumpDistance = 30;
     [Export] public float WavedashSpeedMultiplier = 1.2f;
 
     [ExportGroup("Other")]
