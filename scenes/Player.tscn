@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://d06f8v6im24nc"]
+[gd_scene load_steps=34 format=3 uid="uid://d06f8v6im24nc"]
 
 [ext_resource type="Script" uid="uid://cky84lfdw6dyy" path="res://scripts/player/Player.cs" id="1_3li8b"]
 [ext_resource type="PackedScene" uid="uid://b1g2kesfiwncp" path="res://scenes/Collider.tscn" id="1_p0vlq"]
@@ -29,6 +29,8 @@
 [ext_resource type="Script" uid="uid://gwya0owgpoq2" path="res://scripts/player/states/ClimbJump.cs" id="17_sfy4j"]
 [ext_resource type="Script" uid="uid://wct8a42pbw2y" path="res://scripts/player/states/WallBounce.cs" id="23_pfeki"]
 [ext_resource type="Script" uid="uid://dl7wigjfa74bm" path="res://scripts/player/states/WallSlide.cs" id="24_axnmu"]
+[ext_resource type="Script" uid="uid://b6abl5ysm16n4" path="res://scripts/player/PowerupsManager.cs" id="30_fvsjc"]
+[ext_resource type="Script" uid="uid://b7mcdncxbdxbi" path="res://scripts/player/powerups/MoreDashes.cs" id="31_hxdpb"]
 [ext_resource type="Script" uid="uid://ckg0kws7irlbc" path="res://scripts/InputOverlayKey.cs" id="32_hxdpb"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_b8lor"]
@@ -129,6 +131,14 @@ _postDashWallbounceLeniencyTimer = NodePath("../WallBounce/PostDashWallbounceLen
 
 [node name="DebugState" type="Node" parent="StateMachine"]
 script = ExtResource("9_bruh7")
+
+[node name="Powerups" type="Node" parent="." node_paths=PackedStringArray("Player", "StateMachine")]
+script = ExtResource("30_fvsjc")
+Player = NodePath("..")
+StateMachine = NodePath("../StateMachine")
+
+[node name="MoreDashes" type="Node" parent="Powerups"]
+script = ExtResource("31_hxdpb")
 
 [node name="InputOverlay" type="CanvasLayer" parent="."]
 visible = false

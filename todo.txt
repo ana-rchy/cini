@@ -1,8 +1,7 @@
-- uhhh idk
+- add basic animations to player
 
 later but not rn:
 - improve player coloring system
 
 done:
-- reverse supers/wavedashes
-- lessen wavebounce height (compared to regular bouncing)
+- rudimentary powerups system
