@@ -7,9 +7,10 @@ public partial class Dash : PlayerState {
     [Export] Timer _postDashWallbounceLeniencyTimer;
     
     Timer _dashTimer, _coyoteTimer;
-    ShaderMaterial _spriteShader;
-    bool _enteredOnGround;
     
+    ShaderMaterial _spriteShader;
+    
+    bool _enteredOnGround;
     Vector2 _lastInputtedCardinalDir;
     
 
@@ -33,7 +34,7 @@ public partial class Dash : PlayerState {
     
     public override void Enter(Dictionary<string, object> dict = null) {
         Vector2 inputVec = Input.GetVector("Left", "Right", "Up", "Down");
-        if (inputVec == Vector2.Zero && _lastInputtedCardinalDir != null) {
+        if (inputVec == Vector2.Zero && _lastInputtedCardinalDir != Vector2.Zero) {
             inputVec = _lastInputtedCardinalDir;
         } else if (inputVec == Vector2.Zero) {
             inputVec = Vector2.Right;

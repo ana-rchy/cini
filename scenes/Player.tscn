@@ -1,11 +1,10 @@
-[gd_scene load_steps=34 format=3 uid="uid://d06f8v6im24nc"]
+[gd_scene format=3 uid="uid://d06f8v6im24nc"]
 
 [ext_resource type="Script" uid="uid://cky84lfdw6dyy" path="res://scripts/player/Player.cs" id="1_3li8b"]
 [ext_resource type="PackedScene" uid="uid://b1g2kesfiwncp" path="res://scenes/Collider.tscn" id="1_p0vlq"]
 [ext_resource type="Curve" uid="uid://ca2rjf7g3tyuq" path="res://resources/curves/ReelbackLerpStrengthCurve.tres" id="2_axnmu"]
 [ext_resource type="Texture2D" uid="uid://cb7xdxayr7x1y" path="res://sprites/Player.png" id="2_v6fml"]
 [ext_resource type="Shader" uid="uid://cf7q2oly8fvyg" path="res://scripts/shaders/ScreenColorBlend.gdshader" id="3_b8lor"]
-[ext_resource type="Script" uid="uid://s3cki24oc7as" path="res://scripts/camera/PixelCamera.cs" id="4_61ith"]
 [ext_resource type="Texture2D" uid="uid://xark4lo436bi" path="res://sprites/PlayerMonochrome.png" id="4_b8lor"]
 [ext_resource type="Script" uid="uid://mbrva57nh2kk" path="res://scripts/player/InputBuffer.cs" id="4_p7iby"]
 [ext_resource type="Script" uid="uid://b0u3di0y246hq" path="res://scripts/player/states/OnGround.cs" id="5_70d11"]
@@ -13,14 +12,10 @@
 [ext_resource type="Script" uid="uid://7pvw87j2k50d" path="res://scripts/player/PlayerStateMachine.cs" id="6_ebwui"]
 [ext_resource type="Script" uid="uid://bj5hy85tc125w" path="res://scripts/player/states/FastFall.cs" id="7_cw2d6"]
 [ext_resource type="Script" uid="uid://5pebk6twe5xc" path="res://scripts/player/states/Respawn.cs" id="7_ebwui"]
-[ext_resource type="Curve" uid="uid://cindcs3pskjey" path="res://resources/curves/PixelCameraSpeedCurve.tres" id="7_fgkxt"]
-[ext_resource type="Curve" uid="uid://dxphycb00fkd2" path="res://resources/curves/PixelCameraRoomTransitionCurve.tres" id="8_1jpwa"]
+[ext_resource type="PackedScene" uid="uid://hd5vhtanckuw" path="res://scenes/PixelCamera.tscn" id="7_xsi7p"]
 [ext_resource type="Script" uid="uid://dxn1m3ne6yt5b" path="res://scripts/player/states/Jump.cs" id="8_khinc"]
-[ext_resource type="Script" uid="uid://byocilwgeba3u" path="res://scripts/camera/states/CameraFollowPlayer.cs" id="8_viqgg"]
 [ext_resource type="Script" uid="uid://bgn2356cdvwif" path="res://scripts/player/states/ShortJump.cs" id="9_6eyey"]
 [ext_resource type="Script" uid="uid://bb4il1c4ej8lm" path="res://scripts/player/states/DebugState.cs" id="9_bruh7"]
-[ext_resource type="Script" uid="uid://c615d0qhm573c" path="res://scripts/camera/PixelCameraStateMachine.cs" id="10_hxdpb"]
-[ext_resource type="Script" uid="uid://bkokdhnuygbyb" path="res://scripts/camera/states/CameraInRoomTransition.cs" id="10_xsi7p"]
 [ext_resource type="Script" uid="uid://bt2djn6ayvvlb" path="res://scripts/player/states/WallJump.cs" id="11_o4126"]
 [ext_resource type="Script" uid="uid://kgf17c5kv7oh" path="res://scripts/player/states/NeutralWallJump.cs" id="12_lkdrv"]
 [ext_resource type="Script" uid="uid://cea6x4ib3544u" path="res://scripts/player/states/Climbing.cs" id="14_0rnld"]
@@ -37,7 +32,7 @@
 shader = ExtResource("3_b8lor")
 shader_parameter/color = Color(0, 0.57000005, 0.6, 1)
 
-[node name="Player" type="Node2D" node_paths=PackedStringArray("SpawnState", "Collider", "StateMachine", "InputBuffer")]
+[node name="Player" type="Node2D" unique_id=1668451212 node_paths=PackedStringArray("SpawnState", "Collider", "StateMachine", "InputBuffer")]
 script = ExtResource("1_3li8b")
 ReelbackLerpStrength = ExtResource("2_axnmu")
 SpawnState = NodePath("StateMachine/Falling")
@@ -45,147 +40,134 @@ Collider = NodePath("Collider")
 StateMachine = NodePath("StateMachine")
 InputBuffer = NodePath("InputBuffer")
 
-[node name="Collider" parent="." instance=ExtResource("1_p0vlq")]
+[node name="Collider" parent="." unique_id=1413344767 instance=ExtResource("1_p0vlq")]
 position = Vector2(-4, -4)
 _colliderColor = Color(0.34, 1, 0.494, 0.501961)
 
-[node name="Sprite" type="Sprite2D" parent="."]
+[node name="Sprite" type="Sprite2D" parent="." unique_id=915151607]
 visible = false
 texture = ExtResource("2_v6fml")
 
-[node name="SpriteRecolorable" type="Sprite2D" parent="."]
+[node name="SpriteRecolorable" type="Sprite2D" parent="." unique_id=1074552006]
 material = SubResource("ShaderMaterial_b8lor")
 texture = ExtResource("4_b8lor")
 
-[node name="PixelCamera" type="Camera2D" parent="." node_paths=PackedStringArray("PlayerCollider")]
-top_level = true
-script = ExtResource("4_61ith")
-CameraSpeedCurve = ExtResource("7_fgkxt")
-CameraRoomTransitionCurve = ExtResource("8_1jpwa")
+[node name="PixelCamera" parent="." unique_id=596902570 node_paths=PackedStringArray("Player", "PlayerCollider") instance=ExtResource("7_xsi7p")]
+Player = NodePath("..")
 PlayerCollider = NodePath("../Collider")
 
-[node name="StateMachine" type="Node" parent="PixelCamera" node_paths=PackedStringArray("CurrentState")]
-script = ExtResource("10_hxdpb")
-CurrentState = NodePath("CameraFollowPlayer")
-
-[node name="CameraFollowPlayer" type="Node" parent="PixelCamera/StateMachine"]
-script = ExtResource("8_viqgg")
-
-[node name="CameraInRoomTransition" type="Node" parent="PixelCamera/StateMachine"]
-script = ExtResource("10_xsi7p")
-
-[node name="InputBuffer" type="Node" parent="." node_paths=PackedStringArray("_player")]
+[node name="InputBuffer" type="Node" parent="." unique_id=2007973744 node_paths=PackedStringArray("_player")]
 script = ExtResource("4_p7iby")
 _player = NodePath("..")
 
-[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("CurrentState")]
+[node name="StateMachine" type="Node" parent="." unique_id=599047443 node_paths=PackedStringArray("CurrentState")]
 script = ExtResource("6_ebwui")
 CurrentState = NodePath("Respawn")
 
-[node name="Respawn" type="Node" parent="StateMachine"]
+[node name="Respawn" type="Node" parent="StateMachine" unique_id=1564108649]
 script = ExtResource("7_ebwui")
 
-[node name="OnGround" type="Node" parent="StateMachine"]
+[node name="OnGround" type="Node" parent="StateMachine" unique_id=1015919428]
 script = ExtResource("5_70d11")
 
-[node name="Falling" type="Node" parent="StateMachine"]
+[node name="Falling" type="Node" parent="StateMachine" unique_id=1575840735]
 script = ExtResource("6_70d11")
 
-[node name="FastFall" type="Node" parent="StateMachine"]
+[node name="FastFall" type="Node" parent="StateMachine" unique_id=1303664528]
 script = ExtResource("7_cw2d6")
 
-[node name="Jump" type="Node" parent="StateMachine"]
+[node name="Jump" type="Node" parent="StateMachine" unique_id=349039043]
 script = ExtResource("8_khinc")
 
-[node name="ShortJump" type="Node" parent="StateMachine"]
+[node name="ShortJump" type="Node" parent="StateMachine" unique_id=1843500039]
 script = ExtResource("9_6eyey")
 
-[node name="WallJump" type="Node" parent="StateMachine"]
+[node name="WallJump" type="Node" parent="StateMachine" unique_id=1236171142]
 script = ExtResource("11_o4126")
 
-[node name="NeutralWallJump" type="Node" parent="StateMachine"]
+[node name="NeutralWallJump" type="Node" parent="StateMachine" unique_id=1061142777]
 script = ExtResource("12_lkdrv")
 
-[node name="WallBounce" type="Node" parent="StateMachine" node_paths=PackedStringArray("_postDashWallbounceLeniencyTimer")]
+[node name="WallBounce" type="Node" parent="StateMachine" unique_id=308538266 node_paths=PackedStringArray("_postDashWallbounceLeniencyTimer")]
 script = ExtResource("23_pfeki")
 _postDashWallbounceLeniencyTimer = NodePath("PostDashWallbounceLeniency")
 
-[node name="PostDashWallbounceLeniency" type="Timer" parent="StateMachine/WallBounce"]
+[node name="PostDashWallbounceLeniency" type="Timer" parent="StateMachine/WallBounce" unique_id=605190289]
 
-[node name="WallSlide" type="Node" parent="StateMachine"]
+[node name="WallSlide" type="Node" parent="StateMachine" unique_id=161167289]
 script = ExtResource("24_axnmu")
 
-[node name="Climbing" type="Node" parent="StateMachine"]
+[node name="Climbing" type="Node" parent="StateMachine" unique_id=986659545]
 script = ExtResource("14_0rnld")
 
-[node name="ClimbJump" type="Node" parent="StateMachine"]
+[node name="ClimbJump" type="Node" parent="StateMachine" unique_id=1039780289]
 script = ExtResource("17_sfy4j")
 
-[node name="Hanging" type="Node" parent="StateMachine"]
+[node name="Hanging" type="Node" parent="StateMachine" unique_id=421356144]
 script = ExtResource("15_srp4u")
 
-[node name="Dash" type="Node" parent="StateMachine" node_paths=PackedStringArray("_playerSprite", "_postDashWallbounceLeniencyTimer")]
+[node name="Dash" type="Node" parent="StateMachine" unique_id=82138706 node_paths=PackedStringArray("_playerSprite", "_postDashWallbounceLeniencyTimer")]
 script = ExtResource("16_jfpux")
 _playerSprite = NodePath("../../SpriteRecolorable")
 _postDashWallbounceLeniencyTimer = NodePath("../WallBounce/PostDashWallbounceLeniency")
 
-[node name="DebugState" type="Node" parent="StateMachine"]
+[node name="DebugState" type="Node" parent="StateMachine" unique_id=409103173]
 script = ExtResource("9_bruh7")
 
-[node name="Powerups" type="Node" parent="." node_paths=PackedStringArray("Player", "StateMachine")]
+[node name="Powerups" type="Node" parent="." unique_id=1455864748 node_paths=PackedStringArray("Player", "StateMachine")]
 script = ExtResource("30_fvsjc")
 Player = NodePath("..")
 StateMachine = NodePath("../StateMachine")
 
-[node name="MoreDashes" type="Node" parent="Powerups"]
+[node name="MoreDashes" type="Node" parent="Powerups" unique_id=491223515]
 script = ExtResource("31_hxdpb")
 
-[node name="InputOverlay" type="CanvasLayer" parent="."]
+[node name="InputOverlay" type="CanvasLayer" parent="." unique_id=1989701882]
 visible = false
 
-[node name="Right" type="ColorRect" parent="InputOverlay"]
+[node name="Right" type="ColorRect" parent="InputOverlay" unique_id=331817519]
 offset_left = 301.0
 offset_top = 158.0
 offset_right = 311.0
 offset_bottom = 168.0
 script = ExtResource("32_hxdpb")
 
-[node name="Down" type="ColorRect" parent="InputOverlay"]
+[node name="Down" type="ColorRect" parent="InputOverlay" unique_id=765878223]
 offset_left = 287.0
 offset_top = 158.0
 offset_right = 297.0
 offset_bottom = 168.0
 script = ExtResource("32_hxdpb")
 
-[node name="Up" type="ColorRect" parent="InputOverlay"]
+[node name="Up" type="ColorRect" parent="InputOverlay" unique_id=434035350]
 offset_left = 287.0
 offset_top = 145.0
 offset_right = 297.0
 offset_bottom = 155.0
 script = ExtResource("32_hxdpb")
 
-[node name="Left" type="ColorRect" parent="InputOverlay"]
+[node name="Left" type="ColorRect" parent="InputOverlay" unique_id=636560965]
 offset_left = 273.0
 offset_top = 158.0
 offset_right = 283.0
 offset_bottom = 168.0
 script = ExtResource("32_hxdpb")
 
-[node name="Jump" type="ColorRect" parent="InputOverlay"]
+[node name="Jump" type="ColorRect" parent="InputOverlay" unique_id=2044285728]
 offset_left = 240.0
 offset_top = 158.0
 offset_right = 250.0
 offset_bottom = 168.0
 script = ExtResource("32_hxdpb")
 
-[node name="Dash" type="ColorRect" parent="InputOverlay"]
+[node name="Dash" type="ColorRect" parent="InputOverlay" unique_id=1609298002]
 offset_left = 227.0
 offset_top = 158.0
 offset_right = 237.0
 offset_bottom = 168.0
 script = ExtResource("32_hxdpb")
 
-[node name="Grab" type="ColorRect" parent="InputOverlay"]
+[node name="Grab" type="ColorRect" parent="InputOverlay" unique_id=264961338]
 offset_left = 214.0
 offset_top = 158.0
 offset_right = 224.0

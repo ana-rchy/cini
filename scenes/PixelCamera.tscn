@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://hd5vhtanckuw"]
+
+[ext_resource type="Script" uid="uid://s3cki24oc7as" path="res://scripts/camera/PixelCamera.cs" id="1_nwm2x"]
+[ext_resource type="Curve" uid="uid://cindcs3pskjey" path="res://resources/curves/PixelCameraSpeedCurve.tres" id="2_b0xky"]
+[ext_resource type="Curve" uid="uid://dxphycb00fkd2" path="res://resources/curves/PixelCameraRoomTransitionCurve.tres" id="3_vlaob"]
+[ext_resource type="Script" uid="uid://c615d0qhm573c" path="res://scripts/camera/PixelCameraStateMachine.cs" id="4_mgogp"]
+[ext_resource type="Script" uid="uid://byocilwgeba3u" path="res://scripts/camera/states/CameraEaseToPlayer.cs" id="5_7pblm"]
+[ext_resource type="Script" uid="uid://dtw1jplkhnqrh" path="res://scripts/camera/states/CameraSetup.cs" id="5_b0xky"]
+[ext_resource type="Script" uid="uid://dycc7hxq4dpc1" path="res://scripts/camera/states/CameraKeepPlayerInBounds.cs" id="6_64fvi"]
+[ext_resource type="Script" uid="uid://bkokdhnuygbyb" path="res://scripts/camera/states/CameraInRoomTransition.cs" id="7_13lpp"]
+
+[node name="PixelCamera" type="Camera2D" unique_id=596902570]
+top_level = true
+script = ExtResource("1_nwm2x")
+CameraSpeedCurve = ExtResource("2_b0xky")
+CameraRoomTransitionCurve = ExtResource("3_vlaob")
+
+[node name="StateMachine" type="Node" parent="." unique_id=699188977 node_paths=PackedStringArray("CurrentState")]
+script = ExtResource("4_mgogp")
+CurrentState = NodePath("CameraKeepPlayerInBounds")
+_loggingPrefix = "CameraStateMachine"
+
+[node name="CameraSetup" type="Node" parent="StateMachine" unique_id=1368507693]
+script = ExtResource("5_b0xky")
+
+[node name="CameraKeepPlayerInBounds" type="Node" parent="StateMachine" unique_id=2031036047]
+script = ExtResource("6_64fvi")
+
+[node name="CameraEaseToPlayer" type="Node" parent="StateMachine" unique_id=189201381]
+script = ExtResource("5_7pblm")
+
+[node name="CameraInRoomTransition" type="Node" parent="StateMachine" unique_id=249381367]
+script = ExtResource("7_13lpp")

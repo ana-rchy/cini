@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 public partial class StateMachine : Node {
     [Export] public State CurrentState { get; protected set; }
+    [Export] string _loggingPrefix = "";
 
     // needed in cases where ChangeState() is called from within a ChangeState()'s call stack,
     // so that it preserves the correct order of the state changes
@@ -14,7 +15,6 @@ public partial class StateMachine : Node {
     public override void _Ready() {
         _stateChangesExecuted.Enqueue($"{CurrentState.GetType()}");
         
-        CurrentState.Init();
         CurrentState.Enter();
     }
 
@@ -23,12 +23,13 @@ public partial class StateMachine : Node {
         CurrentState.Update_StateTransitions((float) delta);
         
         // flushing all the state change log msgs after exiting a 'parent' ChangeState()
-        string logMsg = "";
+        string logMsg = $"";
         while (_stateChangesExecuted.Count > 0) {
             logMsg += $"{_stateChangesExecuted.Dequeue()} -> ";
         }
         
         if (logMsg != "") {
+            
             Logging.Log(logMsg, Logging.LogCategory.PlayerStateTransitions);
         }
     }

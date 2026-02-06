@@ -16,21 +16,16 @@ public partial class CameraInRoomTransition : PixelCameraState {
     
     
     public override void Enter(Dictionary<string, object> dict = null) {
+        Logging.Assert(dict != null, $"{Name} needs Enter dictionary");
+
+
+        _nextRoom = (Room) dict["NextRoom"];
+
         _startPos = _camera.PosCentre.Vec;
-        
-        foreach (Room newRoom in GetTree().GetNodesInGroup("Rooms")) {
-            if (newRoom != _camera.CurrentRoom && _camera.PlayerCollider.Intersects(newRoom.Collider)) {
-                _nextRoom = newRoom;
-                break;
-            }
-        }
-        
-        CameraFollowPlayer.ClampCameraToRoom(ref _camera, _nextRoom);
+        KeepCameraInsideRoom(_camera, _nextRoom);
         _endPos = _camera.PosCentre.Vec;
         
         _camera.PosCentre.Vec = _startPos;
-        
-        
         _timer = 0;
     }
     
@@ -46,13 +41,19 @@ public partial class CameraInRoomTransition : PixelCameraState {
         _timer += delta;
         
         if (_timer >= _transitionTime) {
-            _stateMachine.ChangeState<CameraFollowPlayer>();
+            _stateMachine.ChangeState<CameraKeepPlayerInBounds>();
             return;
         }
         
         foreach (Room newRoom in GetTree().GetNodesInGroup("Rooms")) {
             if (newRoom != _nextRoom && _camera.PlayerCollider.Intersects(newRoom.Collider)) {
-                _stateMachine.ChangeState<CameraInRoomTransition>(forceReEnter: true);
+                _stateMachine.ChangeState<CameraInRoomTransition>(
+                    new() {
+                        { "NextRoom", newRoom }
+                    },
+                    forceReEnter: true
+                );
+
                 return;
             }
         }

@@ -16,15 +16,25 @@ public partial class PixelCamera : Camera2D {
     [Export] public Curve CameraRoomTransitionCurve { get; private set; }
     
     [ExportGroup("node refs")]
+    [Export] public Player Player { get; private set; }
     [Export] public Collider PlayerCollider { get; private set; }
     
     // top-left, bottom-right coords
     public Vector2 OuterBoundsTL => PosCentre.Vec - (_outerBoundsWH / 2);
     public Vector2 OuterBoundsBR => OuterBoundsTL + _outerBoundsWH;
-    ////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////
     public Vector2 InnerBoundsTL => PosCentre.Vec - (_innerBoundsWH / 2);
     public Vector2 InnerBoundsBR => InnerBoundsTL + _innerBoundsWH;
-    
+
+    public float OuterBoundsLeft   => OuterBoundsTL.X;
+    public float OuterBoundsTop    => OuterBoundsTL.Y;
+    public float OuterBoundsRight  => OuterBoundsBR.X;
+    public float OuterBoundsBottom => OuterBoundsBR.Y;
+    //////////////////////////////////////////////////
+    public float InnerBoundsLeft   => InnerBoundsTL.X;
+    public float InnerBoundsTop    => InnerBoundsTL.Y;
+    public float InnerBoundsRight  => InnerBoundsBR.X;
+    public float InnerBoundsBottom => InnerBoundsBR.Y;
     
     public Room CurrentRoom = null;
     
@@ -41,11 +51,11 @@ public partial class PixelCamera : Camera2D {
     }
     
     
-    
     public override void _Ready() {
         AnchorMode = AnchorModeEnum.DragCenter;
         PosCentre = new(this);
     }
+
     
     public override void _Draw() {
         if (Engine.IsEditorHint()) {

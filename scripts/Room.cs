@@ -2,6 +2,8 @@ using Godot;
 using System;
 
 public partial class Room : CollisionShape2D {
+    public const int TILE_SIZE = 8;
+
     public Collider Collider { get; private set; }
     
     public static int MinWidth { get; private set; }
@@ -13,7 +15,6 @@ public partial class Room : CollisionShape2D {
         RectangleShape2D rectShape = (RectangleShape2D) Shape;
         
         
-        const int TILE_SIZE = 8;
         Vector2 viewportSize = GetViewport().GetVisibleRect().Size;
         
         MinWidth = TILE_SIZE * Mathf.CeilToInt(viewportSize.X / TILE_SIZE);
