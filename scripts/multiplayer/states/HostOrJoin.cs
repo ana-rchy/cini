@@ -13,7 +13,7 @@ public partial class HostOrJoin : State {
             ENetMultiplayerPeer peer = new();
             peer.CreateServer(PORT, MAX_CLIENTS);
             Multiplayer.MultiplayerPeer = peer;
-            
+
             _stateMachine.ChangeState<InGame>();
             return;
 
