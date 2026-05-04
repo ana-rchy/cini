@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://dgjg4jumywlmu"]
+
+[ext_resource type="Script" uid="uid://brm5vji5lmre2" path="res://scripts/multiplayer/PuppetPlayer.cs" id="1_45mm0"]
+[ext_resource type="Texture2D" uid="uid://xark4lo436bi" path="res://sprites/PlayerMonochrome.png" id="1_yd1i5"]
+
+[node name="PuppetPlayer" type="Node2D" unique_id=1878887330]
+script = ExtResource("1_45mm0")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=503138073]
+texture = ExtResource("1_yd1i5")

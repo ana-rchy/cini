@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://olfckvqdli1k"]
+
+[ext_resource type="Script" uid="uid://gd2g0eft6et8" path="res://scripts/multiplayer/MultiplayerManager.cs" id="1_cmg8k"]
+[ext_resource type="Script" uid="uid://dvrv6o5xs1y8k" path="res://scripts/StateMachine.cs" id="1_vwb1u"]
+[ext_resource type="Script" uid="uid://d036vg3wu512x" path="res://scripts/multiplayer/states/HostOrJoin.cs" id="2_cmg8k"]
+[ext_resource type="Script" uid="uid://df5n01uqbcirg" path="res://scripts/multiplayer/states/Freeplay.cs" id="3_dt7kn"]
+[ext_resource type="PackedScene" uid="uid://bhkvva1n2ks87" path="res://scenes/levels/Celeste1A.tscn" id="4_4tv38"]
+[ext_resource type="PackedScene" uid="uid://dgjg4jumywlmu" path="res://scenes/multiplayer/PuppetPlayer.tscn" id="5_bxop7"]
+
+[node name="MultiplayerManager" type="Node" unique_id=1321734643]
+script = ExtResource("1_cmg8k")
+
+[node name="StateMachine" type="Node" parent="." unique_id=1577891101 node_paths=PackedStringArray("CurrentState")]
+script = ExtResource("1_vwb1u")
+CurrentState = NodePath("HostOrJoin")
+
+[node name="HostOrJoin" type="Node" parent="StateMachine" unique_id=1092615164]
+script = ExtResource("2_cmg8k")
+
+[node name="Freeplay" type="Node" parent="StateMachine" unique_id=1857667895 node_paths=PackedStringArray("_multiplayerManager")]
+script = ExtResource("3_dt7kn")
+_gameWorldScene = ExtResource("4_4tv38")
+_puppetPlayerScene = ExtResource("5_bxop7")
+_multiplayerManager = NodePath("../..")

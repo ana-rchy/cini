@@ -8,12 +8,15 @@ public partial class Logging : Node {
         Asserts,
         PlayerStateTransitions,
         PlayerStatePrereqFails,
+        Multiplayer,
     }
     
+    // { category, is active }
     [Export] Godot.Collections.Dictionary<LogCategory, bool> _activeLogs = new() {
         { LogCategory.Asserts, false },
-        { LogCategory.PlayerStateTransitions, true },
+        { LogCategory.PlayerStateTransitions, false },
         { LogCategory.PlayerStatePrereqFails, false },
+        { LogCategory.Multiplayer, true },
     };
     
     static Dictionary<LogCategory, Queue<String>> _logs = new();
