@@ -12,10 +12,11 @@ public partial class Jump : PlayerState {
         _inputBuffer.ShouldJump();
 
     public override void Enter(Dictionary<string, object> dict = null) {
-        _jumpHeight = _player.JumpHeight;
-        _jumpDistance = _player.JumpDistance;
-        _movementSpeed = _player.MovementSpeed;
-        if (dict != null) {
+        if (dict == null) {
+            _jumpHeight = _player.JumpHeight;
+            _jumpDistance = _player.JumpDistance;
+            _movementSpeed = _player.MovementSpeed;
+        } else {
             _jumpHeight = (float) dict.GetValueOrDefault("JumpHeight", _jumpHeight);
             _jumpDistance = (float) dict.GetValueOrDefault("JumpDistance", _jumpDistance);
             _movementSpeed = (float) dict.GetValueOrDefault("MovementSpeed", _movementSpeed);

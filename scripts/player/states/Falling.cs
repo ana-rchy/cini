@@ -25,7 +25,7 @@ public partial class Falling : PlayerState {
         return false;
     }
 
-    public override void Enter(Dictionary<string, object> dict = null) {
+    public override void Enter() {
         _gravity = GetGravityWithDistance(
             _player.JumpHeight,
             _player.FallDistance,

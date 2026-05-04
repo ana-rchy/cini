@@ -21,7 +21,7 @@ public partial class WallJump : PlayerState {
             || (_player.OnWall(_player.WallJumpDistanceLeniency) && _player.GetWallNormal(_player.WallJumpDistanceLeniency) != 0)
         );
 
-    public override void Enter(Dictionary<string, object> dict = null) {
+    public override void Enter() {
         _player.Vel.X = _player.WallJumpMovementSpeed * _player.GetWallNormal(_player.WallJumpDistanceLeniency);
         
         _player.Vel.Y = GetJumpVelocityWithDistance(

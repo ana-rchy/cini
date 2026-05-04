@@ -10,7 +10,7 @@ public partial class Freeplay : State {
     Dictionary<long, PuppetPlayer> _puppetPlayers = new();
 
 
-    public override void Enter(Dictionary<string, object> dict = null) {
+    public override void Enter() {
         Multiplayer.PeerConnected += _OnPeerConnected;
         Multiplayer.PeerDisconnected += _OnPeerDisconnected;
 

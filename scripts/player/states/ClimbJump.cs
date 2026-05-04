@@ -9,7 +9,7 @@ public partial class ClimbJump : PlayerState {
     public override bool Prereqs() =>
         _player.OnWall() && _inputBuffer.ShouldJump() && _player.Stamina >= 0;
 
-    public override void Enter(Dictionary<string, object> dict = null) {
+    public override void Enter() {
         _player.Vel.X = 0;
 
         _player.Vel.Y = GetJumpVelocityWithTime(_player.WallJumpHeight, _player.WallJumpTime);

@@ -5,7 +5,7 @@ public partial class Hanging : PlayerState {
     public override bool Prereqs() =>
         Input.IsActionPressed("Grab") && _player.OnCeiling() && _player.Stamina > 0;
 
-    public override void Enter(Dictionary<string, object> dict = null) {
+    public override void Enter() {
         _player.Vel = Vector2.Zero;
     }
     

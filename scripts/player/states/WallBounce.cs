@@ -33,7 +33,7 @@ public partial class WallBounce : PlayerState {
             )
         );
     
-    public override void Enter(Dictionary<string, object> dict = null) {
+    public override void Enter() {
         _player.Vel.X = _player.WallBounceMovementSpeed * _player.GetWallNormal(_player.WallBounceDistanceLeniency);
         
         _gravity = Mathf.Abs(_player.Vel.Y / _player.WallBounceTime);

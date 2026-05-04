@@ -32,7 +32,7 @@ public partial class Dash : PlayerState {
     public override bool Prereqs() =>
         _inputBuffer.ShouldDash() && _player.DashCharges > 0;
     
-    public override void Enter(Dictionary<string, object> dict = null) {
+    public override void Enter() {
         Vector2 inputVec = Input.GetVector("Left", "Right", "Up", "Down");
         if (inputVec == Vector2.Zero && _lastInputtedCardinalDir != Vector2.Zero) {
             inputVec = _lastInputtedCardinalDir;

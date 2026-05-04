@@ -18,7 +18,8 @@ public partial class State : Node {
     
     public virtual bool Prereqs() { return true; } // prerequisites to entering the state
     public virtual bool EarlyExitStateTransitions() { return false; } // shortcuts to other states, useful in edge cases
-    public virtual void Enter(Dictionary<string, object> dict = null) {} // runs once when changing to the state
+    public virtual void Enter(Dictionary<string, object> dict = null) { Enter(); } // runs once when changing to the state
+    public virtual void Enter() {}
         
     public virtual void Update(float delta) {} // runs every StateMachine's _PhysicsProcess()
     public virtual void Update_StateTransitions(float delta) {} // extra region to store conditions for switching states

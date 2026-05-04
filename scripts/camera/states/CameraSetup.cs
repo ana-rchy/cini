@@ -36,7 +36,7 @@ public partial class CameraSetup : PixelCameraState {
     }
     
 
-    public override void Enter(Dictionary<string, object> dict = null) {
+    public override void Enter() {
         // _camera.PosCentre.Vec = _initialPos;
         // _camera.CurrentRoom = _initialRoom;
         

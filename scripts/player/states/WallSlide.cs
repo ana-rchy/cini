@@ -10,7 +10,7 @@ public partial class WallSlide : PlayerState {
         && Input.GetAxis("Left", "Right") == -_player.GetWallNormal()
         && _player.Vel.Y < 0;
     
-    public override void Enter(Dictionary<string, object> dict = null) {
+    public override void Enter() {
         _gravity = _player.WallSlidingGravity;
     }
     

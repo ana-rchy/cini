@@ -7,7 +7,7 @@ public partial class Respawn : PlayerState {
         return lastState is not Respawn;
     }
 
-    public override void Enter(Dictionary<string, object> dict = null) {
+    public override void Enter() {
         _player.Pos.Vec = _player.SpawnPosition;
         _player.Vel = Vector2.Zero;
 
