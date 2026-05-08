@@ -65,7 +65,7 @@ public partial class Climbing : PlayerState {
 			return;
 		}
 		
-		// ledge climbing + ceiling-ledge unclimbing (???)
+		// ledge climbing + wallhang-to-ceiling unclimbing (???)
 		if (
 			xInput != 0 && yInput != 0 && _player.OnWallSide(xInput) &&
 			!_player.TestMove(new List<Vector2>() { new(0, yInput), new(xInput, 0) })

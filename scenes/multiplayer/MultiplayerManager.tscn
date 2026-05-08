@@ -14,11 +14,59 @@ script = ExtResource("1_cmg8k")
 script = ExtResource("1_vwb1u")
 CurrentState = NodePath("HostOrJoin")
 
-[node name="HostOrJoin" type="Node" parent="StateMachine" unique_id=1092615164]
+[node name="HostOrJoin" type="Node" parent="StateMachine" unique_id=1740052589 node_paths=PackedStringArray("_uiContainer", "_ipEntry", "_portEntry")]
 script = ExtResource("2_cmg8k")
+_uiContainer = NodePath("Control")
+_ipEntry = NodePath("Control/IP")
+_portEntry = NodePath("Control/Port")
+
+[node name="Control" type="Control" parent="StateMachine/HostOrJoin" unique_id=604425360]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="IP" type="LineEdit" parent="StateMachine/HostOrJoin/Control" unique_id=1179296075]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 12.0
+offset_right = 293.0
+offset_bottom = 43.0
+text = "localhost"
+placeholder_text = "ip"
+
+[node name="Port" type="SpinBox" parent="StateMachine/HostOrJoin/Control" unique_id=526243646]
+layout_mode = 0
+offset_left = 17.0
+offset_top = 61.0
+offset_right = 170.0
+offset_bottom = 92.0
+min_value = 1024.0
+max_value = 65535.0
+value = 25565.0
+rounded = true
+
+[node name="Host" type="Button" parent="StateMachine/HostOrJoin/Control" unique_id=573650049]
+layout_mode = 0
+offset_left = 221.0
+offset_top = 58.0
+offset_right = 277.0
+offset_bottom = 89.0
+text = "host"
+
+[node name="Join" type="Button" parent="StateMachine/HostOrJoin/Control" unique_id=1362929495]
+layout_mode = 0
+offset_left = 222.0
+offset_top = 100.0
+offset_right = 277.0
+offset_bottom = 131.0
+text = "join"
 
 [node name="Freeplay" type="Node" parent="StateMachine" unique_id=1857667895 node_paths=PackedStringArray("_multiplayerManager")]
 script = ExtResource("3_dt7kn")
 _gameWorldScene = ExtResource("4_4tv38")
 _puppetPlayerScene = ExtResource("5_bxop7")
 _multiplayerManager = NodePath("../..")
+
+[connection signal="pressed" from="StateMachine/HostOrJoin/Control/Host" to="StateMachine/HostOrJoin" method="host_pressed"]
+[connection signal="pressed" from="StateMachine/HostOrJoin/Control/Join" to="StateMachine/HostOrJoin" method="join_pressed"]

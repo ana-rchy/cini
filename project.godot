@@ -15,7 +15,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="cini"
-run/main_scene="uid://bhkvva1n2ks87"
+run/main_scene="uid://olfckvqdli1k"
 config/features=PackedStringArray("4.6", "C#", "GL Compatibility")
 
 [autoload]

@@ -7,7 +7,7 @@ public partial class TileMapLevelEditor : TileMapLayer {
         foreach (Vector2I tilePos in GetUsedCells()) {
             TileData tileData = GetCellTileData(tilePos);
             
-            // TODO: figure out how to fit in an assert here
+            // TODO: figure out if there should be an assert here, or just ignoring the missing scene
             PackedScene tileScene = (PackedScene) tileData.GetCustomData("Scene");
             Node2D tile = tileScene.Instantiate<Node2D>();
             tile.Position = tilePos * TileSet.TileSize + (TileSet.TileSize / 2);

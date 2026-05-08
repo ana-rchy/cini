@@ -22,7 +22,6 @@ public partial class ShortJump : PlayerState {
         float targetDistance = remainingDistance / _player.ShortJumpRemainingDistanceDivisor;
         
         _gravity = GetGravityWithDistance(targetHeight, targetDistance, _movementSpeed);
-        GD.Print($"{_gravity}\n{targetHeight}\t{targetDistance}\t{_movementSpeed}");
     }
     
 

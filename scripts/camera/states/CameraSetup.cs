@@ -2,10 +2,6 @@ using System.Collections.Generic;
 using Godot;
 
 public partial class CameraSetup : PixelCameraState {
-    Vector2 _initialPos;
-    Room _initialRoom;
-
-    
     public override async void Init() {
         foreach (Room room in GetTree().GetNodesInGroup("Rooms")) {
             if (room.Collider == null) {
@@ -30,16 +26,10 @@ public partial class CameraSetup : PixelCameraState {
         _camera.PosCentre.Vec = _player.Pos.Vec;
 
         KeepCameraInsideRoom(_camera, _camera.CurrentRoom);
-        
-        // _initialPos = _camera.PosCentre.Vec;
-        // _initialRoom = _camera.CurrentRoom;
     }
     
 
     public override void Enter() {
-        // _camera.PosCentre.Vec = _initialPos;
-        // _camera.CurrentRoom = _initialRoom;
-        
         bool insideBounds =
             _camera.OuterBoundsLeft   <= _playerCollider.Left  &&
             _camera.OuterBoundsTop    <= _playerCollider.Top   &&
