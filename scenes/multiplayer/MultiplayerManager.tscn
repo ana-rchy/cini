@@ -6,6 +6,8 @@
 [ext_resource type="Script" uid="uid://df5n01uqbcirg" path="res://scripts/multiplayer/states/Freeplay.cs" id="3_dt7kn"]
 [ext_resource type="PackedScene" uid="uid://bhkvva1n2ks87" path="res://scenes/levels/Celeste1A.tscn" id="4_4tv38"]
 [ext_resource type="PackedScene" uid="uid://dgjg4jumywlmu" path="res://scenes/multiplayer/PuppetPlayer.tscn" id="5_bxop7"]
+[ext_resource type="Script" uid="uid://c32f8flnsacj7" path="res://scripts/multiplayer/states/Lobby.cs" id="7_dt7kn"]
+[ext_resource type="Script" uid="uid://c3b1vcr7r3qyj" path="res://scripts/multiplayer/states/SimpleRace.cs" id="8_4tv38"]
 
 [node name="MultiplayerManager" type="Node" unique_id=1321734643]
 script = ExtResource("1_cmg8k")
@@ -68,5 +70,14 @@ _gameWorldScene = ExtResource("4_4tv38")
 _puppetPlayerScene = ExtResource("5_bxop7")
 _multiplayerManager = NodePath("../..")
 
-[connection signal="pressed" from="StateMachine/HostOrJoin/Control/Host" to="StateMachine/HostOrJoin" method="host_pressed"]
-[connection signal="pressed" from="StateMachine/HostOrJoin/Control/Join" to="StateMachine/HostOrJoin" method="join_pressed"]
+[node name="Lobby" type="Node" parent="StateMachine" unique_id=1776980072]
+script = ExtResource("7_dt7kn")
+
+[node name="SimpleRace" type="Node" parent="StateMachine" unique_id=1090560291 node_paths=PackedStringArray("_multiplayerManager")]
+script = ExtResource("8_4tv38")
+_gameWorldScene = ExtResource("4_4tv38")
+_puppetPlayerScene = ExtResource("5_bxop7")
+_multiplayerManager = NodePath("../..")
+
+[connection signal="pressed" from="StateMachine/HostOrJoin/Control/Host" to="StateMachine/HostOrJoin" method="_OnHostPressed"]
+[connection signal="pressed" from="StateMachine/HostOrJoin/Control/Join" to="StateMachine/HostOrJoin" method="_OnJoinPressed"]

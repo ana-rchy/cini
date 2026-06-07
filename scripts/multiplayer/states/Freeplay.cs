@@ -6,8 +6,10 @@ public partial class Freeplay : State {
     [Export] Node _multiplayerManager;
     
     Player _player;
+    
     Node _puppetPlayersHolder;
     Dictionary<long, PuppetPlayer> _puppetPlayers = new();
+
 
 
     public override void Enter() {
@@ -40,6 +42,7 @@ public partial class Freeplay : State {
     }
 
 
+
     void _OnPeerConnected(long id) {
         Logging.Log($"{id} connected", Logging.LogCategory.Multiplayer);
 
@@ -51,6 +54,8 @@ public partial class Freeplay : State {
     }
 
     void _OnPeerDisconnected(long id) {
+        Logging.Log($"{id} disconnected", Logging.LogCategory.Multiplayer);
+
         _puppetPlayers[id].QueueFree();
         _puppetPlayers.Remove(id);
     }

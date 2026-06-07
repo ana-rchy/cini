@@ -9,11 +9,13 @@ public partial class HostOrJoin : State {
     [Export] Control _uiContainer;
     [Export] LineEdit _ipEntry;
     [Export] SpinBox _portEntry;
+    
 
 
     public override void Exit() {
         _uiContainer.Hide();
     }
+
 
 
     void _OnHostPressed() {
@@ -25,7 +27,7 @@ public partial class HostOrJoin : State {
 
         Task.Run(() => UPNPSetup(port)); // upnp can take a bit
 
-        _stateMachine.ChangeState<Freeplay>();
+        _stateMachine.ChangeState<Lobby>();
     }
 
     void _OnJoinPressed() {
@@ -33,7 +35,7 @@ public partial class HostOrJoin : State {
         peer.CreateClient(_ipEntry.Text, (int) _portEntry.Value);
         Multiplayer.MultiplayerPeer = peer;
 
-        _stateMachine.ChangeState<Freeplay>();
+        _stateMachine.ChangeState<Lobby>();
     }
     
 
